@@ -1,0 +1,154 @@
+@import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,500,800);
+@import url(https://fonts.googleapis.com/css?family=Montserrat:800);
+.snip1265 {
+  font-family: 'Raleway', Arial, sans-serif;
+  color: #000000;
+  text-align: left;
+  font-size: 16px;
+  width: 100%;
+  max-width: 1000px;
+  margin: 50px 10px 10px;
+}
+.snip1265 .plan {
+  margin: 0;
+  width: 25%;
+  position: relative;
+  float: left;
+  background-color: #ffffff;
+  border: 1px solid #f5b55a;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+}
+.snip1265 .plan:hover,
+.snip1265 .plan.hover {
+  background-color: #ffffff;
+}
+.snip1265 .plan:hover i,
+.snip1265 .plan.hover i {
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
+}
+.snip1265 * {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: all 0.25s ease-out;
+  transition: all 0.25s ease-out;
+}
+.snip1265 header {
+  position: relative;
+  padding: 20px 10px;
+}
+.snip1265 header i {
+  font-size: 56px;
+  margin: 0 15px;
+  color: #f5b55a;
+  display: inline-block;
+  float: left;
+}
+.snip1265 .plan-title {
+  top: 0;
+  font-weight: 800;
+  margin: 10px 0 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.snip1265 .plan-cost {
+  margin: 0;
+}
+.snip1265 .plan-price {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-weight: 800;
+  font-size: 1.3em;
+}
+.snip1265 .plan-type {
+  opacity: 0.8;
+  font-size: 0.7em;
+  text-transform: uppercase;
+}
+.snip1265 .plan-features {
+  padding: 0;
+  margin: 0 0 40px;
+  text-align: center;
+  list-style: outside none none;
+  font-size: 0.8em;
+  text-align: left;
+}
+.snip1265 .plan-features li {
+  padding: 5px 5%;
+  font-weight: 500;
+  opacity: 0.5;
+  border-left: 5px solid #f5b55a;
+  margin: 2px 20px;
+}
+.snip1265 .plan-select {
+  background-color: ffffff;
+  text-align: center;
+}
+.snip1265 .plan-select a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 15px 20px;
+  margin: 20px;
+  border-radius: 40px;
+  font-size: 0.75em;
+  font-weight: 800;
+  text-transform: uppercase;
+  display: inline-block;
+  background-color: #f5b55a;
+}
+.snip1265 .plan-select a:hover {
+    color: #f5b55a;
+  background-color: #ffffff;
+  border: 0.3px solid #f5b55a;
+}
+.snip1265 .featured {
+  margin-top: -10px;
+  background-color: #ffffff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+.snip1265 .featured .plan-select a {
+  margin: 30px 20px;
+}
+@media only screen and (max-width: 767px) {
+  .snip1265 .plan {
+    width: 50%;
+  }
+  .snip1265 .plan-title,
+  .snip1265 .plan-select a {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  .snip1265 .plan-select a,
+  .snip1265 .featured .plan-select a {
+    margin: 20px;
+  }
+  .snip1265 .featured {
+    margin-top: 0;
+  }
+}
+@media only screen and (max-width: 440px) {
+  .snip1265 .plan {
+    width: 100%;
+  }
+}
+.disk {
+  margin-top: .7em;
+  width: 15px;
+  height: 15px;
+  position: relative;
+  background-color: #f4ab45;
+  border-radius: 50%;
+  color: #f4ab45;
+  
+}
+.txt{
+  font-size: 20px;
+}
+.lab{
+  margin-top: .5em;
+  font-size: 19px;
+}
+.hvr :hover{
+  background-color: #f5f5ef;
+}
