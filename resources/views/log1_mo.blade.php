@@ -38,59 +38,64 @@
             <hr>
             <div class="container form-container">
                 <div class="container w-50 desktop-form">
-                    <form class="row" id="fh5co_contact_form">
+                    <form action="{{ route('post_1') }}" method="POST" class="row" id="fh5co_contact_form">
+                        @csrf
                         <div class="col-12 py-3">
-                            <input type="text"  class="form-control fh5co_contact_text_box" placeholder="الإسم الكامل *" />
+                            <input type="text"  class="form-control fh5co_contact_text_box" name="name" placeholder="الإسم الكامل *" />
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" placeholder="رقم البطاقة الوطنية *" />
+                            <input type="text" class="form-control fh5co_contact_text_box" name="cin" placeholder="رقم البطاقة الوطنية *" />
                         </div>
                         <div class="col-6 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" placeholder="تاريخ و مكان الازدياد"  />
+                            <input type="text" class="form-control fh5co_contact_text_box" name="city_b" placeholder="تاريخ و مكان الازدياد"  />
                         </div>
                         <div class="col-6 py-3">
-                            <input type="date" class="form-control fh5co_contact_text_box"/>
+                            <input type="date" class="form-control fh5co_contact_text_box" name="date_b"/>
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" placeholder="عنوان السكن *" />
+                            <input type="text" class="form-control fh5co_contact_text_box" name="adress" placeholder="عنوان السكن *" />
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" placeholder="رقم الهاتف *" />
+                            <input type="text" class="form-control fh5co_contact_text_box" name="phone" placeholder="رقم الهاتف *" />
                         </div>
                         <div class="col-12 py-3">
-                            <input type="email" class="form-control fh5co_contact_text_box" placeholder="البريد الإلكتروني *"/>
+                            <input type="email" class="form-control fh5co_contact_text_box" name="mail" placeholder="البريد الإلكتروني *"/>
                         </div>
                         <div class="col-12 py-3">
-                            <textarea class="form-control fh5co_contacts_message" placeholder="أكتب ملاحظة  ( اختياري )"></textarea>
+                            <textarea class="form-control fh5co_contacts_message" name="note" placeholder="أكتب ملاحظة  ( اختياري )"></textarea>
                         </div>
-                        <div class="col-12 py-3 text-center"> <a href="{{ route('log2_mo')}}" class="btn contact_btn">متابعة</a> </div>
+                        <div class="col-12 py-3 text-center"> <input type="submit" value="متابعة" class="btn contact_btn"></div>
                     </form>
                     
                 </div>
                 <div class="container mobile-form">
-                    <form class="row" id="fh5co_contact_form">
+                    <form action="{{ route('post_1') }}" method="POST" class="row" id="fh5co_contact_form">
+                        @csrf
                         <div class="col-12 py-3">
-                            <input type="text"  class="form-control fh5co_contact_text_box" placeholder="الإسم الكامل *" />
+                            <input type="text"  class="form-control fh5co_contact_text_box" name="name" placeholder="الإسم الكامل *" />
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" placeholder="رقم البطاقة الوطنية *" />
+                            <input type="text" class="form-control fh5co_contact_text_box" name="cin" placeholder="رقم البطاقة الوطنية *" />
                         </div>
                         <div class="col-6 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" placeholder="تاريخ و مكان الازدياد"  />
+                            <input type="text" class="form-control fh5co_contact_text_box" name="city_b" placeholder="تاريخ و مكان الازدياد"  />
                         </div>
                         <div class="col-6 py-3">
-                            <input type="date" class="form-control fh5co_contact_text_box" placeholder="Subject" />
+                            <input type="date" class="form-control fh5co_contact_text_box" name="date_b"/>
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" placeholder="عنوان السكن *" />
+                            <input type="text" class="form-control fh5co_contact_text_box" name="adress" placeholder="عنوان السكن *" />
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" placeholder="رقم الهاتف *"/>
+                            <input type="text" class="form-control fh5co_contact_text_box" name="phone" placeholder="رقم الهاتف *" />
                         </div>
                         <div class="col-12 py-3">
-                            <textarea class="form-control fh5co_contacts_message" placeholder="أكتب ملاحظة  ( اختياري )"></textarea>
+                            <input type="email" class="form-control fh5co_contact_text_box" name="mail" placeholder="البريد الإلكتروني *"/>
                         </div>
-                        <div class="col-12 py-3 text-center"> <a href="{{ route('log2_mo')}}" class="btn contact_btn">متابعة</a> </div>
+                        <div class="col-12 py-3">
+                            <textarea class="form-control fh5co_contacts_message" name="note" placeholder="أكتب ملاحظة  ( اختياري )"></textarea>
+                        </div>
+                        <div class="col-12 py-3 text-center"> <input type="submit" value="متابعة" class="btn contact_btn"></div>
                     </form>
                 </div>
             </div>

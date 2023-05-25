@@ -44,3 +44,7 @@ Route::get('/القانون-الداخلي', [Controller_1::class, 'law_i'])->na
 Route::get('/من نحن', [Controller_1::class, 'single'])->name('single');
 
 Route::get('/Accueil', [Controller_1::class, 'index_f'])->name('index_f');
+
+Route::post('/post_1', [Controller_1::class, 'post_1'])->name('post_1');
+
+Route::post('/post_2', [Controller_1::class, 'post_2'])->name('post_2');

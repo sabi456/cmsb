@@ -38,58 +38,60 @@
             <hr>
             <div class="container form-container">
                 <div class="container w-50 desktop-form">
-                    <form class="row" id="fh5co_contact_form">
+                    <form action="{{ route('post_2') }}" method="POST" class="row" id="fh5co_contact_form">
+                        @csrf
                         <div class="col-12 py-3">
-                            <input type="text"  class="form-control fh5co_contact_text_box" placeholder="إسم المقاولة *" />
+                            <input type="text" name="name_e" class="form-control fh5co_contact_text_box" placeholder="إسم المقاولة *" />
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" placeholder="نوعية المقاولة *" />
+                            <input type="text" name="cat" class="form-control fh5co_contact_text_box" placeholder="نوعية المقاولة *" />
                         </div>
                         <div class="col-6 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" placeholder="رقم هاتف المقاولة *"/>
+                            <input type="text" name="phone_e" class="form-control fh5co_contact_text_box" placeholder="رقم هاتف المقاولة *"/>
                         </div>
                         <div class="col-6 py-3">
-                            <input type="number" class="form-control fh5co_contact_text_box" placeholder="عدد العمال *"/>
+                            <input type="number" name="nbr_of_em" class="form-control fh5co_contact_text_box" placeholder="عدد العمال *"/>
                         </div>
                         
                         <div class="col-12 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" placeholder="عنوان المقاولة *" />
+                            <input type="text" name="adress_e" class="form-control fh5co_contact_text_box" placeholder="عنوان المقاولة *" />
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" placeholder="رقم السجل التجاري *"/>
+                            <input type="text" name="rc" class="form-control fh5co_contact_text_box" placeholder="رقم السجل التجاري *"/>
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" placeholder="رقم الضمان الإجتماعي *"/>
+                            <input type="text" name="cnss" class="form-control fh5co_contact_text_box" placeholder="رقم الضمان الإجتماعي *"/>
                         </div>
-                        <div class="col-12 py-3 text-center"> <a href="{{ route('log3_mo')}}" class="btn contact_btn">متابعة</a> </div>
+                        <div class="col-12 py-3 text-center"><input type="submit" class="btn contact_btn" value="متابعة"></div>
                     </form>
                     
                 </div>
                 <div class="container mobile-form">
-                    <form class="row" id="fh5co_contact_form">
+                    <form action="{{ route('post_2') }}" method="POST" class="row" id="fh5co_contact_form">
+                        @csrf
                         <div class="col-12 py-3">
-                            <input type="text"  class="form-control fh5co_contact_text_box" placeholder="إسم المقاولة *" />
+                            <input type="text" name="name_e" class="form-control fh5co_contact_text_box" placeholder="إسم المقاولة *" />
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" placeholder="نوعية المقاولة *" />
+                            <input type="text" name="cat" class="form-control fh5co_contact_text_box" placeholder="نوعية المقاولة *" />
                         </div>
                         <div class="col-6 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" placeholder="رقم هاتف المقاولة *"/>
+                            <input type="text" name="phone_e" class="form-control fh5co_contact_text_box" placeholder="رقم هاتف المقاولة *"/>
                         </div>
                         <div class="col-6 py-3">
-                            <input type="number" class="form-control fh5co_contact_text_box" placeholder="عدد العمال *"/>
+                            <input type="number" name="nbr_of_em" class="form-control fh5co_contact_text_box" placeholder="عدد العمال *"/>
                         </div>
                         
                         <div class="col-12 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" placeholder="عنوان المقاولة *" />
+                            <input type="text" name="adress_e" class="form-control fh5co_contact_text_box" placeholder="عنوان المقاولة *" />
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" placeholder="رقم السجل التجاري *"/>
+                            <input type="text" name="rc" class="form-control fh5co_contact_text_box" placeholder="رقم السجل التجاري *"/>
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" placeholder="رقم الضمان الإجتماعي *"/>
+                            <input type="text" name="cnss" class="form-control fh5co_contact_text_box" placeholder="رقم الضمان الإجتماعي *"/>
                         </div>
-                        <div class="col-12 py-3 text-center"> <a href="{{ route('log3_mo')}}" class="btn contact_btn">متابعة</a> </div>
+                        <div class="col-12 py-3 text-center"><input type="submit" class="btn contact_btn" value="متابعة"></div>
                     </form>
                 </div>
             </div>

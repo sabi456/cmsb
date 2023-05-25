@@ -2,12 +2,48 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Persen;
+use App\Models\Entreprise;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class Controller_1 extends Controller
 {
     public function index(){
         return view('index');
+    }
+    public function post_1(Request $req){
+        Persen::create([
+            'name' => $req->name,
+            'cin' => $req->cin,
+            'city_b' => $req->city_b,
+            'date_b' => $req->date_b,
+            'adress' => $req->adress,
+            'phone' => $req->phone,
+            'mail' => $req->mail,
+            'note' => $req->note
+        ]);
+        Session::put('cin', $req->cin);
+        return redirect()->route('log2_mo');
+    }
+    public function post_2(Request $req){
+        $cin = Session::get('cin');
+        $person = DB::table('persens')->select('id')->where('cin', '=', $cin)->first();
+        $id = $person->id;
+
+        Entreprise::create([
+            'name_e' => $req->name_e,
+            'cat' => $req->cat,
+            'phone_e' => $req->phone_e,
+            'nbr_of_em' => $req->nbr_of_em,
+            'adress_e' => $req->adress_e,
+            'rc' => $req->rc,
+            'cnss' => $req->cnss,
+            'id' => $id
+        ]);
+        Session::put('id', $id);
+        return redirect()->route('log3_mo');
     }
 
     public function condition(){
