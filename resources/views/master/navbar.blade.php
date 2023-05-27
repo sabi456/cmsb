@@ -62,7 +62,7 @@
                           </div>
                       </li>
                       <li class="nav-item @yield('active_i')">
-                          <a style="font-size: large;" class="nav-link" href="{{ route('pack')}}">الإنخراط<span class="sr-only">(current)</span></a>
+                          <a style="font-size: large;" class="nav-link" href="@yield('inkh')">الإنخراط<span class="sr-only">(current)</span></a>
                       </li>
                       <li class="nav-item mx-5 @yield('active_c')">
                           <a style="font-size: large;" class="nav-link" href="Contact_us.html">تواصل معنا <span class="sr-only">(current)</span></a>

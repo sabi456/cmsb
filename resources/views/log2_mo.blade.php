@@ -41,26 +41,33 @@
                     <form action="{{ route('post_2') }}" method="POST" class="row" id="fh5co_contact_form">
                         @csrf
                         <div class="col-12 py-3">
-                            <input type="text" name="name_e" class="form-control fh5co_contact_text_box" placeholder="إسم المقاولة *" />
+                            <input type="text" required name="name_e" value="{{ old('name_e') }}" class="form-control fh5co_contact_text_box" placeholder="إسم المقاولة *" />
+                            @error('name_e')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" name="cat" class="form-control fh5co_contact_text_box" placeholder="نوعية المقاولة *" />
+                            <input type="text" required name="cat" value="{{ old('cat') }}" class="form-control fh5co_contact_text_box" placeholder="نوعية المقاولة *" />
+                            @error('cat')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-6 py-3">
-                            <input type="text" name="phone_e" class="form-control fh5co_contact_text_box" placeholder="رقم هاتف المقاولة *"/>
+                            <input type="text" required name="phone_e" value="{{ old('phone_e') }}" class="form-control fh5co_contact_text_box" placeholder="رقم هاتف المقاولة *"/>
+                            @error('phone_e')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-6 py-3">
-                            <input type="number" name="nbr_of_em" class="form-control fh5co_contact_text_box" placeholder="عدد العمال *"/>
+                            <input type="number" required name="nbr_of_em" value="{{ old('nbr_of_em') }}" class="form-control fh5co_contact_text_box" placeholder="عدد العمال *"/>
+                            @error('nbr_of_em')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         
                         <div class="col-12 py-3">
-                            <input type="text" name="adress_e" class="form-control fh5co_contact_text_box" placeholder="عنوان المقاولة *" />
+                            <input type="text" required name="adress_e" value="{{ old('adress_e') }}" class="form-control fh5co_contact_text_box" placeholder="عنوان المقاولة *" />
+                            @error('adress_e')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" name="rc" class="form-control fh5co_contact_text_box" placeholder="رقم السجل التجاري *"/>
+                            <input type="text" required name="ice" value="{{ old('ice') }}" class="form-control fh5co_contact_text_box" placeholder="رقم هوية المقاولة أو ICE *"/>
+                            @error('ice')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" name="cnss" class="form-control fh5co_contact_text_box" placeholder="رقم الضمان الإجتماعي *"/>
+                            <input type="text" required name="rc" value="{{ old('rc') }}" class="form-control fh5co_contact_text_box" placeholder="رقم السجل التجاري *"/>
+                            @error('rc')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-12 py-3 text-center"><input type="submit" class="btn contact_btn" value="متابعة"></div>
                     </form>
@@ -70,26 +77,33 @@
                     <form action="{{ route('post_2') }}" method="POST" class="row" id="fh5co_contact_form">
                         @csrf
                         <div class="col-12 py-3">
-                            <input type="text" name="name_e" class="form-control fh5co_contact_text_box" placeholder="إسم المقاولة *" />
+                            <input type="text" name="name_e" value="{{ old('name_e') }}" class="form-control fh5co_contact_text_box" placeholder="إسم المقاولة *" />
+                            @error('name_e')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" name="cat" class="form-control fh5co_contact_text_box" placeholder="نوعية المقاولة *" />
+                            <input type="text" name="cat" value="{{ old('cat') }}" class="form-control fh5co_contact_text_box" placeholder="نوعية المقاولة *" />
+                            @error('cat')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-6 py-3">
-                            <input type="text" name="phone_e" class="form-control fh5co_contact_text_box" placeholder="رقم هاتف المقاولة *"/>
+                            <input type="text" name="phone_e" value="{{ old('phone_e') }}" class="form-control fh5co_contact_text_box" placeholder="رقم هاتف المقاولة *"/>
+                            @error('phone_e')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-6 py-3">
-                            <input type="number" name="nbr_of_em" class="form-control fh5co_contact_text_box" placeholder="عدد العمال *"/>
+                            <input type="number" name="nbr_of_em" value="{{ old('nbr_of_em') }}" class="form-control fh5co_contact_text_box" placeholder="عدد العمال *"/>
+                            @error('nbr_of_em')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         
                         <div class="col-12 py-3">
-                            <input type="text" name="adress_e" class="form-control fh5co_contact_text_box" placeholder="عنوان المقاولة *" />
+                            <input type="text" name="adress_e" value="{{ old('adress_e') }}" class="form-control fh5co_contact_text_box" placeholder="عنوان المقاولة *" />
+                            @error('adress_e')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" name="rc" class="form-control fh5co_contact_text_box" placeholder="رقم السجل التجاري *"/>
+                            <input type="text" name="ice"  class="form-control fh5co_contact_text_box" placeholder="رقم هوية المقاولة أو ICE *"/>
+                            @error('ice')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" name="cnss" class="form-control fh5co_contact_text_box" placeholder="رقم الضمان الإجتماعي *"/>
+                            <input type="text" name="rc" value="{{ old('rc') }}" class="form-control fh5co_contact_text_box" placeholder="رقم السجل التجاري *"/>
+                            @error('rc')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-12 py-3 text-center"><input type="submit" class="btn contact_btn" value="متابعة"></div>
                     </form>

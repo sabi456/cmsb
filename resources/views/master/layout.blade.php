@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>@yield('title')</title>
+    <link rel="icon" href="images/icon.png" type="image/x-icon">
     <link href="css/media_query.css" rel="stylesheet" type="text/css"/>
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"

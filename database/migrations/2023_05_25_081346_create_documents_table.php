@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id('id_d');
-            $table->binary('pict')->nullable();
-            $table->binary('cin_pict')->nullable();
-            $table->binary('magasin_pict')->nullable();
-            $table->binary('entreprise_pict')->nullable();
+            $table->binary('pict');
+            $table->binary('cin_pict');
+            $table->binary('magasin_pict');
+            $table->binary('entreprise_pict');
             $table->binary('payment_pict')->nullable();
-            $table->unsignedBigInteger('id')->nullable();
+            $table->unsignedBigInteger('id');
             $table->foreign('id')->references('id')->on('persens');
             $table->timestamps();
         });

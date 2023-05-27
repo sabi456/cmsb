@@ -18,6 +18,29 @@ class Controller_1 extends Controller
         return view('index');
     }
     public function post_1(Request $req){
+        $req->validate(
+            [
+                'name' => 'min:6|max:20',
+                'cin' => 'min:4|max:8',
+                'city_b' => 'min:2|max:15',
+                'adress' => 'min:5|max:40',
+                'phone' => 'min:10|max:14',
+                'mail' => 'email|nullable'
+            ],
+            [
+                'name.min' => 'الإسم قصير جدّا',
+                'name.max' => 'الإسم طويل جدّا',
+                'cin.min' => 'رقم البطاقة قصير جدّا',
+                'cin.max' => 'رقم البطاقة طويل جدّا',
+                'city_b.min' => 'إسم المدينة قصير جدّا',
+                'city_b.max' => 'إسم المدينة طويل جدّا',
+                'adress.min' => 'العنوان قصير جدّا',
+                'adress.max' => 'العنوان طويل جدّا',
+                'phone.min' => 'الهاتف قصير جدّا',
+                'phone.max' => 'الهاتف طويل جدّا',
+                'mail.email' => 'البريد الإلكتروني غير صحيح'
+            ]
+        );
         $per = Persen::where('cin', $req->cin)->first();
         if(!$per){
             try {
@@ -55,7 +78,38 @@ class Controller_1 extends Controller
         Session::put('cin', $req->cin);
         return redirect()->route('log2_mo');
     }
+    
     public function post_2(Request $req){
+        $ice = $req->ice;
+        $req->validate(
+            [
+                'name_e' => 'min:2|max:20',
+                'cat' => 'min:4|max:20',
+                'phone_e' => 'min:2|max:15',
+                'nbr_of_em' => 'numeric|min:0|max:100',
+                'adress_e' => 'min:10|max:40',
+                'ice' => 'min:10|max:40',
+                'rc' => 'min:10|max:40'
+            ],
+            [
+                'name_e.required' => 'الإسم فارغ',
+                'name_e.min' => 'الإسم قصير جدّا',
+                'name_e.max' => 'الإسم طويل جدّا',
+                'cat.min' => 'نوعية المقاولة قصير جدّا',
+                'cat.max' => 'نوعية المقاولة طويل جدّا',
+                'phone_e.min' => 'رقم هاتف المقاولة قصير جدّا',
+                'phone_e.max' => 'رقم هاتف المقاولة طويل جدّا',
+                'nbr_of_em.max' => 'عدد العمال تعدى 200',
+                'nbr_of_em.min' => 'عدد العمال غير صحيح',
+                'adress_e.min' => 'العنوان قصير جدّا',
+                'adress_e.max' => 'العنوان طويل جدّا',
+                'ice.min' => 'هوية المقاولة قصير جدّا',
+                'ice.max' => 'هوية المقاولة طويل جدّا',
+                'rc.min' => 'رقم السجل التجاري قصير جدّا',
+                'rc.max' => 'رقم السجل التجاري طويل جدّا'
+            ]
+        );
+
         $cin = Session::get('cin');
         $person = DB::table('persens')->select('id')->where('cin', '=', $cin)->first();
         $id = $person->id;
@@ -68,8 +122,8 @@ class Controller_1 extends Controller
                     'phone_e' => $req->phone_e,
                     'nbr_of_em' => $req->nbr_of_em,
                     'adress_e' => $req->adress_e,
+                    'ice' => $ice,
                     'rc' => $req->rc,
-                    'cnss' => $req->cnss,
                     'id' => $id
                 ]);
             } catch (\Exception $e) {
@@ -82,8 +136,8 @@ class Controller_1 extends Controller
             $ent->phone_e = $req->phone_e;
             $ent->nbr_of_em = $req->nbr_of_em;
             $ent->adress_e = $req->adress_e;
+            $ent->ice = $ice;
             $ent->rc = $req->rc;
-            $ent->cnss = $req->cnss;
             try {
                 $ent->save();
             } catch (\Exception $e) {
@@ -97,6 +151,25 @@ class Controller_1 extends Controller
     }
 
     public function post_3(Request $req){
+
+        $req->validate(
+            [
+                'pict' => 'file|mimes:jpg,png,pdf|max:1024',
+                'cin_pict' => 'file|mimes:jpg,png,pdf|max:1024',
+                'magasin_pict' => 'file|mimes:jpg,png,pdf|max:1024',
+                'entreprise_pict' => 'file|mimes:jpg,png,pdf|max:1024'
+            ],
+            [
+                'pict.mimes' => 'نقبل فقط JPG أو PNG أو PDF',
+                'pict.max' => 'لقد تجاوزت 1 MB',
+                'cin_pict.mimes' => 'نقبل فقط JPG أو PNG أو PDF',
+                'cin_pict.max' => 'لقد تجاوزت 1 MB',
+                'magasin_pict.mimes' => 'نقبل فقط JPG و PNG',
+                'magasin_pict.max' => 'لقد تجاوزت 1 MB',
+                'entreprise_pict.mimes' => 'نقبل فقط JPG أو PNG أو PDF',
+                'entreprise_pict.max' => 'لقد تجاوزت 1 MB'
+            ]
+        );
         $id = Session::get('id');
         $doc = Document::where('id', $id)->first();
 
@@ -148,6 +221,21 @@ class Controller_1 extends Controller
     }
 
     public function post_4(Request $req){
+        $req->validate(
+            [
+                'name' => 'min:6|max:20',
+                'number_v' => 'min:10|max:40',
+                'pict' => 'file|mimes:jpg,png,pdf|max:1024',
+            ],
+            [
+                'pict.mimes' => 'نقبل فقط JPG أو PNG أو PDF',
+                'pict.max' => 'لقد تجاوزت 1 MB',
+                'name.min' => 'الإسم قصير جدّا',
+                'name.max' => 'الإسم طويل جدّا',
+                'number_v.min' => 'رقم الدفع قصير جدّا',
+                'number_v.max' => 'رقم الدفع طويل جدّا'
+            ]
+        );
         $id = Session::get('id');
         $pay = Pay::where('id', $id)->first();
 
@@ -193,6 +281,18 @@ class Controller_1 extends Controller
     }
 
     public function post_5(Request $req){
+        $req->validate(
+            [
+                'name' => 'min:6|max:20',
+                'pict' => 'file|mimes:jpg,png,pdf|max:1024',
+            ],
+            [
+                'pict.mimes' => 'نقبل فقط JPG أو PNG أو PDF',
+                'pict.max' => 'لقد تجاوزت 1 MB',
+                'name.min' => 'الإسم قصير جدّا',
+                'name.max' => 'الإسم طويل جدّا'
+            ]
+        );
         $id = Session::get('id');
         $pay = Payv::where('id', $id)->first();
 
@@ -243,6 +343,10 @@ class Controller_1 extends Controller
 
     public function pack(){
         return view('pack');
+    }
+
+    public function news(){
+        return view('news');
     }
 
     public function log1_mo(){

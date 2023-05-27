@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('entreprises', function (Blueprint $table) {
             $table->id('id_e');
-            $table->string('name_e');
+            $table->string('name_e')->unique();
             $table->string('cat');
             $table->string('phone_e')->unique();
             $table->integer('nbr_of_em');
             $table->string('adress_e');
+            $table->string('ice')->unique()->nullable();
             $table->string('rc')->unique();
-            $table->string('cnss')->unique();
             $table->unsignedBigInteger('id');
             $table->foreign('id')->references('id')->on('persens');
             $table->timestamps();

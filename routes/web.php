@@ -58,3 +58,5 @@ Route::post('/post_3', [Controller_1::class, 'post_3'])->name('post_3');
 Route::post('/post_4', [Controller_1::class, 'post_4'])->name('post_4');
 
 Route::post('/post_5', [Controller_1::class, 'post_5'])->name('post_5');
+
+Route::get('/news', [Controller_1::class, 'news'])->name('news');

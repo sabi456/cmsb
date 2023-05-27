@@ -45,16 +45,19 @@
                             <img width="300" src="images/wafa.png" alt="WafaCach">
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" name="name" class="form-control fh5co_contact_text_box" placeholder="الإسم الكامل للدافع *" />
+                            <input type="text" required name="name" value="{{old('name')}}" class="form-control fh5co_contact_text_box" placeholder="الإسم الكامل للدافع *" />
+                            @error('name')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" name="number_v" class="form-control fh5co_contact_text_box" placeholder="رقم تأكيد الدفع *" />
+                            <input type="text" required name="number_v" value="{{old('number_v')}}" class="form-control fh5co_contact_text_box" placeholder="رقم تأكيد الدفع *" />
+                            @error('number_v')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-6 py-3">
                             <label for="file-input" class="lab">صورة أو ملف لتوصيل الدفع  *</label>
+                            @error('pict')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-6 py-3 d-flex align-items-center">
-                            <input type="text" class="form-control fh5co_contact_text_box" id="loadFile_pict" placeholder="إختر ملفّا" onclick="document.getElementById('pict').click();" />
+                            <input type="text" required class="form-control fh5co_contact_text_box" id="loadFile_pict" placeholder="إختر ملفّا" onclick="document.getElementById('pict').click();" />
                             <input type="file" style="display:none;" name="pict" id="pict" onchange="loadFileValue_pict(this);" />
                             <span id="x1" onclick="del1();"><b>X</b></span>
                         </div> 
@@ -67,19 +70,22 @@
                         @csrf
                         <input type="hidden" value="WafaCach" name="pay_name">
                         <div class="col-12 py-3 text-center">
-                            <img width="300" src="images/wafa.png" alt="WafaCash">
+                            <img width="300" src="images/wafa.png" alt="WafaCach">
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" name="name" class="form-control fh5co_contact_text_box" placeholder="الإسم الكامل للدافع *" />
+                            <input type="text" required name="name" value="{{old('name')}}" class="form-control fh5co_contact_text_box" placeholder="الإسم الكامل للدافع *" />
+                            @error('name')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" name="number_v" class="form-control fh5co_contact_text_box" placeholder="رقم تأكيد الدفع *" />
+                            <input type="text" required name="number_v" value="{{old('number_v')}}" class="form-control fh5co_contact_text_box" placeholder="رقم تأكيد الدفع *" />
+                            @error('number_v')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-6 py-3">
                             <label for="file-input" class="lab">صورة أو ملف لتوصيل الدفع  *</label>
+                            @error('pict')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-6 py-3 d-flex align-items-center">
-                            <input type="text" class="form-control fh5co_contact_text_box" id="loadFile_pict" placeholder="إختر ملفّا" onclick="document.getElementById('pict').click();" />
+                            <input type="text" required class="form-control fh5co_contact_text_box" id="loadFile_pict" placeholder="إختر ملفّا" onclick="document.getElementById('pict').click();" />
                             <input type="file" style="display:none;" name="pict" id="pict" onchange="loadFileValue_pict(this);" />
                             <span id="x1" onclick="del1();"><b>X</b></span>
                         </div> 

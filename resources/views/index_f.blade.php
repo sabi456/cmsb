@@ -8,6 +8,10 @@
     active
 @endsection
 
+@section('inkh')
+    {{ route('pack')}}
+@endsection
+
 @section('lang_ar')
     {{ route('home') }}
 @endsection

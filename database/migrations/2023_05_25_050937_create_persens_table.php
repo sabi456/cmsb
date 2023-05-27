@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('cin')->unique();
-            $table->string('city_b');
-            $table->date('date_b');
+            $table->string('city_b')->nullable();
+            $table->date('date_b')->nullable();
             $table->string('adress');
             $table->string('phone')->unique();
-            $table->string('mail')->unique();
-            $table->text('note');     
+            $table->string('mail')->unique()->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

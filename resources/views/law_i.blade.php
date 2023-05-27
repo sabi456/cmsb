@@ -8,6 +8,10 @@
     class="arabic-input"
 @endsection
 
+@section('inkh')
+    {{ route('pack')}}
+@endsection
+
 @section('active_a')
     active
 @endsection

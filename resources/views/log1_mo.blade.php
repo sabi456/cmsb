@@ -41,28 +41,34 @@
                     <form action="{{ route('post_1') }}" method="POST" class="row" id="fh5co_contact_form">
                         @csrf
                         <div class="col-12 py-3">
-                            <input type="text"  class="form-control fh5co_contact_text_box" name="name" placeholder="الإسم الكامل *" />
+                            <input type="text" required value="{{ old('name') }}" class="form-control fh5co_contact_text_box" name="name" placeholder="الإسم الكامل *" />
+                            @error('name')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" name="cin" placeholder="رقم البطاقة الوطنية *" />
+                            <input type="text" required value="{{ old('cin') }}" class="form-control fh5co_contact_text_box" name="cin" placeholder="رقم البطاقة الوطنية *" />
+                            @error('cin')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-6 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" name="city_b" placeholder="تاريخ و مكان الازدياد"  />
+                            <input type="text" value="{{ old('city_b') }}" class="form-control fh5co_contact_text_box" name="city_b" placeholder="تاريخ و مكان الازدياد"  />
+                            @error('city_b')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-6 py-3">
-                            <input type="date" class="form-control fh5co_contact_text_box" name="date_b"/>
+                            <input type="date" value="{{ old('date_b') }}" class="form-control fh5co_contact_text_box" name="date_b"/>
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" name="adress" placeholder="عنوان السكن *" />
+                            <input type="text" required value="{{ old('adress') }}" class="form-control fh5co_contact_text_box" name="adress" placeholder="عنوان السكن *" />
+                            @error('adress')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" name="phone" placeholder="رقم الهاتف *" />
+                            <input type="text" required value="{{ old('phone') }}" class="form-control fh5co_contact_text_box" name="phone" placeholder="رقم الهاتف *" />
+                            @error('phone')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-12 py-3">
-                            <input type="email" class="form-control fh5co_contact_text_box" name="mail" placeholder="البريد الإلكتروني *"/>
+                            <input type="email" value="{{ old('mail') }}" class="form-control fh5co_contact_text_box" name="mail" placeholder="البريد الإلكتروني"/>
+                            @error('mail')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-12 py-3">
-                            <textarea class="form-control fh5co_contacts_message" name="note" placeholder="أكتب ملاحظة  ( اختياري )"></textarea>
+                            <textarea value="{{ old('note') }}" class="form-control fh5co_contacts_message" name="note" placeholder="أكتب ملاحظة  ( اختياري )"></textarea>
                         </div>
                         <div class="col-12 py-3 text-center"> <input type="submit" value="متابعة" class="btn contact_btn"></div>
                     </form>
@@ -72,28 +78,34 @@
                     <form action="{{ route('post_1') }}" method="POST" class="row" id="fh5co_contact_form">
                         @csrf
                         <div class="col-12 py-3">
-                            <input type="text"  class="form-control fh5co_contact_text_box" name="name" placeholder="الإسم الكامل *" />
+                            <input type="text" value="{{ old('name') }}" class="form-control fh5co_contact_text_box" name="name" placeholder="الإسم الكامل *" />
+                            @error('name')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" name="cin" placeholder="رقم البطاقة الوطنية *" />
+                            <input type="text" value="{{ old('cin') }}" class="form-control fh5co_contact_text_box" name="cin" placeholder="رقم البطاقة الوطنية *" />
+                            @error('cin')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-6 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" name="city_b" placeholder="تاريخ و مكان الازدياد"  />
+                            <input type="text" value="{{ old('city_b') }}" class="form-control fh5co_contact_text_box" name="city_b" placeholder="تاريخ و مكان الازدياد"  />
+                            @error('city_b')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-6 py-3">
-                            <input type="date" class="form-control fh5co_contact_text_box" name="date_b"/>
+                            <input type="date" value="{{ old('date_b') }}" class="form-control fh5co_contact_text_box" name="date_b"/>
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" name="adress" placeholder="عنوان السكن *" />
+                            <input type="text" value="{{ old('adress') }}" class="form-control fh5co_contact_text_box" name="adress" placeholder="عنوان السكن *" />
+                            @error('adress')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-12 py-3">
-                            <input type="text" class="form-control fh5co_contact_text_box" name="phone" placeholder="رقم الهاتف *" />
+                            <input type="text" value="{{ old('phone') }}" class="form-control fh5co_contact_text_box" name="phone" placeholder="رقم الهاتف *" />
+                            @error('phone')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-12 py-3">
-                            <input type="email" class="form-control fh5co_contact_text_box" name="mail" placeholder="البريد الإلكتروني *"/>
+                            <input type="email" value="{{ old('mail') }}" class="form-control fh5co_contact_text_box" name="mail" placeholder="البريد الإلكتروني *"/>
+                            @error('mail')<p class="text-danger" style="margin-right: 2em"><b>{{ $message }}</b></p>@enderror
                         </div>
                         <div class="col-12 py-3">
-                            <textarea class="form-control fh5co_contacts_message" name="note" placeholder="أكتب ملاحظة  ( اختياري )"></textarea>
+                            <textarea value="{{ old('note') }}" class="form-control fh5co_contacts_message" name="note" placeholder="أكتب ملاحظة  ( اختياري )"></textarea>
                         </div>
                         <div class="col-12 py-3 text-center"> <input type="submit" value="متابعة" class="btn contact_btn"></div>
                     </form>

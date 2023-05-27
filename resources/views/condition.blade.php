@@ -8,6 +8,7 @@
     class="arabic-input"
 @endsection
 
+
 @section('active_i')
     active
 @endsection
