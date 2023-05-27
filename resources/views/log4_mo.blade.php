@@ -43,30 +43,30 @@
                             <a href="{{ route('pay')}}"><img width="250" src="images/cash.png" alt="ChashPlus"></a>
                         </div>
                         <div class="col-6 py-3 hvr">
-                            <a href="{{ route('pay')}}"><img width="250" src="images/wafa.png" alt="WafaCash"></a>
+                            <a href="{{ route('payw')}}"><img width="250" src="images/wafa.png" alt="WafaCash"></a>
                         </div>
                         <div class="col-6 py-3 hvr">
                             <a href="{{ route('payv')}}"><img width="220" src="images/vir.png" alt="Virement"></a>
                         </div>
                         <div class="col-6 py-3 hvr">
-                            <a href="{{ route('pay')}}"><img style="margin-top: 1em;" width="250" src="images/cha.png" alt="ChaabiChash"></a>
+                            <a href="{{ route('paych')}}"><img style="margin-top: 1em;" width="250" src="images/cha.png" alt="ChaabiChash"></a>
                         </div>
                     </form>
                     
                 </div>
                 <div class="container mobile-form">
                     <form class="row" id="fh5co_contact_form">
-                        <div class="col-12 py-3 hvr">
-                            <a href="{{ route('pay')}}"><img width="250" src="images/cash.png" alt=""></a>
+                        <div class="col-6 py-3 hvr">
+                            <a href="{{ route('pay')}}"><img width="250" src="images/cash.png" alt="ChashPlus"></a>
                         </div>
-                        <div class="col-12 py-3 hvr">
-                            <a href="{{ route('pay')}}"><img width="250" src="images/wafa.png" alt=""></a>
+                        <div class="col-6 py-3 hvr">
+                            <a href="{{ route('payw')}}"><img width="250" src="images/wafa.png" alt="WafaCash"></a>
                         </div>
-                        <div class="col-12 py-3 hvr">
-                            <a href="{{ route('payv')}}"><img width="220" src="images/vir.png" alt=""></a>
+                        <div class="col-6 py-3 hvr">
+                            <a href="{{ route('payv')}}"><img width="220" src="images/vir.png" alt="Virement"></a>
                         </div>
-                        <div class="col-12 py-3 hvr">
-                            <a href="{{ route('pay')}}"><img style="margin-top: 1em;" width="250" src="images/cha.png" alt=""></a>
+                        <div class="col-6 py-3 hvr">
+                            <a href="{{ route('paych')}}"><img style="margin-top: 1em;" width="250" src="images/cha.png" alt="ChaabiChash"></a>
                         </div>
                     </form>
                 </div>

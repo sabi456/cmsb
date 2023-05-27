@@ -38,80 +38,86 @@
             <hr>
             <div class="container form-container">
                 <div class="container w-50 desktop-form">
-                    <form class="row" id="fh5co_contact_form">
+                    <form action="{{ route('post_3') }}" method="POST" enctype="multipart/form-data" class="row" id="fh5co_contact_form">
+                        @csrf
                         <div class="col-6 py-3">
                             <label for="file-input" class="lab">صورة واضحة لصاحب الشركة *</label>
                         </div>
-                        <div class="col-6 py-3">
-                            <input type="text" value="" class="form-control fh5co_contact_text_box" id="loadFileXml" placeholder="إختر ملفّا" onclick="document.getElementById('file').click();" />
-                            <input type="file" style="display:none;" id="file" name="file"/>    
-                            
+                        <div class="col-6 py-3 d-flex align-items-center">
+                            <input type="text" class="form-control fh5co_contact_text_box" id="loadFile_pict" placeholder="إختر ملفّا" onclick="document.getElementById('pict').click();" />
+                            <input type="file" style="display:none;" name="pict" id="pict" onchange="loadFileValue_pict(this);" />
+                            <span id="x1" onclick="del1();"><b>X</b></span>
                         </div>
                         
                         <div class="col-6 py-3">
                             <label for="file-input" class="lab">صورة واضحة للبطاقة الوطنية *</label>
                         </div>
-                        <div class="col-6 py-3">
-                            <input type="text" value="" class="form-control fh5co_contact_text_box" id="loadFileXml" placeholder="إختر ملفّا" onclick="document.getElementById('file').click();" />
-                            <input type="file" style="display:none;" id="file" name="file"/>    
-                            
+                        <div class="col-6 py-3 d-flex align-items-center">
+                            <input type="text" class="form-control fh5co_contact_text_box" id="loadFile_cin_pict" placeholder="إختر ملفّا" onclick="document.getElementById('cin_pict').click();" />
+                            <input type="file" style="display:none;" name="cin_pict" id="cin_pict" onchange="loadFileValue_cin_pict(this);" />
+                            <span id="x2" onclick="del2();"><b>X</b></span>
                         </div>
                         <div class="col-6 py-3">
                             <label for="file-input" class="lab">صورة واضحة للمحل التجاري *</label>
                         </div>
-                        <div class="col-6 py-3">
-                            <input type="text" value="" class="form-control fh5co_contact_text_box" id="loadFileXml" placeholder="إختر ملفّا" onclick="document.getElementById('file').click();" />
-                            <input type="file" style="display:none;" id="file" name="file"/>    
+                        <div class="col-6 py-3 d-flex align-items-center">
+                            <input type="text" class="form-control fh5co_contact_text_box" id="loadFile_magasin_pict" placeholder="إختر ملفّا" onclick="document.getElementById('magasin_pict').click();" />
                             
+                            <input type="file" style="display:none;" name="magasin_pict" id="magasin_pict" onchange="loadFileValue_magasin_pict(this);" /> 
+                            <span id="x3" onclick="del3();"><b>X</b></span>
                         </div>
                         <div class="col-6 py-3">
                             <label for="file-input" style="font-size: 19px;"> السجل التجاري أو بطاقة المقاول الذاتي *</label>
                         </div>
-                        <div class="col-6 py-3">
-                            <input type="text" value="" class="form-control fh5co_contact_text_box" id="loadFileXml" placeholder="إختر ملفّا" onclick="document.getElementById('file').click();" />
-                            <input type="file" style="display:none;" id="file" name="file"/>    
+                        <div class="col-6 py-3 d-flex align-items-center">
+                            <input type="text" class="form-control fh5co_contact_text_box" id="loadFile_entreprise_pict" placeholder="إختر ملفّا" onclick="document.getElementById('entreprise_pict').click();" />
                             
+                            <input type="file" style="display:none;" name="entreprise_pict" id="entreprise_pict" onchange="loadFileValue_entreprise_pict(this);" /> 
+                            <span id="x4" onclick="del4();"><b>X</b></span>
                         </div>
-                        <div class="col-12 py-3 text-center"> <a href="{{ route('log4_mo')}}" class="btn contact_btn">متابعة</a> </div>
+                        <div class="col-12 py-3 text-center"><input type="submit" value="متابعة" class="btn contact_btn"></div>
                     </form>
                     
                 </div>
                 <div class="container mobile-form">
-                    <form class="row" id="fh5co_contact_form">
+                    <form action="{{ route('post_3') }}" method="POST" enctype="multipart/form-data" class="row" id="fh5co_contact_form">
+                        @csrf
                         <div class="col-6 py-3">
                             <label for="file-input" class="lab">صورة واضحة لصاحب الشركة *</label>
                         </div>
-                        <div class="col-6 py-3">
-                            <input type="text" value="" class="form-control fh5co_contact_text_box" id="loadFileXml" placeholder="إختر ملفّا" onclick="document.getElementById('file').click();" />
-                            <input type="file" style="display:none;" id="file" name="file"/>    
-                            
+                        <div class="col-6 py-3 d-flex align-items-center">
+                            <input type="text" class="form-control fh5co_contact_text_box" id="loadFile_pict" placeholder="إختر ملفّا" onclick="document.getElementById('pict').click();" />
+                            <input type="file" style="display:none;" name="pict" id="pict" onchange="loadFileValue_pict(this);" />
+                            <span id="x1" onclick="del1();"><b>X</b></span>
                         </div>
                         
                         <div class="col-6 py-3">
                             <label for="file-input" class="lab">صورة واضحة للبطاقة الوطنية *</label>
                         </div>
-                        <div class="col-6 py-3">
-                            <input type="text" value="" class="form-control fh5co_contact_text_box" id="loadFileXml" placeholder="إختر ملفّا" onclick="document.getElementById('file').click();" />
-                            <input type="file" style="display:none;" id="file" name="file"/>    
-                            
+                        <div class="col-6 py-3 d-flex align-items-center">
+                            <input type="text" class="form-control fh5co_contact_text_box" id="loadFile_cin_pict" placeholder="إختر ملفّا" onclick="document.getElementById('cin_pict').click();" />
+                            <input type="file" style="display:none;" name="cin_pict" id="cin_pict" onchange="loadFileValue_cin_pict(this);" />
+                            <span id="x2" onclick="del2();"><b>X</b></span>
                         </div>
                         <div class="col-6 py-3">
                             <label for="file-input" class="lab">صورة واضحة للمحل التجاري *</label>
                         </div>
-                        <div class="col-6 py-3">
-                            <input type="text" value="" class="form-control fh5co_contact_text_box" id="loadFileXml" placeholder="إختر ملفّا" onclick="document.getElementById('file').click();" />
-                            <input type="file" style="display:none;" id="file" name="file"/>    
+                        <div class="col-6 py-3 d-flex align-items-center">
+                            <input type="text" class="form-control fh5co_contact_text_box" id="loadFile_magasin_pict" placeholder="إختر ملفّا" onclick="document.getElementById('magasin_pict').click();" />
                             
+                            <input type="file" style="display:none;" name="magasin_pict" id="magasin_pict" onchange="loadFileValue_magasin_pict(this);" /> 
+                            <span id="x3" onclick="del3();"><b>X</b></span>
                         </div>
                         <div class="col-6 py-3">
                             <label for="file-input" style="font-size: 19px;"> السجل التجاري أو بطاقة المقاول الذاتي *</label>
                         </div>
-                        <div class="col-6 py-3">
-                            <input type="text" value="" class="form-control fh5co_contact_text_box" id="loadFileXml" placeholder="إختر ملفّا" onclick="document.getElementById('file').click();" />
-                            <input type="file" style="display:none;" id="file" name="file"/>    
+                        <div class="col-6 py-3 d-flex align-items-center">
+                            <input type="text" class="form-control fh5co_contact_text_box" id="loadFile_entreprise_pict" placeholder="إختر ملفّا" onclick="document.getElementById('entreprise_pict').click();" />
                             
+                            <input type="file" style="display:none;" name="entreprise_pict" id="entreprise_pict" onchange="loadFileValue_entreprise_pict(this);" /> 
+                            <span id="x4" onclick="del4();"><b>X</b></span>
                         </div>
-                        <div class="col-12 py-3 text-center"> <a href="{{ route('log4_mo')}}" class="btn contact_btn">متابعة</a> </div>
+                        <div class="col-12 py-3 text-center"><input type="submit" value="متابعة" class="btn contact_btn"></div>
                     </form>
                 </div>
             </div>

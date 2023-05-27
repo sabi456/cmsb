@@ -20,6 +20,8 @@
     <link href="css/style_1.css" rel="stylesheet" type="text/css"/>
     <link href="css/style_2.css" rel="stylesheet" type="text/css"/>
     <link href="css/style_3.css" rel="stylesheet" type="text/css"/>
+    <link href="css/style_5.css" rel="stylesheet" type="text/css"/>
+    <link href="css/style_6.css" rel="stylesheet" type="text/css"/>
     <link href="css/mystyle.css" rel="stylesheet" type="text/css"/>
     <script src="js/modernizr-3.5.0.min.js"></script>
     <!-- Modernizr JS -->
@@ -43,4 +45,6 @@
 <!-- Main -->
 <script src="js/main.js"></script>
 <script src="js/myjs.js"></script>
+<script src="js/js_1.js"></script>
+<script src="js/js_2.js"></script>
 </html>

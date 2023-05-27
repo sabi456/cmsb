@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('documents', function (Blueprint $table) {
-            $table->id('id_d');
-            $table->binary('pict')->nullable();
-            $table->binary('cin_pict')->nullable();
-            $table->binary('magasin_pict')->nullable();
-            $table->binary('entreprise_pict')->nullable();
-            $table->binary('payment_pict')->nullable();
+        Schema::create('pays', function (Blueprint $table) {
+            $table->id('id_pay');
+            $table->string('name')->nullable();
+            $table->string('number_v')->unique()->nullable();
+            $table->string('pay_name');
             $table->unsignedBigInteger('id')->nullable();
             $table->foreign('id')->references('id')->on('persens');
             $table->timestamps();
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('documents');
+        Schema::dropIfExists('pays');
     }
 };

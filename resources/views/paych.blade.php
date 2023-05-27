@@ -40,9 +40,9 @@
                 <div class="container w-50 desktop-form">
                     <form action="{{ route('post_4') }}" method="POST" enctype="multipart/form-data" class="row" id="fh5co_contact_form">
                         @csrf
-                        <input type="hidden" value="CashPlus" name="pay_name">
+                        <input type="hidden" value="ChaabiCash" name="pay_name">
                         <div class="col-12 py-3 text-center">
-                            <img width="300" src="images/cash.png" alt="CashPlus">
+                            <img width="300" src="images/cha.png" alt="ChaabiCash">
                         </div>
                         <div class="col-12 py-3">
                             <input type="text" name="name" class="form-control fh5co_contact_text_box" placeholder="الإسم الكامل للدافع *" />
@@ -60,14 +60,13 @@
                         </div> 
                         <div class="col-12 py-3 text-center"><input type="submit" class="btn contact_btn" value="تأكيد"></div>
                     </form>
-                    
                 </div>
                 <div class="container mobile-form">
                     <form action="{{ route('post_4') }}" method="POST" enctype="multipart/form-data" class="row" id="fh5co_contact_form">
                         @csrf
-                        <input type="hidden" name="pay_name">
+                        <input type="hidden" name="ChaabiCash" name="pay_name">
                         <div class="col-12 py-3 text-center">
-                            <img width="300" src="images/cash.png" alt="CashPlus">
+                            <img width="300" src="images/cha.png" alt="ChaabiCash">
                         </div>
                         <div class="col-12 py-3">
                             <input type="text" name="name" class="form-control fh5co_contact_text_box" placeholder="الإسم الكامل للدافع *" />
