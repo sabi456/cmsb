@@ -41,7 +41,7 @@
                           <a style="font-size: large;" class="nav-link" href="{{ route('home')}}">الرئيسية <span class="sr-only">(current)</span></a>
                       </li>
                       <li class="nav-item @yield('active_n')">
-                          <a style="font-size: large;" class="nav-link" href="{{ route('home')}}">الأخبار <span class="sr-only">(current)</span></a>
+                          <a style="font-size: large;" class="nav-link" href="{{ route('news')}}">الأخبار <span class="sr-only">(current)</span></a>
                       </li>
                       <li class="nav-item dropdown @yield('active_a')">
                           <a style="font-size: large;" style="font-size: x-large;" class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton2" data-toggle="dropdown"
@@ -53,19 +53,17 @@
                               <a class="dropdown-item btn contact_btn" href="@yield('inkh')"">الإنخراط</a>
                           </div>
                       </li>
-                      <li class="nav-item dropdown @yield('active_m')">
-                          <a style="font-size: large;" class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton2" data-toggle="dropdown"
-                          aria-haspopup="true" aria-expanded="false">المنتدى <span class="sr-only">(current)</span></a>
-                          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
-                              <a class="dropdown-item" href="#">الأعضاء</a>
-                              <a class="dropdown-item" href="#">الشركاء</a>
-                          </div>
+                      <li class="nav-item @yield('active_m')">
+                          <a style="font-size: large;" class="nav-link" href="">الأعضاء<span class="sr-only">(current)</span></a>
                       </li>
                       <li class="nav-item @yield('active_i')">
                           <a style="font-size: large;" class="nav-link" href="@yield('inkh')">الإنخراط<span class="sr-only">(current)</span></a>
                       </li>
                       <li class="nav-item mx-5 @yield('active_c')">
                           <a style="font-size: large;" class="nav-link" href="{{ route('contact')}}">تواصل معنا <span class="sr-only">(current)</span></a>
+                      </li>
+                      <li class="nav-item mx-5">
+                          <a style="font-size: large;" class="nav-link" href="@yield('lang_f')">Français<span class="sr-only">(current)</span></a>
                       </li>
                   </ul>
               </div>

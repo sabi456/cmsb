@@ -1,14 +1,18 @@
 @extends('master.layout')
 
 @section('title')
-    من نحن ؟
+  أخبار 
 @endsection
 
 @section('ar')
     class="arabic-input"
 @endsection
 
-@section('active_a')
+@section('inkh')
+    {{ route('pack')}}
+@endsection
+
+@section('active_n')
     active
 @endsection
 
@@ -18,14 +22,14 @@
     <li class="cards_item">
       <div class="card">
         <div class="card_image">
-          <img src="https://assets.codepen.io/652/photo-1468777675496-5782faaea55b.jpeg" alt="mixed vegetable salad in a mason jar." />
+          <img src="images/face1.jpg" alt="mixed vegetable salad in a mason jar." />
           <span class="card_price"><span>$</span>9</span>
         </div>
         <div class="card_content">
           <h2 class="card_title">Farmstand Salad</h2>
           <div class="card_text">
-            <p>Dig into the freshest veggies of the season! This salad-in-a-jar features a mixture of
-              leafy greens and seasonal vegetables, fresh from the farmer's market.
+            <p>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorem aperiam dignissimos aspernatur cupiditate optio corporis nihil, rem veniam, voluptates quasi accusamus? Voluptas laborum accusantium dolor nostrum impedit illo sequi in?
             </p>
             <hr />
             <p>Served with your choice of dressing on the side: <strong>housemade ranch</strong>, <strong>cherry balsamic
@@ -40,15 +44,14 @@
     <li class="cards_item">
       <div class="card">
         <div class="card_image">
-          <img src="https://assets.codepen.io/652/photo-1520174691701-bc555a3404ca.jpeg" alt="a Reuben sandwich on wax paper." />
+          <img src="images/face4.jpg" alt="a Reuben sandwich on wax paper." />
           <span class="card_price"><span>$</span>18</span>
         </div>
         <div class="card_content">
           <h2 class="card_title">Ultimate Reuben</h2>
           <div class="card_text">
-            <p>All great meals take time, but this one takes it to the next level! More than 650 hours
-              of fermenting, brining, aging, and curing goes into each and every one of our legendary
-              Reuben sandwiches.
+            <p>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eius quo beatae velit incidunt pariatur quia iste quod, possimus autem voluptate nesciunt, nulla sit deleniti! Fugit ab eum ea ullam illum.
             </p>
             <p>Every element of this extraordinary sandwich is handcrafted in our kitchens, from the rye
               bread baked from our secret recipe to the cave-aged Swiss cheese, right down to the
@@ -72,7 +75,175 @@
       <div class="card">
         <div class="card_image">
           <span class="note">Seasonal</span>
-          <img src="https://assets.codepen.io/652/photo-1544510808-91bcbee1df55.jpeg" alt="A side view of a plate of figs and berries." />
+          <img src="images/face5.jpg" alt="A side view of a plate of figs and berries." />
+          <span class="card_price"><span>$</span>16</span>
+        </div>
+        <div class="card_content">
+          <h2 class="card_title">Fig &amp; Berry Plate</h2>
+          <div class="card_text">
+            <p>A succulent sextet of fresh figs join with a selection of bodacious seasonal berries in
+              this refreshing, shareable dessert.
+            </p>
+            <hr />
+            <p>Choose your drizzle: <strong>cherry-balsamic vinegar</strong>, <strong>local honey</strong>, or
+              <strong>housemade chocolate sauce</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class="cards_item">
+      <div class="card">
+        <div class="card_image">
+          <span class="note">Seasonal</span>
+          <img src="images/face5.jpg" alt="A side view of a plate of figs and berries." />
+          <span class="card_price"><span>$</span>16</span>
+        </div>
+        <div class="card_content">
+          <h2 class="card_title">Fig &amp; Berry Plate</h2>
+          <div class="card_text">
+            <p>A succulent sextet of fresh figs join with a selection of bodacious seasonal berries in
+              this refreshing, shareable dessert.
+            </p>
+            <hr />
+            <p>Choose your drizzle: <strong>cherry-balsamic vinegar</strong>, <strong>local honey</strong>, or
+              <strong>housemade chocolate sauce</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class="cards_item">
+      <div class="card">
+        <div class="card_image">
+          <span class="note">Seasonal</span>
+          <img src="images/face5.jpg" alt="A side view of a plate of figs and berries." />
+          <span class="card_price"><span>$</span>16</span>
+        </div>
+        <div class="card_content">
+          <h2 class="card_title">Fig &amp; Berry Plate</h2>
+          <div class="card_text">
+            <p>A succulent sextet of fresh figs join with a selection of bodacious seasonal berries in
+              this refreshing, shareable dessert.
+            </p>
+            <hr />
+            <p>Choose your drizzle: <strong>cherry-balsamic vinegar</strong>, <strong>local honey</strong>, or
+              <strong>housemade chocolate sauce</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class="cards_item">
+      <div class="card">
+        <div class="card_image">
+          <span class="note">Seasonal</span>
+          <img src="images/face5.jpg" alt="A side view of a plate of figs and berries." />
+          <span class="card_price"><span>$</span>16</span>
+        </div>
+        <div class="card_content">
+          <h2 class="card_title">Fig &amp; Berry Plate</h2>
+          <div class="card_text">
+            <p>A succulent sextet of fresh figs join with a selection of bodacious seasonal berries in
+              this refreshing, shareable dessert.
+            </p>
+            <hr />
+            <p>Choose your drizzle: <strong>cherry-balsamic vinegar</strong>, <strong>local honey</strong>, or
+              <strong>housemade chocolate sauce</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class="cards_item">
+      <div class="card">
+        <div class="card_image">
+          <span class="note">Seasonal</span>
+          <img src="images/face5.jpg" alt="A side view of a plate of figs and berries." />
+          <span class="card_price"><span>$</span>16</span>
+        </div>
+        <div class="card_content">
+          <h2 class="card_title">Fig &amp; Berry Plate</h2>
+          <div class="card_text">
+            <p>A succulent sextet of fresh figs join with a selection of bodacious seasonal berries in
+              this refreshing, shareable dessert.
+            </p>
+            <hr />
+            <p>Choose your drizzle: <strong>cherry-balsamic vinegar</strong>, <strong>local honey</strong>, or
+              <strong>housemade chocolate sauce</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class="cards_item">
+      <div class="card">
+        <div class="card_image">
+          <span class="note">Seasonal</span>
+          <img src="images/face5.jpg" alt="A side view of a plate of figs and berries." />
+          <span class="card_price"><span>$</span>16</span>
+        </div>
+        <div class="card_content">
+          <h2 class="card_title">Fig &amp; Berry Plate</h2>
+          <div class="card_text">
+            <p>A succulent sextet of fresh figs join with a selection of bodacious seasonal berries in
+              this refreshing, shareable dessert.
+            </p>
+            <hr />
+            <p>Choose your drizzle: <strong>cherry-balsamic vinegar</strong>, <strong>local honey</strong>, or
+              <strong>housemade chocolate sauce</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class="cards_item">
+      <div class="card">
+        <div class="card_image">
+          <span class="note">Seasonal</span>
+          <img src="images/face5.jpg" alt="A side view of a plate of figs and berries." />
+          <span class="card_price"><span>$</span>16</span>
+        </div>
+        <div class="card_content">
+          <h2 class="card_title">Fig &amp; Berry Plate</h2>
+          <div class="card_text">
+            <p>A succulent sextet of fresh figs join with a selection of bodacious seasonal berries in
+              this refreshing, shareable dessert.
+            </p>
+            <hr />
+            <p>Choose your drizzle: <strong>cherry-balsamic vinegar</strong>, <strong>local honey</strong>, or
+              <strong>housemade chocolate sauce</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class="cards_item">
+      <div class="card">
+        <div class="card_image">
+          <span class="note">Seasonal</span>
+          <img src="images/face5.jpg" alt="A side view of a plate of figs and berries." />
+          <span class="card_price"><span>$</span>16</span>
+        </div>
+        <div class="card_content">
+          <h2 class="card_title">Fig &amp; Berry Plate</h2>
+          <div class="card_text">
+            <p>A succulent sextet of fresh figs join with a selection of bodacious seasonal berries in
+              this refreshing, shareable dessert.
+            </p>
+            <hr />
+            <p>Choose your drizzle: <strong>cherry-balsamic vinegar</strong>, <strong>local honey</strong>, or
+              <strong>housemade chocolate sauce</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class="cards_item">
+      <div class="card">
+        <div class="card_image">
+          <span class="note">Seasonal</span>
+          <img src="images/face5.jpg" alt="A side view of a plate of figs and berries." />
           <span class="card_price"><span>$</span>16</span>
         </div>
         <div class="card_content">

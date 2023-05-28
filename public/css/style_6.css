@@ -48,7 +48,7 @@ body {
     width: 45px;
     height: 45px;
     border-radius: 0.25rem;
-    background-color: #c89b3f;
+    background-color: #edc12e;
     font-size: 18px;
     font-weight: 700;
   }
@@ -64,7 +64,7 @@ body {
     left: 8px;
     padding: 4px 8px;
     border-radius: 0.25rem;
-    background-color: #c89b3f;
+    background-color: #edc12e;
     font-size: 14px;
     font-weight: 700;
   }
@@ -108,7 +108,7 @@ body {
   }
   
   .card_content::-webkit-scrollbar-thumb {
-    background: #c89b3f;
+    background: #edc12e;
     border-radius: 15px;
   }
   
@@ -129,14 +129,14 @@ body {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #c89b3f;
+    background-color: #edc12e;
     content: "";
   }
   
   hr {
     margin: 24px auto;
     width: 50px;
-    border-top: 2px solid #c89b3f;
+    border-top: 2px solid #edc12e;
   }
   
   .card_text p {
