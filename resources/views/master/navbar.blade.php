@@ -50,7 +50,7 @@
                               <a class="dropdown-item" href="{{ route('single')}}">من نحن</a>
                               <a class="dropdown-item" href="{{ route('law_g')}}">القانون الأساسي</a>
                               <a class="dropdown-item" href="{{ route('law_i')}}">القانون الداخلي</a>
-                              <a class="dropdown-item btn contact_btn" href="{{ route('pack')}}">الإنخراط</a>
+                              <a class="dropdown-item btn contact_btn" href="@yield('inkh')"">الإنخراط</a>
                           </div>
                       </li>
                       <li class="nav-item dropdown @yield('active_m')">
@@ -65,7 +65,7 @@
                           <a style="font-size: large;" class="nav-link" href="@yield('inkh')">الإنخراط<span class="sr-only">(current)</span></a>
                       </li>
                       <li class="nav-item mx-5 @yield('active_c')">
-                          <a style="font-size: large;" class="nav-link" href="Contact_us.html">تواصل معنا <span class="sr-only">(current)</span></a>
+                          <a style="font-size: large;" class="nav-link" href="{{ route('contact')}}">تواصل معنا <span class="sr-only">(current)</span></a>
                       </li>
                       <li class="nav-item mx-5">
                           <a style="font-size: large;" class="nav-link" href="@yield('lang_f')">Français<span class="sr-only">(current)</span></a>

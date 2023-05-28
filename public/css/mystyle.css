@@ -7,7 +7,7 @@ html {
 	height: 100%;
 }
 
-*{
+body{
 	font-family: 'Cairo', sans-serif;
 }
 input::placeholder,

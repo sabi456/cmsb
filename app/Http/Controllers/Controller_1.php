@@ -78,7 +78,7 @@ class Controller_1 extends Controller
         Session::put('cin', $req->cin);
         return redirect()->route('log2_mo');
     }
-    
+
     public function post_2(Request $req){
         $ice = $req->ice;
         $req->validate(
@@ -115,17 +115,17 @@ class Controller_1 extends Controller
         $id = $person->id;
         $ent = Entreprise::where('id', $id)->first();
         if(!$ent){
+            $entr = new Entreprise();
+            $entr->name_e = $req->name_e;
+            $entr->cat = $req->cat;
+            $entr->phone_e = $req->phone_e;
+            $entr->nbr_of_em = $req->nbr_of_em;
+            $entr->adress_e = $req->adress_e;
+            $entr->ice = $ice;
+            $entr->rc = $req->rc;
+            $entr->id = $id;
             try {
-                Entreprise::create([
-                    'name_e' => $req->name_e,
-                    'cat' => $req->cat,
-                    'phone_e' => $req->phone_e,
-                    'nbr_of_em' => $req->nbr_of_em,
-                    'adress_e' => $req->adress_e,
-                    'ice' => $ice,
-                    'rc' => $req->rc,
-                    'id' => $id
-                ]);
+                $entr->save();
             } catch (\Exception $e) {
                 // Handle the exception (e.g., log the error, display an error message)
                 return "Error: " . $e->getMessage();
@@ -335,6 +335,10 @@ class Controller_1 extends Controller
 
     public function condition(){
         return view('condition');
+    }
+
+    public function contact(){
+        return view('contact_us');
     }
 
     public function cong(){

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('phone_e')->unique();
             $table->integer('nbr_of_em');
             $table->string('adress_e');
-            $table->string('ice')->unique()->nullable();
+            $table->string('ice')->unique();
             $table->string('rc')->unique();
             $table->unsignedBigInteger('id');
             $table->foreign('id')->references('id')->on('persens');

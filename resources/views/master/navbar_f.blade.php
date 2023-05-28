@@ -51,7 +51,7 @@
                               <a class="dropdown-item" href="{{ route('single')}}">Qui nous</a>
                               <a class="dropdown-item" href="{{ route('law_g')}}">Les statuts généraux</a>
                               <a class="dropdown-item" href="{{ route('law_i')}}">Les statuts internes</a>
-                              <a class="dropdown-item btn contact_btn" href="{{ route('pack')}}">Engager</a>
+                              <a class="dropdown-item btn contact_btn" href="@yield('inkh')"">Engager</a>
                           </div>
                       </li>
                       <li class="nav-item dropdown @yield('active_m')">

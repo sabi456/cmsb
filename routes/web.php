@@ -39,13 +39,13 @@ Route::get('/قسط', [Controller_1::class, 'payv'])->name('payv');
 
 Route::get('/وفاكاش', [Controller_1::class, 'payw'])->name('payw');
 
-Route::get('/شعبي كاش', [Controller_1::class, 'paych'])->name('paych');
+Route::get('/شعبي-كاش', [Controller_1::class, 'paych'])->name('paych');
 
 Route::get('/القانون-الأساسي', [Controller_1::class, 'law_g'])->name('law_g');
 
 Route::get('/القانون-الداخلي', [Controller_1::class, 'law_i'])->name('law_i');
 
-Route::get('/من نحن', [Controller_1::class, 'single'])->name('single');
+Route::get('/من-نحن', [Controller_1::class, 'single'])->name('single');
 
 Route::get('/Accueil', [Controller_1::class, 'index_f'])->name('index_f');
 
@@ -60,3 +60,5 @@ Route::post('/post_4', [Controller_1::class, 'post_4'])->name('post_4');
 Route::post('/post_5', [Controller_1::class, 'post_5'])->name('post_5');
 
 Route::get('/news', [Controller_1::class, 'news'])->name('news');
+
+Route::get('/تواصل-معنا', [Controller_1::class, 'contact'])->name('contact');
