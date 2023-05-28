@@ -12,10 +12,6 @@
     {{ route('pack')}}
 @endsection
 
-@section('lang_f')
-    {{ route('index_f') }}
-@endsection
-
 @section('content')
     <div class="container-fluid paddding mb-5 my-1">
     <div class="row mx-0">

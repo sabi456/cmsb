@@ -16,10 +16,6 @@
     class="arabic-input"
 @endsection
 
-@section('lang_f')
-    {{ route('index_f') }}
-@endsection
-
 @section('content')
 <div class="container-fluid contact_us_bg_img">
     <div class="container">

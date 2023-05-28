@@ -67,9 +67,6 @@
                       <li class="nav-item mx-5 @yield('active_c')">
                           <a style="font-size: large;" class="nav-link" href="{{ route('contact')}}">تواصل معنا <span class="sr-only">(current)</span></a>
                       </li>
-                      <li class="nav-item mx-5">
-                          <a style="font-size: large;" class="nav-link" href="@yield('lang_f')">Français<span class="sr-only">(current)</span></a>
-                      </li>
                   </ul>
               </div>
           </div>
