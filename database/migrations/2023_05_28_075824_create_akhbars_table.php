@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id('id_n');
             $table->string('title');
             $table->text('detail');
-            $table->enum('statu', ['قادم', 'قريب', 'منتهي'])->default('قادم');
             $table->date('datePosted');
+            $table->binary('image');
             $table->timestamps();
         });
     }

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Pay;
 use App\Models\Payv;
+use App\Models\Akhbar;
 use App\Models\Persen;
 use App\Models\Document;
+use Nette\Utils\DateTime;
 use App\Models\Entreprise;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -349,9 +351,7 @@ class Controller_1 extends Controller
         return view('pack');
     }
 
-    public function news(){
-        return view('news');
-    }
+    
 
     public function log1_mo(){
         return view('log1_mo');
@@ -395,12 +395,68 @@ class Controller_1 extends Controller
     }
 
     public function single(){
-        return view('single');
+        $data = DB::table('akhbars')
+        ->whereDate('datePosted', '<=', now()->subDays(3)->toDateString())
+        ->get();
+        return view('single')->with([
+            'data' => $data
+        ]);
     }
+    public function news(){
+        $data1 = Akhbar::orderBy("datePosted", "DESC")->get();
+        $data = [];
+
+        foreach ($data1 as $item) {
+            $data[] = [
+                'item' => $item,
+                'date_ar' => $this->formatArabicDate($item->datePosted),
+                'statu' => $this->statu($item->datePosted)
+            ];
+        }
+        return view('news')->with([
+            'data' => $data
+        ]);
+    }
+
     public function index_f(){
         return view('index_f');
     }
     
+    protected function formatArabicDate($datee) {
+        $date = DateTime::createFromFormat('Y-m-d', $datee);
+        $m = "";
+        $d = $date->format('d');
+        $mo = $date->format('m');
+        $y = $date->format('Y');
+        if ($mo == 1) $m = 'يناير';
+        elseif($mo == 2) $m = 'فبراير';
+        elseif($mo == 3) $m = 'مارس';
+        elseif($mo == 4) $m = 'أبريل';
+        elseif($mo == 5) $m = 'ماي';
+        elseif($mo == 6) $m = 'يونيو';
+        elseif($mo == 7) $m = 'يوليوز';
+        elseif($mo == 8) $m = 'غشت';
+        elseif($mo == 9) $m = 'شتنبر';
+        elseif($mo == 10) $m = 'أكتوبر';
+        elseif($mo == 11) $m = 'نونبر';
+        else $m = 'دجنبر';
+        return $d.' - '.$m.' - '.$y;
+    }
+
+    protected function statu($date) {
+        $current1 = date('Y-m-d');
+        $start = new DateTime($current1);
+        $current = new DateTime($date);
+        $peri = $start->diff($current);
+        $period = $peri->days;
+        if ($start > $current) $period *= -1;
+
+        if ($period > 4) $s = 'قادم';
+        elseif ($period <= 4 && $period >= 1) $s = 'قريب';
+        elseif ($period == 0) $s = 'حالي';
+        else $s = 'منتهي';
+        return $s;
+    }
     
 }
 
