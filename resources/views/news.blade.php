@@ -31,8 +31,12 @@
           <h2 class="card_title">{{ $item['item']->title }}</h2>
           <div class="card_text">
             <p style="line-height: 2em; font-weight: 500">
-              {!! $item['item']->detail !!}
+              {!! Str::limit($item['item']->detail, 400) !!}
             </p>
+            <hr>
+            <div class="container text-center">
+              <a href="{{route('single_news', $item['item']->id)}}" class="btn contact_btn"">قراءة المزيد</a>
+            </div>
           </div>
         </div>
       </div>

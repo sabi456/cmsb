@@ -25,7 +25,7 @@
       </div>
   </div>
 </div>
-<div class="arabic-input container-fluid bg-faded fh5co_padd_mediya padding_786">
+<div class="container-fluid bg-faded fh5co_padd_mediya padding_786 arabic-input">
   <div class="container padding_786 fuild w-100">
       <nav class="navbar navbar-toggleable-md navbar-light ">
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
@@ -54,7 +54,7 @@
                           </div>
                       </li>
                       <li class="nav-item @yield('active_m')">
-                          <a style="font-size: large;" class="nav-link" href="">الأعضاء<span class="sr-only">(current)</span></a>
+                          <a style="font-size: large;" class="nav-link" href="{{ route('team') }}">الأعضاء<span class="sr-only">(current)</span></a>
                       </li>
                       <li class="nav-item @yield('active_i')">
                           <a style="font-size: large;" class="nav-link" href="@yield('inkh')">الإنخراط<span class="sr-only">(current)</span></a>

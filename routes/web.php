@@ -62,3 +62,16 @@ Route::post('/post_5', [Controller_1::class, 'post_5'])->name('post_5');
 Route::get('/news', [Controller_1::class, 'news'])->name('news');
 
 Route::get('/تواصل-معنا', [Controller_1::class, 'contact'])->name('contact');
+
+Route::get('/single_news{id}', [Controller_1::class, 'single_news'])->name('single_news');
+
+Route::get('/أعضاء-الجمعية', [Controller_1::class, 'team'])->name('team');
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});

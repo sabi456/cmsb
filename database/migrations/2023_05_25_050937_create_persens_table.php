@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('mail')->unique()->nullable();
             $table->text('note')->nullable();
+            $table->string('status')->default('unconfirmed');
             $table->timestamps();
         });
     }

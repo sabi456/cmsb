@@ -12,13 +12,26 @@ use App\Models\Entreprise;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
+use App\Notifications\NewUserNotification;
+use Illuminate\Support\Facades\Notification;
 
 class Controller_1 extends Controller
 {
     public function index(){
-        return view('index');
+        $data1 = Akhbar::orderBy("datePosted", "DESC")->take(5)->get();
+        $data = [];
+
+        foreach ($data1 as $item) {
+            $data[] = [
+                'item' => $item,
+                'date_ar' => $this->formatArabicDate($item->datePosted)
+            ];
+        }
+        return view('index')->with([
+            'data' => $data
+        ]);
     }
+
     public function post_1(Request $req){
         $req->validate(
             [
@@ -76,7 +89,6 @@ class Controller_1 extends Controller
                 return "Error: " . $e->getMessage();
             }
         }
-       
         Session::put('cin', $req->cin);
         return redirect()->route('log2_mo');
     }
@@ -156,20 +168,20 @@ class Controller_1 extends Controller
 
         $req->validate(
             [
-                'pict' => 'file|mimes:jpg,png,pdf|max:1024',
-                'cin_pict' => 'file|mimes:jpg,png,pdf|max:1024',
-                'magasin_pict' => 'file|mimes:jpg,png,pdf|max:1024',
-                'entreprise_pict' => 'file|mimes:jpg,png,pdf|max:1024'
+                'pict' => 'file|mimes:jpg,png|max:5000',
+                'cin_pict' => 'file|mimes:jpg,png,pdf|max:5000',
+                'magasin_pict' => 'file|mimes:jpg,png|max:5000',
+                'entreprise_pict' => 'file|mimes:pdf|max:5000'
             ],
             [
-                'pict.mimes' => 'نقبل فقط JPG أو PNG أو PDF',
-                'pict.max' => 'لقد تجاوزت 1 MB',
+                'pict.mimes' => 'نقبل فقط JPG أو PNG',
+                'pict.max' => 'لقد تجاوزت 5 MB',
                 'cin_pict.mimes' => 'نقبل فقط JPG أو PNG أو PDF',
-                'cin_pict.max' => 'لقد تجاوزت 1 MB',
-                'magasin_pict.mimes' => 'نقبل فقط JPG و PNG',
-                'magasin_pict.max' => 'لقد تجاوزت 1 MB',
-                'entreprise_pict.mimes' => 'نقبل فقط JPG أو PNG أو PDF',
-                'entreprise_pict.max' => 'لقد تجاوزت 1 MB'
+                'cin_pict.max' => 'لقد تجاوزت 5 MB',
+                'magasin_pict.mimes' => 'نقبل فقط JPG أو PNG',
+                'magasin_pict.max' => 'لقد تجاوزت 5 MB',
+                'entreprise_pict.mimes' => 'نقبل فقط PDF',
+                'entreprise_pict.max' => 'لقد تجاوزت 5 MB'
             ]
         );
         $id = Session::get('id');
@@ -218,6 +230,19 @@ class Controller_1 extends Controller
 
                 return redirect()->route('log4_mo');
             }
+            $data = DB::table('persons')
+                ->join('documents', 'persons.id', '=', 'documents.id')
+                ->where('persons.id', '=', $id)
+                ->get();
+
+            $user = auth()->user();
+            if ($data->Status == 'unconfirmed') {
+                $id = $data->id;
+                $name = $data->name;
+                $picture = $data->pict;
+                // Set default value if image is not set
+                Notification::send($user, new NewUserNotification($id, $name, $picture));
+            }
         }
         return "No file selected or invalid file.";
     }
@@ -227,7 +252,7 @@ class Controller_1 extends Controller
             [
                 'name' => 'min:6|max:20',
                 'number_v' => 'min:10|max:40',
-                'pict' => 'file|mimes:jpg,png,pdf|max:1024',
+                'pict' => 'file|mimes:jpg,png,pdf|max:1024'
             ],
             [
                 'pict.mimes' => 'نقبل فقط JPG أو PNG أو PDF',
@@ -386,6 +411,10 @@ class Controller_1 extends Controller
         return view('payv');
     }
 
+    public function team(){
+        return view('team');
+    }
+
     public function law_g(){
         return view('law_g');
     }
@@ -393,11 +422,26 @@ class Controller_1 extends Controller
     public function law_i(){
         return view('law_i');
     }
+    public function single_news($id){
+        $akhbar = Akhbar::find($id);
+
+        return view('single_news')->with([
+            'akhbar' => $akhbar,
+            'date_ar' => $this->formatArabicDate($akhbar->datePosted)
+        ]);
+    }
 
     public function single(){
-        $data = DB::table('akhbars')
-        ->whereDate('datePosted', '<=', now()->subDays(3)->toDateString())
-        ->get();
+        $data1 = Akhbar::orderBy("datePosted", "DESC")->get();
+        $data = [];
+
+        foreach ($data1 as $item) {
+            $data[] = [
+                'item' => $item,
+                'date_ar' => $this->formatArabicDate($item->datePosted),
+                'statu' => $this->statu($item->datePosted)
+            ];
+        }
         return view('single')->with([
             'data' => $data
         ]);
@@ -416,10 +460,6 @@ class Controller_1 extends Controller
         return view('news')->with([
             'data' => $data
         ]);
-    }
-
-    public function index_f(){
-        return view('index_f');
     }
     
     protected function formatArabicDate($datee) {
