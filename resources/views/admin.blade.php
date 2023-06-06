@@ -196,17 +196,17 @@
                         </li>
 
                        <!-- Nav Item - Alerts -->
-@if(auth()->user()->status == 'High' || auth()->user()->status == 'Medium')
+    @if(auth()->user()->status == 'High' || auth()->user()->status == 'Medium')
 
-<li class="nav-item dropdown no-arrow mx-1" >
-    <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fas fa-bell fa-fw"></i>
-        <!-- Counter - Alerts -->
-        @if(auth()->user()->unreadNotifications->count() > 0)
+    <li class="nav-item dropdown no-arrow mx-1" >
+        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-bell fa-fw"></i>
+            <!-- Counter - Alerts -->
+            @if(auth()->user()->unreadNotifications->count() > 0)
             <span class="badge badge-danger badge-counter">{{ auth()->user()->unreadNotifications->count() }}</span>
         @endif
-@endif
+    @endif
 
     </a>
     <!-- Dropdown - Alerts -->
@@ -218,42 +218,20 @@
     <!-- Rest of the dropdown menu content -->
     <div style="max-height: 380px; overflow-y: auto;">
         @foreach(auth()->user()->unreadNotifications as $notification)
-            <a class="dropdown-item d-flex align-items-center" href="#">
-                <div class="mr-3">
-                        <div class="icon-circle bg-primary">
-                            @if ($notification->data['image'] != NULL)
-                                <img src="{{ asset('uploads/' . $notification->data['image']) }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
-                            @elseif ($notification->data['Gender'] === 'Homme')
-                                <img src="{{ asset('uploads/empty_man.png') }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
-                            @elseif ($notification->data['Gender'] === 'Femme')
-                                <img src="{{ asset('uploads/empty_woman1.png') }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
-                            @endif
-                        </div>
+        <a class="dropdown-item d-flex align-items-center" href="{{ route('post.show', ['id' => $notification->data['id']]) }}">
+            <div class="mr-3">
+                <div class="icon-circle bg-primary">
+                    <img src="data:image/jpeg;base64,{{ base64_encode($notification->data['picture']) }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                 </div>
-                <div class="d-flex justify-content-between align-items-center flex-grow-1">
-                    <div>
-                        <div class="small text-gray-500">{{ $notification->created_at->format('F d, Y') }}</div>
-                        <span class="font-weight-bold">{{ $notification->data['message'] }}</span>
-                    </div>
-                    <div class="form-inline">
-    <div class="button-container">
-        <form action="{{ route('confirm-user', ['id' => $notification->data['unconfirmed_user_id']]) }}" method="POST" class="d-inline">
-            @csrf
-            <button type="submit" class="btn btn-sm btn-primary" onclick="return confirm('Are you sure you want to confirm?')">Confirm</button>
-        </form>
-    </div>&nbsp;&nbsp;
-    <div class="button-container">
-        <form action="{{ route('deletenotif', ['id' => $notification->data['unconfirmed_user_id']]) }}" method="POST" class="d-inline">
-            @csrf
-            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to Delete?')">Delete</button>
-        </form>
-    </div>
-</div>
-
-
-
+            </div>
+            <div class="d-flex justify-content-between align-items-center flex-grow-1">
+                <div>
+                    <div class="small text-gray-500">{{ $notification->created_at->format('F d, Y') }}</div>
+                    <span class="font-weight-bold">{{ $notification->data['name'] }}</span>
                 </div>
-            </a>
+                <button type="submit" class="btn btn-sm btn-primary">Voir</button>
+            </div>
+        </a>
         @endforeach
     </div>
     <a class="dropdown-item text-center small text-gray-500" style="cursor:pointer;" id="okay">Show All Alerts</a>
@@ -400,7 +378,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                             Users Registered</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $userCount }}</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $userConfirmed }}</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-user fa-2x text-gray-300"></i>
@@ -438,7 +416,7 @@
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{$userunconfirmed}}</div>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{$userUnconfirmed}}</div>
                                                 </div>
                                                 <div class="col">
                                                     <!-- <div class="progress progress-sm mr-2"> -->
@@ -491,26 +469,21 @@
                             <div class="card-body d-flex align-items-center justify-content-between">
                                 <div class="mr-3">
                                     <div class="icon-circle bg-primary">
-                                        @if ($notification->data['image'] != NULL)
-                                            <img src="{{ asset('uploads/' . $notification->data['image']) }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
-                            @elseif ($notification->data['Gender'] === 'Homme')
-                                <img src="{{ asset('uploads/empty_man.png') }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
-                            @elseif ($notification->data['Gender'] === 'Femme')
-                                <img src="{{ asset('uploads/empty_woman1.png') }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
-                            @endif
+  <img src="data:image/jpeg;base64,{{ base64_encode($notification->data['picture']) }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                          
                         </div>
 
                     </div>
                     <div class="flex-grow-1">
                         <div class="small text-gray-500">{{ $notification->created_at->format('F d, Y') }}</div>
-                        <span class="font-weight-bold">{{ $notification->data['message'] }}</span>
+                        <span class="font-weight-bold">{{ $notification->data['name'] }}</span>
                     </div>
                     <div class="ml-4">
-                        <form action="{{ route('confirm-user', ['id' => $notification->data['unconfirmed_user_id']]) }}" method="POST" class="d-inline">
+                        <form action="{{ route('confirm-user', ['id' => $notification->data['id']]) }}" method="POST" class="d-inline">
                             @csrf
                             <button type="submit" class="btn btn-sm btn-primary">Confirm</button>
                         </form>
-                        <form action="{{ route('deletenotif', ['id' => $notification->data['unconfirmed_user_id']]) }}" method="POST" class="d-inline">
+                        <form action="{{ route('deletenotif', ['id' => $notification->data['id']]) }}" method="POST" class="d-inline">
                             @csrf
                             <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to Delete?')">Delete</button>
                         </form>
@@ -636,9 +609,9 @@ $(document).ready(function() {
 
                                     <canvas id="doughnut-chart"></canvas>
 <script>
-    const userCount = <?php echo $userCount; ?>;
+    const userCount = <?php echo $userConfirmed; ?>;
     const userTrash = <?php echo $userTrash; ?>;
-    const userunconfirmed = <?php echo $userunconfirmed; ?>;
+    const userunconfirmed = <?php echo $userUnconfirmed; ?>;
 
     const totalUsers = userCount + userTrash + userunconfirmed;
 
@@ -865,13 +838,13 @@ $(document).ready(function() {
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+        aria-hiden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
+                        <span aria-hiden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>

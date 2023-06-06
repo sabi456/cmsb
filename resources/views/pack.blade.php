@@ -22,14 +22,14 @@
     <section id="pricing-tables">
       <h1 class="text-center">إختر الحزمة الخاصة بك</h1>
       <hr>
-      <div class="container w-100 fuild">
+      <div class="width container fuild">
           <div class="col-md-2 col-sm-6 col-xs-12 color-3">
             <div class="single-table text-center">
                 <div class="plan-header">
                     <h3>شركة تصنيع</h3>
                     <br>
                     <h4 class="text-center plan-price">
-                      &nbsp;&nbsp;1500 &nbsp;&nbsp; <br><span>&nbsp;درهم&nbsp;&nbsp;&nbsp;</span>
+                      &nbsp;&nbsp;1500 &nbsp;&nbsp; <br><span>&nbsp;درهم / العام&nbsp;&nbsp;&nbsp;</span>
                     </h4>
                 </div>
                 <ul class="text-center">
@@ -47,7 +47,7 @@
                       <h3>مقاولة كبيرة</h3>
                       <br>
                       <h4 class="text-center plan-price">
-                        &nbsp;&nbsp;&nbsp;800 &nbsp;&nbsp;&nbsp; <br><span>&nbsp;&nbsp;درهم&nbsp;&nbsp;&nbsp;</span>
+                        &nbsp;&nbsp;&nbsp;800 &nbsp;&nbsp;&nbsp; <br><span>&nbsp;&nbsp;درهم / العام&nbsp;&nbsp;&nbsp;</span>
                       </h4>
                   </div>
                   <ul class="text-center">
@@ -65,7 +65,7 @@
                     <h3>مقاولة متوسطة</h3>
                     <br>
                     <h4 class="text-center plan-price">
-                        &nbsp;&nbsp;&nbsp;400 &nbsp;&nbsp;&nbsp; <br><span>&nbsp;&nbsp;درهم&nbsp;&nbsp;&nbsp;</span>
+                        &nbsp;&nbsp;&nbsp;400 &nbsp;&nbsp;&nbsp; <br><span>&nbsp;&nbsp;درهم / العام&nbsp;&nbsp;&nbsp;</span>
                     </h4>
                 </div>
 
@@ -85,7 +85,7 @@
                     <h3>مقاولة صغيرة</h3>
                     <br>
                     <h4 class="text-center plan-price">
-                        &nbsp;&nbsp;&nbsp;200 &nbsp;&nbsp;&nbsp; <br><span>&nbsp;&nbsp;درهم&nbsp;&nbsp;&nbsp;</span>
+                        &nbsp;&nbsp;&nbsp;200 &nbsp;&nbsp;&nbsp; <br><span>&nbsp;&nbsp;درهم / العام&nbsp;&nbsp;&nbsp;</span>
                     </h4>
                 </div>
 
@@ -95,26 +95,6 @@
                     <li>عدد العمال لا يتجاوز أربعة</li>
                     <li>بائع جوال بمفرده</li>
                     <li>بائع بالتقسيط بمفرده</li>
-                </ul>
-                <a href="{{ route('condition')}}" class="plan-submit hvr-bubble-float-right">أطلب الآن</a>
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-6 col-xs-12 color-1">
-            <div class="single-table text-center">
-                <div class="plan-header">
-                    <h3>مقاول ذاتي</h3>
-                    <br>
-                    <h4 class="text-center plan-price">
-                        &nbsp;&nbsp;&nbsp;100 &nbsp;&nbsp;&nbsp; <br><span>&nbsp;&nbsp;درهم&nbsp;&nbsp;&nbsp;</span>
-                    </h4>
-                </div>
-
-
-                <ul class="text-center">
-                    <li>مقاول ذاتي</li>
-                    <li>مهني </li>
-                    <li>خدماتي </li>
-                    <li>بائع</li>
                 </ul>
                 <a href="{{ route('condition')}}" class="plan-submit hvr-bubble-float-right">أطلب الآن</a>
             </div>

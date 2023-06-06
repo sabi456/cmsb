@@ -57,7 +57,8 @@ class Controller_1 extends Controller
             ]
         );
         $per = Persen::where('cin', $req->cin)->first();
-        if(!$per){
+
+        if (!$per) {
             try {
                 Persen::create([
                     'name' => $req->name,
@@ -69,11 +70,13 @@ class Controller_1 extends Controller
                     'mail' => $req->mail,
                     'note' => $req->note
                 ]);
+
+        
             } catch (\Exception $e) {
-                // Handle the exception (e.g., log the error, display an error message)
                 return "Error: " . $e->getMessage();
             }
-        }else {
+        } else {
+            // Existing user, update the details
             $per->name = $req->name;
             $per->cin = $req->cin;
             $per->city_b = $req->city_b;
@@ -82,16 +85,16 @@ class Controller_1 extends Controller
             $per->phone = $req->phone;
             $per->mail = $req->mail;
             $per->note = $req->note;
+
             try {
                 $per->save();
             } catch (\Exception $e) {
-                // Handle the exception (e.g., log the error, display an error message)
                 return "Error: " . $e->getMessage();
             }
         }
         Session::put('cin', $req->cin);
         return redirect()->route('log2_mo');
-    }
+    }        
 
     public function post_2(Request $req){
         $ice = $req->ice;
@@ -230,19 +233,6 @@ class Controller_1 extends Controller
 
                 return redirect()->route('log4_mo');
             }
-            $data = DB::table('persons')
-                ->join('documents', 'persons.id', '=', 'documents.id')
-                ->where('persons.id', '=', $id)
-                ->get();
-
-            $user = auth()->user();
-            if ($data->Status == 'unconfirmed') {
-                $id = $data->id;
-                $name = $data->name;
-                $picture = $data->pict;
-                // Set default value if image is not set
-                Notification::send($user, new NewUserNotification($id, $name, $picture));
-            }
         }
         return "No file selected or invalid file.";
     }
@@ -263,6 +253,7 @@ class Controller_1 extends Controller
                 'number_v.max' => 'رقم الدفع طويل جدّا'
             ]
         );
+        $user = auth()->user();
         $id = Session::get('id');
         $pay = Pay::where('id', $id)->first();
 
@@ -304,59 +295,19 @@ class Controller_1 extends Controller
                 }
             }
         }
-        return redirect()->route('cong');
-    }
+        $data = Persen::join('documents', 'persens.id', '=', 'documents.id')
+            ->where('persens.id', '=', $id)
+            ->first();
+    
+        if ($data) {
+            $id = $data->id;
+            $name = $data->name;
+            $picture = $data->pict;
 
-    public function post_5(Request $req){
-        $req->validate(
-            [
-                'name' => 'min:6|max:20',
-                'pict' => 'file|mimes:jpg,png,pdf|max:1024',
-            ],
-            [
-                'pict.mimes' => 'نقبل فقط JPG أو PNG أو PDF',
-                'pict.max' => 'لقد تجاوزت 1 MB',
-                'name.min' => 'الإسم قصير جدّا',
-                'name.max' => 'الإسم طويل جدّا'
-            ]
-        );
-        $id = Session::get('id');
-        $pay = Payv::where('id', $id)->first();
+            Notification::send($user, new NewUserNotification($id, $name, $picture));
+            
+        }else echo "error notif !!";
 
-        if(!$pay){
-            try {
-                Payv::create([
-                    'name' => $req->name,
-                    'id' => $id
-                ]);
-            } catch (\Exception $e) {
-                // Handle the exception (e.g., log the error, display an error message)
-                return "Error: " . $e->getMessage();
-            }
-        }else{
-            $pay->name = $req->name;
-            try {
-                $pay->save();
-            } catch (\Exception $e) {
-                // Handle the exception (e.g., log the error, display an error message)
-                return "Error: " . $e->getMessage();
-            }
-        }
-        $doc = Document::where('id', $id)->first();
-        if ($req->hasFile('pict')) {
-            $file1 = $req->file('pict');
-
-            if ($file1->isValid()) {
-                $pict = file_get_contents($file1->getRealPath());
-                $doc->payment_pict = $pict;
-                try {
-                    $doc->save();
-                } catch (\Exception $e) {
-                    // Handle the exception (e.g., log the error, display an error message)
-                    return "Error: " . $e->getMessage();
-                }
-            }
-        }
         return redirect()->route('cong');
     }
 

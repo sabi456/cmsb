@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payvs', function (Blueprint $table) {
-            $table->id('id_payv');
-            $table->string('name')->nullable();
-            $table->unsignedBigInteger('id')->nullable();
-            $table->foreign('id')->references('id')->on('persens');
+        Schema::create('notifications', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('type');
+            $table->morphs('notifiable');
+            $table->text('data');
+            $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payvs');
+        Schema::dropIfExists('notifications');
     }
 };

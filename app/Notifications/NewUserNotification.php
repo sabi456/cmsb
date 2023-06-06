@@ -5,11 +5,12 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
 
 class NewUserNotification extends Notification
 {
-    use Queueable;
+    use Queueable, Notifiable;
 
     /**
      * The ID of the unconfirmed user.
@@ -23,21 +24,22 @@ class NewUserNotification extends Notification
      *
      * @var string
      */
-    public $name;
+    public $picture;
     
     /**
      * The image path of the unconfirmed user.
      *
      * @var string
      */
-    public $picture;
+    public $name;
+ 
+
     /**
      * Create a new notification instance.
      *
-     * @param int $unconfirmedUserId
-     * @param string $unconfirmedUsername
-     * @param string $unconfirmedUserimage
-
+     * @param int $id
+     * @param string $name
+     * @param string $picture
      */
     public function __construct(int $id, string $name, string $picture)
     {
@@ -49,9 +51,9 @@ class NewUserNotification extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @return array<int, string>
+     * @return array
      */
-    public function via(object $notifiable): array
+    public function via($notifiable)
     {
         return ['database'];
     }
@@ -59,13 +61,15 @@ class NewUserNotification extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @return array<string, mixed>
+     * @param  mixed  $notifiable
+     * @return array
      */
-    public function toArray(object $notifiable): array
-    { return [
-        'id' => $this->id,
-        'name' => "A new user {$this->name} has been registered.",
-        'picture' => $this->picture
-    ];
+    public function toArray($notifiable)
+    {
+        return [
+            'id' => $this->id,
+            'name' => "Un nouvel utilisateur {$this->name} a été enregistré.",
+            'picture' => $this->picture,
+        ];
     }
 }

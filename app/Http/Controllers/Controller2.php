@@ -25,7 +25,7 @@ class Controller2 extends Controller
     public function show($id)
     {
         if (auth()->check()) {
-            $post = Post::find($id);
+            $post = Persen::find($id);
             return view('show')->with(['post' => $post]);
         }
         return redirect()->back(); 
@@ -556,6 +556,8 @@ class Controller2 extends Controller
                     $zip->addFile($magasin_pict_path, $magasin_pict_filename);
                     $zip->addFile($entreprise_pict_path, $entreprise_pict_filename);
                     $zip->addFile($payment_pict_path, $payment_pict_filename);
+                }else {
+                    echo "files download error!";
                 }
             }
 
@@ -568,121 +570,59 @@ class Controller2 extends Controller
         // Serve the ZIP archive for download with the appropriate Content-Disposition header
         return response()->download($archivePath, $archiveName, ['Content-Disposition' => 'attachment'])->deleteFileAfterSend(true);
     }
-    public function downloadAlltrash()
-    {
-        $users = Post::onlyTrashed()->get(); // Retrieve only users with NULL value in 'deleted_at' column
-
-        if ($users->isEmpty()) {
-            return redirect('tables')->with([
-                'empty' => 'Table Is Empty !'
-            ]);
-        }
-
-        $archiveName = 'Trash Users.rar';
-        $archivePath = storage_path('app/'.$archiveName);
-
-        // Create a new ZIP archive
-        $zip = new ZipArchive;
-        if ($zip->open($archivePath, ZipArchive::CREATE) === true) {
-            foreach ($users as $user) {
-                $userName = $user->name; // Assuming each user has a "name" property indicating their name
-                $userFolder = $userName . '/'; // Create a folder using the user's name
-
-                // Create the user's folder inside the ZIP archive
-                $zip->addEmptyDir($userFolder);
-
-                $pdf = $user->pdf; // Assuming each user has a "pdf" property indicating their PDF file
-                $pdfPath = public_path('pdfs/'.$pdf);
-                $pdfFilename = $userFolder . $pdf; // Store the PDF inside the user's folder
-
-                $pdf2 = $user->pdf2; // Assuming each user has a "pdf2" property indicating their second PDF file
-                $pdf2Path = public_path('pdfs2/'.$pdf2);
-                $pdf2Filename = $userFolder . $pdf2; // Store the second PDF inside the user's folder
-
-                $image = $user->image; // Assuming each user has an "image" property indicating their image file
-                $imagePath = public_path('uploads/'.$image);
-                $imageFilename = $userFolder . $image; // Store the image inside the user's folder
-
-                // Check if the files exist before adding them to the ZIP archive
-                if (file_exists($pdfPath)) {
-                    $zip->addFile($pdfPath, $pdfFilename);
-                }
-
-                if (file_exists($pdf2Path)) {
-                    $zip->addFile($pdf2Path, $pdf2Filename);
-                }
-
-                if (file_exists($imagePath)) {
-                    $zip->addFile($imagePath, $imageFilename);
-                }
-            }
-
-            // Close the ZIP archive
-            $zip->close();
-        } else {
-            return response()->json(['message' => 'Failed to create ZIP archive'], 500);
-        }
-
-        // Serve the ZIP archive for download with the appropriate Content-Disposition header
-        return response()->download($archivePath, $archiveName, ['Content-Disposition' => 'attachment'])->deleteFileAfterSend(true);
-    }
+    
     public function show_admin()
     {
-        if (auth()->check() && (auth()->user()->status == 'High' )) {
+        if (auth()->check() && (auth()->user()->status == 'High')) {
             $users = User::all();
-            
-            
-
             return view('show_admin')->with([
                 'users' => $users,
             ]);
         }
-        
         return redirect()->back();
     }
 
-public function delete_admin($id)
-{
-    $User = User::findOrFail($id);
+    public function delete_admin($id)
+    {
+        $User = User::findOrFail($id);
 
-    $User->delete(); // Soft delete the post
+        $User->delete(); // Soft delete the post
 
-    return redirect('show_admin')->with([
-        'delete_admin' => 'Admin Deleted'
-    ]);
-}
-
-public function up(Request $request, $id)
-{
-    // Validate the form input
-    $request->validate([
-        'name' => 'required',
-        'email' => 'required|email',
-        'status' => 'required'
-    ]);
-
-    // Retrieve the user by ID
-    $user = User::find($id);
-
-    if (!$user) {
-        // Handle the case if the user is not found
-        return redirect()->back()->with('error_admin', 'User not found');
+        return redirect('show_admin')->with([
+            'delete_admin' => 'Admin Deleted'
+        ]);
     }
 
-    // Update the user information
-    $user->name = $request->input('name');
-    $user->email = $request->input('email');
-    $user->status = $request->input('status');
+    public function up(Request $request, $id)
+    {
+        // Validate the form input
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'status' => 'required'
+        ]);
 
-    // Save the changes
-    if ($user->isDirty()) {
-        $user->save();
-        return redirect()->back()->with('success_admin', 'Admin updated successfully');
-    }else{
-        return redirect()->back()->with('info_admin', 'No changes made');
+        // Retrieve the user by ID
+        $user = User::find($id);
 
+        if (!$user) {
+            // Handle the case if the user is not found
+            return redirect()->back()->with('error_admin', 'User not found');
+        }
+
+        // Update the user information
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->status = $request->input('status');
+
+        // Save the changes
+        if ($user->isDirty()) {
+            $user->save();
+            return redirect()->back()->with('success_admin', 'Admin updated successfully');
+        }else{
+            return redirect()->back()->with('info_admin', 'No changes made');
+
+        }
     }
-    
-}
 
 }
