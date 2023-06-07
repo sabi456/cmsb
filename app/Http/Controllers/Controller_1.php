@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use ZipArchive;
 use App\Models\Pay;
 use App\Models\Payv;
 use App\Models\Akhbar;
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use App\Notifications\NewUserNotification;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Response;
+
 
 class Controller_1 extends Controller
 {
@@ -36,7 +39,7 @@ class Controller_1 extends Controller
         $req->validate(
             [
                 'name' => 'min:6|max:20',
-                'cin' => 'min:4|max:8',
+                'cin' => 'min:4|max:8|unique:posts',
                 'city_b' => 'min:2|max:15',
                 'adress' => 'min:5|max:40',
                 'phone' => 'min:10|max:14',
@@ -47,6 +50,7 @@ class Controller_1 extends Controller
                 'name.max' => 'الإسم طويل جدّا',
                 'cin.min' => 'رقم البطاقة قصير جدّا',
                 'cin.max' => 'رقم البطاقة طويل جدّا',
+                'cin.unique' => 'انت بالفعل منخرط',
                 'city_b.min' => 'إسم المدينة قصير جدّا',
                 'city_b.max' => 'إسم المدينة طويل جدّا',
                 'adress.min' => 'العنوان قصير جدّا',
@@ -212,6 +216,44 @@ class Controller_1 extends Controller
                             'payment_pict' => null,
                             'id' => $id
                         ]);
+
+                        $per = Document::where('id', $id)->first();
+
+                        if ($req->hasFile('pict') && $req->hasFile('cin_pict') && $req->hasFile('magasin_pict') && $req->hasFile('entreprise_pict')) {
+                            // Upload the new image if provided
+                            $image_name1 = time() . '_' . $file1->getClientOriginalName();
+                            $file1->move(public_path('uploads'), $image_name1);
+
+                            $image_name2 = time() . '_' . $file2->getClientOriginalName();
+                            $file2->move(public_path('uploads'), $image_name2);
+
+                            $image_name3 = time() . '_' . $file3->getClientOriginalName();
+                            $file3->move(public_path('uploads'), $image_name3);
+
+                            $image_name4 = time() . '_' . $file4->getClientOriginalName();
+                            $file4->move(public_path('uploads'), $image_name4);
+                            
+                            // Delete the old image if it exists
+                            if ($per->pict && $per->cin_pict && $per->magasin_pict && $per->entreprise_pict) {
+                                $old_image_path1 = public_path('uploads') . '/' . $per->pict;
+                                $old_image_path2 = public_path('uploads') . '/' . $per->cin_pict;
+                                $old_image_path3 = public_path('uploads') . '/' . $per->magasin_pict;
+                                $old_image_path4 = public_path('uploads') . '/' . $per->entreprise_pict;
+                                
+                                if (file_exists($old_image_path1) && file_exists($old_image_path2) && file_exists($old_image_path3) && file_exists($old_image_path4)) {
+                                    unlink($old_image_path1);
+                                    unlink($old_image_path2);
+                                    unlink($old_image_path3);
+                                    unlink($old_image_path4);
+                                }
+                            }
+                    
+                            $per->pict = $image_name1;
+                            $per->cin_pict = $image_name2;
+                            $per->magasin_pict = $image_name3;
+                            $per->entreprise_pict = $image_name4;
+                        }
+
                     } catch (\Exception $e) {
                         // Handle the exception (e.g., log the error, display an error message)
                         return "Error: " . $e->getMessage();
@@ -258,19 +300,19 @@ class Controller_1 extends Controller
         $pay = Pay::where('id', $id)->first();
 
         if(!$pay){
+            $pay1 = new Pay();
+            $pay1->payer = $req->name;
+            $pay1->number_v = $req->number_v;
+            $pay1->pay_name = $req->pay_name;
+            $pay1->id = $id;
             try {
-                Pay::create([
-                    'name' => $req->name,
-                    'number_v' => $req->number_v,
-                    'pay_name' => $req->pay_name,
-                    'id' => $id
-                ]);
+                $pay1->save();
             } catch (\Exception $e) {
                 // Handle the exception (e.g., log the error, display an error message)
                 return "Error: " . $e->getMessage();
             }
         }else{
-            $pay->name = $req->name;
+            $pay->payer = $req->name;
             $pay->number_v = $req->number_v;
             $pay->pay_name = $req->pay_name;
             try {
@@ -282,20 +324,34 @@ class Controller_1 extends Controller
         }
         $doc = Document::where('id', $id)->first();
         if ($req->hasFile('pict')) {
-            $file1 = $req->file('pict');
+            $file = $req->file('pict');
 
-            if ($file1->isValid()) {
-                $pict = file_get_contents($file1->getRealPath());
+            if ($file->isValid()) {
+                $pict = file_get_contents($file->getRealPath());
                 $doc->payment_pict = $pict;
                 try {
                     $doc->save();
+
+                    $image_name = time() . '_' . $file->getClientOriginalName();
+                    $file->move(public_path('uploads'), $image_name);
+                    
+                    // Delete the old image if it exists
+                    if ($doc->payment_pict) {
+                        $old_image_path = public_path('uploads') . '/' . $doc->payment_pict;
+                        if (file_exists($old_image_path)) {
+                            unlink($old_image_path);
+                        }
+                    }
+                    $doc->payment_pict = $image_name;
+                    
                 } catch (\Exception $e) {
                     // Handle the exception (e.g., log the error, display an error message)
                     return "Error: " . $e->getMessage();
                 }
             }
         }
-        $data = Persen::join('documents', 'persens.id', '=', 'documents.id')
+
+        $data = Document::join('persens', 'persens.id', '=', 'documents.id')
             ->where('persens.id', '=', $id)
             ->first();
     
@@ -448,6 +504,6 @@ class Controller_1 extends Controller
         else $s = 'منتهي';
         return $s;
     }
-    
+
 }
 

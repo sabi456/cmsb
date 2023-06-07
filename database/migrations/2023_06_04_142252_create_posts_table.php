@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('cin');
-            $table->string('city_b');
-            $table->date('date_b');
+            $table->string('city_b')->nullable();
+            $table->date('date_b')->nullable();
             $table->string('adress');
             $table->string('phone');
-            $table->string('mail');
-            $table->string('note');
+            $table->string('mail')->nullable();
+            $table->string('note')->nullable();
             $table->binary('pict');
             $table->binary('cin_pict');
             $table->binary('magasin_pict');
@@ -33,8 +33,8 @@ return new class extends Migration
             $table->string('adress_e');
             $table->string('ice');
             $table->string('rc');
-            $table->string('payer');
-            $table->string('number_v')->nullable();
+            $table->string('payer')->nullable();
+            $table->string('number_v');
             $table->string('pay_name');
             $table->string('status');
             $table->integer('user_id')->default(0);

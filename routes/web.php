@@ -70,17 +70,23 @@ Route::get('/أعضاء-الجمعية', [Controller_1::class, 'team'])->name('t
 
 Route::get('/admin/{name?}', [Controller2::class, 'admin'])->name('admin');
 
-Route::get('/tables/{name?}', [Controller2::class, 'tables'])->name('tables');
+Route::get('/unconfirmed', [Controller2::class, 'unconfirmed'])->name('unconfirmed');
+
+Route::get('/confirmed', [Controller2::class, 'confirmed'])->name('confirmed');
 
 Route::any('confirm-user/{id}', [Controller2::class, 'confirmUser'])->name('confirm-user');
 
-Route::get('/post/{id}', [Controller2::class, 'show'])->name('post.show');
+Route::get('/post/{id?}', [Controller2::class, 'show'])->name('post.show');
+
+Route::get('/post1/{id?}', [Controller2::class, 'show1'])->name('post1.show');
 
 Route::get('/edit/post/{id}', [Controller2::class, 'edit'])->name('post.edit');
 
 Route::put('/update/post/{id}', [Controller2::class, 'update'])->name('post.update');
 
 Route::delete('/delete/post/{id}', [Controller2::class, 'delete'])->name('post.delete');
+
+Route::delete('/delete/soft_delete/{id}', [Controller2::class, 'softd'])->name('softd');
 
 Route::delete('/deleted/post2/{id}', [Controller2::class, 'perma'])->name('post.perma');
 
@@ -100,7 +106,7 @@ Route::any('/deleteUser/{id}', [Controller2::class, 'deletenotif'])->name('delet
 
 Route::any('/deleteUsers', [Controller2::class, 'deleteall'])->name('deleteall');
 
-Route::get('/download-rar/{pdf}/{pdf2}/{name}/{image?}', [Controller2::class, 'downloadRAR'])->name('downloadRAR');
+Route::get('/download-rar/{id}', [Controller2::class, 'downloadRAR'])->name('downloadRAR');
 
 Route::get('/trashRAR/{pdf}/{pdf2}/{name}/{image?}', [Controller2::class, 'trashRAR'])->name('trashRAR');
 

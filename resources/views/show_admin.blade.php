@@ -30,116 +30,17 @@
   }
 </style>
 </head>
-
+@section('active_ad')
+    active
+@endsection
 
 <body id="page-top">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                @if(auth()->check())
-
-                <div class="sidebar-brand-text mx-3">Welcome  {{ auth()->user()->name }}</div>
-            </a>@endif
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <div>
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('admin')}}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span style="font-size:20px;">Dashboard</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading" style="font-size:20px;">
-                Interface
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span style="font-size:20px;">Components</span>
-                </a>
-                
-           
-            </li>
-            <li class="nav-item active" >
-                <a class="nav-link " href="{{route ('show_admin')}}">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span style="font-size:20px;">Admin </span>
-                </a>
-                
-           
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span style="font-size:20px;">Utilities</span>
-                </a>
-             
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading" style="font-size:20px;">
-                Addons
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span style="font-size:20px;">Pages</span>
-                </a>
+        @include('master.side_bar')
         
-            </li>
-
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span style="font-size:20px;">Charts</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item ">
-                <a class="nav-link" href="{{ route ('tables')}}">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span style="font-size:20px;">Tables</span></a>
-            </li></div>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-        </ul>
-        <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -369,7 +270,6 @@
                 <th class="text-center">Name</th>
                 <th class="text-center">E-mail</th>
                 <th class="text-center">Status</th>
-                <th class="text-center">Image</th>
     
             </tr>
         </thead>
@@ -379,14 +279,7 @@
                     <td class="text-center">{{$t->id}}</td></form>
                     <td class="text-center">{{$t->name}}</td>
                     <td class="text-center">{{$t->email}}</td>
-                    <td class="text-center">{{$t->status}}</td>
-                    <td class="text-center">
-                        @if(isset($t->profile_photo_path))
-                            <a href="{{ asset('./storage/'.$t->profile_photo_path) }}" download>Download Image</a>
-                        @else
-                            File not available
-                        @endif
-                    </td>                   
+                    <td class="text-center">{{$t->status}}</td>       
                  
                 </tr>
             @endforeach
@@ -473,16 +366,6 @@
             </div>
             <!-- End of Main Content -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-
         </div>
         <!-- End of Content Wrapper -->
 
@@ -515,6 +398,27 @@
     <script src="js/demo/datatables-demo.js"></script>
 
 </body>
+<script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+  <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src= href="{{ asset('js/sb-admin-2.min.js')}}" ></script>
+
+  <!-- Page level plugins -->
+  <script src="{{ asset('vendor/chart.js/Chart.min.js')}}"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
+  <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
+  <script src="{{ asset('js/demo/chart-bar-demo.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://kit.fontawesome.com/ce7b98fac5.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.5.0/js/bootstrap.bundle.min.js"></script>
 <script charset="utf8" type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script charset="utf8" type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script charset="utf8" type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
@@ -571,81 +475,13 @@ $(document).ready(function() {
                     
                     xlsx.xl.worksheets['sheet1.xml'] = sheet;
                 }
-            },
-            {
-                extend: 'pdf',
-                text: 'PDF',
-                exportOptions: {
-                    columns: [0, 1, 2, 3, 4] // Specify the column indexes to include (id, name, age, salary)
-                }
-            },
-            {
-                extend: 'print',
-                text: 'Print',
-                exportOptions: {
-                    columns: [0, 1, 2, 3, 4] // Specify the column indexes to include (id, name, age, salary)
-                }
             }
         ],
-        lengthMenu: [5,10, 15, 20, 25, 50, 100, 200, 300]
+        lengthMenu: [1,10, 15, 20, 25, 50, 100, 200, 300, 1000]
 
     });
 });
 </script>
-<script>
-$(document).ready(function() {
-    $('#example2').DataTable({
-        dom: 'lBfrtip',
-        buttons: [
-            'copy',
-            
-            {
-                extend: 'excel',
-                text: 'Excel',
-                filename: 'Trash Users',
-                customize: function(xlsx) {
-                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
-                    var data = sheet.getElementsByTagName('row');
-                    
-                    // Remove unwanted columns
-                    for (var i = data.length - 1; i >= 0; i--) {
-                        var cells = data[i].getElementsByTagName('c');
-                        for (var j = cells.length - 1; j >= 0; j--) {
-                            var cell = cells[j];
-                            var column = cell.getAttribute('r').replace(/[0-9]/g, '');
-                            
-                            // Check if the column header is not in the allowed list
-                            if (column !== 'A' && column !== 'B' && column !== 'C' && column !== 'D') {
-                                data[i].removeChild(cell);
-                            }
-                        }
-                    }
-                    
-                    xlsx.xl.worksheets['sheet1.xml'] = sheet;
-                }
-            },
-            {
-                extend: 'pdf',
-                text: 'PDF',
-                exportOptions: {
-                    columns: [0, 1, 2, 3] // Specify the column indexes to include (id, name, age, salary)
-                }
-            },
-            {
-                extend: 'print',
-                text: 'Print',
-                exportOptions: {
-                    columns: [0, 1, 2, 3] // Specify the column indexes to include (id, name, age, salary)
-                }
-            }
-        ],
-        // pageLength: 5, // Display 5 records per page
-        lengthMenu: [5,10, 15, 20, 25, 50, 100, 200, 300]
-
-    });
-});
-</script>
-
 
 
 <script>

@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Notifications\NewUserNotification;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Response;
 
 class Controller2 extends Controller
 {
@@ -25,10 +26,41 @@ class Controller2 extends Controller
     public function show($id)
     {
         if (auth()->check()) {
-            $post = Persen::find($id);
+            $post = DB::table('persens')
+                ->join('entreprises', 'persens.id', '=', 'entreprises.id')
+                ->join('documents', 'persens.id', '=', 'documents.id')
+                ->join('pays', 'persens.id', '=', 'pays.id')
+                ->select('persens.*', 'entreprises.*', 'documents.*', 'pays.*')
+                ->where('persens.id', '=', $id)
+                ->first();
+
             return view('show')->with(['post' => $post]);
         }
         return redirect()->back(); 
+    }
+
+    public function show1($id)
+    {
+        if (auth()->check()) {
+            $post = DB::table('posts')
+                ->where('posts.id', '=', $id)
+                ->first();
+
+            return view('show1')->with(['post' => $post]);
+        }
+        return redirect()->back(); 
+    }
+
+    public function softd($id)
+    {
+        if (auth()->check()) {
+            $post = DB::table('posts')
+                ->where('posts.id', '=', $id)
+                ->first();
+
+            return view('show1')->with(['post' => $post]);
+        }
+        return view('admin');
     }
 
     public function deleted_users($id)
@@ -112,16 +144,15 @@ class Controller2 extends Controller
         ]);
     }
 
-    public function tables()
+    public function unconfirmed()
     {
         if (auth()->check()) {
             //softDeletedUserCount = Post::onlyTrashed()->count();
-            $posts = Post::all();
+            $posts = Persen::all();
             
-            $deletedUsers = Post::onlyTrashed()->get();
-            return view('tables')->with([
+            //$deletedUsers = Post::onlyTrashed()->get();
+            return view('unconfirmed')->with([
                 'posts' => $posts,
-                'deletedUsers' => $deletedUsers
             ]);
         }
         return redirect()->back();
@@ -229,19 +260,22 @@ class Controller2 extends Controller
     public function delete($id)
     {
         if (auth()->check() && (auth()->user()->status == 'high' || auth()->user()->status == 'Medium')) {
-            $user = auth()->user();
-            $post = Post::findOrFail($id);
-
-            if ($post) {
-                $post->user_id3 = $user->id;
-                $post->save(); // Save the user_id3 value before soft deleting
-
-                $post->delete(); // Soft delete the post
-
-                return redirect('tables')->with([
-                    'delete' => 'User Deleted'
-                ]);
-            }
+             // Delete the unconfirmed user record
+            DB::table('documents')
+                ->where('id', '=', $id)
+                ->delete();
+            DB::table('entreprises')
+                ->where('id', '=', $id)
+                ->delete();
+            DB::table('pays')
+                ->where('id', '=', $id)
+                ->delete();
+            DB::table('persens')
+                ->where('id', '=', $id)
+                ->delete();
+            
+            //Delete the notification for the specific unconfirmed user
+            DB::table('notifications')->where('id', $id)->delete();
         }
 
         return redirect()->back();
@@ -315,8 +349,7 @@ class Controller2 extends Controller
             ->join('entreprises', 'persens.id', '=', 'entreprises.id')
             ->join('documents', 'persens.id', '=', 'documents.id')
             ->join('pays', 'persens.id', '=', 'pays.id')
-            ->join('payvs', 'persens.id', '=', 'payvs.id')
-            ->select('persens.*', 'entreprises.*', 'documents.*', 'pays.*', 'payvs.*')
+            ->select('persens.*', 'entreprises.*', 'documents.*', 'pays.*')
             ->where('persens.id', '=', $id)
             ->first();
         
@@ -350,7 +383,11 @@ class Controller2 extends Controller
         $post->pay_name = $data->pay_name;
         $post->status = 'Confirmed';
         // Set other attributes if needed
-        $post->save();
+        try {
+            $post->save();
+        } catch (\Exception $e) {
+            return "Error: " . $e->getMessage();
+        }
 
         // Delete the unconfirmed user record
         DB::table('documents')
@@ -362,17 +399,12 @@ class Controller2 extends Controller
         DB::table('pays')
             ->where('id', '=', $id)
             ->delete();
-        DB::table('payvs')
-            ->where('id', '=', $id)
-            ->delete();
         DB::table('persens')
             ->where('id', '=', $id)
             ->delete();
         
-        // Delete the notification for the specific unconfirmed user
-        // $notificationsToDelete = DB::table('notifications')
-        //     ->where('data->unconfirmed_user_id', $id);    
-        // $notificationsToDelete->delete();
+        //Delete the notification for the specific unconfirmed user
+        DB::table('notifications')->where('id', $id)->delete();
 
         return redirect('admin')->with([
             'success' => 'User confirmed and moved to posts',
@@ -381,9 +413,13 @@ class Controller2 extends Controller
 
     public function confirmed()
     {
+        $posts = Post::all();
         if (auth()->check() && (auth()->user()->status == 'High' || auth()->user()->status == 'Medium'  )) {
-            return view('confirmed');
+            return view('confirmed')->with([
+                'posts' => $posts,
+            ]);
         }
+        
         return redirect()->back();
     }
 
@@ -457,26 +493,54 @@ class Controller2 extends Controller
     //     ]);
     // }
 
-    public function downloadRAR($name, $pict, $cin_pict, $magasin_pict, $entreprise_pict, $paymeny_pict)
+    public function downloadRAR($id)
     {
-        $archiveName = $name .'.rar';
+        $data = DB::table('persens')
+            ->join('documents', 'persens.id', '=', 'documents.id')
+            ->select('persens.*', 'documents.*')
+            ->where('persens.id', '=', $id)
+            ->first();
+    
+        if (!$data) {
+            return "Error: Data not found.";
+        }
+    
+        $name = $data->name;
+        $pict = $data->pict;
+        $cin_pict = $data->cin_pict;
+        $magasin_pict = $data->magasin_pict;
+        $entreprise_pict = $data->entreprise_pict;
+        $payment_pict = $data->payment_pict;
+    
+        $archiveName = 'Table Users.rar';
         $archivePath = storage_path('app/'.$archiveName);
-
+    
         // Create a new ZIP archive
         $zip = new ZipArchive;
-        if ($zip->open($archivePath, ZipArchive::CREATE) === true) {
-            // Add the PDF files to the ZIP archive
-            $zip->addFile(public_path('pict/'.$pict), $pict);
-            $zip->addFile(public_path('cin_pict/'.$cin_pict), $cin_pict);
-            $zip->addFile(public_path('magasin_pict/'.$magasin_pict), $magasin_pict);
-            $zip->addFile(public_path('entreprise_pict/'.$entreprise_pict), $entreprise_pict);
-            $zip->addFile(public_path('paymeny_pict/'.$paymeny_pict), $paymeny_pict);
-            // Close the ZIP archive
-            $zip->close();
+        if ($zip->open($archivePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
+            if (file_exists(public_path('uploads/'.$pict))) {
+                // Add the files to the ZIP archive
+                $zip->addFile(public_path('uploads/'.$pict), $pict);
+                $zip->addFile(public_path('uploads/'.$cin_pict), $cin_pict);
+                $zip->addFile(public_path('uploads/'.$magasin_pict), $magasin_pict);
+                $zip->addFile(public_path('uploads/'.$entreprise_pict), $entreprise_pict);
+                $zip->addFile(public_path('uploads/'.$payment_pict), $payment_pict);
+    
+                // Close the ZIP archive
+                $zip->close();
+    
+                // Serve the ZIP archive for download
+                if (file_exists($archivePath)) {
+                    return Response::download($archivePath, $archiveName);
+                } else {
+                    return "Error: The ZIP archive was created, but it is not available for download.";
+                }
+            } else {
+                return "Error: File not found.";
+            }
+        } else {
+            return "Error: Failed to create the ZIP archive.";
         }
-
-        // Serve the ZIP archive for download
-        return response()->download($archivePath);
     }
 
     public function trashRAR($name, $pict, $cin_pict, $magasin_pict, $entreprise_pict, $paymeny_pict)

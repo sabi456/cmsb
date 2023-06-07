@@ -48,82 +48,116 @@
                                 <div class="card-body">
                                     <div class="table-responsive">
                                     
-                                    
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <table class="table">
                     <tr>
                         <th class="text-center">ID : </th>
+                        <td>{{$post->id}}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-center">IDD : </th>
+                        <td>{{$post->id_d}}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-center">PHOTO : </th>
+                        <td><img width="200" src="data:image/jpeg;base64,{{ base64_encode($post->payment_pict) }}" alt=""></td>
                     </tr>
                     <tr>
                         <th class="text-center">Nom complet : </th>
+                        <td>{{$post->name}}</td>
                     </tr>
                     <tr>
                         <th class="text-center">CIN : </th>
+                        <td>{{$post->cin}}</td>
                     </tr>
                     <tr>
                         <th class="text-center">Date de naissance : </th>
+                        <td>{{$post->date_b}}</td>
                     </tr>
                     <tr>
                         <th class="text-center">Lieu de naissance : </th>
+                        <td>{{$post->city_b}}</td>
                     </tr>
                     <tr>
                         <th class="text-center">Adresse : </th>
+                        <td>{{$post->adress}}</td>
                     </tr>
                     <tr>
                         <th class="text-center">Phone : </th>
+                        <td>{{$post->phone}}</td>
                     </tr>
                     <tr>
                         <th class="text-center">E-mail : </th>
+                        <td>{{$post->mail}}</td>
                     </tr>
                     <tr>
                         <th class="text-center">Note : </th>
+                        <td>{{$post->note}}</td>
                     </tr>
                     <tr>
                         <th class="text-center">Date d'inscription : </th>
+                        <td>{{$post->created_at}}</td>
                     </tr>
                     <tr>
                         <th class="text-center">Nom de l'entreprise : </th>
+                        <td>{{$post->name_e}}</td>
                     </tr>
                     <tr>
                         <th class="text-center">Catégorie : </th>
+                        <td>{{$post->cat}}</td>
                     </tr>
                     <tr>
                         <th class="text-center">Phone de l'entreprise : </th>
+                        <td>{{$post->phone_e}}</td>
                     </tr>
                     <tr>
                         <th class="text-center">Nombre des employés : </th>
+                        <td>{{$post->nbr_of_em}}</td>
                     </tr>
                     <tr>
                         <th class="text-center">Adress de l'entreprise : </th>
+                        <td>{{$post->adress_e}}</td>
                     </tr>
                     <tr>
                         <th class="text-center">ICE : </th>
+                        <td>{{$post->ice}}</td>
                     </tr>
                     <tr>
                         <th class="text-center">RC : </th>
+                        <td>{{$post->rc}}</td>
                     </tr>
                     <tr>
-                        <th class="text-center">Phone de l'entreprise : </th>
+                        <th class="text-center">Mode de payment : </th>
+                        <td>{{$post->pay_name}}</td>
                     </tr>
                     <tr>
-                        <th class="text-center">Nombre des employés : </th>
+                        <th class="text-center">Nom de Payeur : </th>
+                        <td>{{$post->payer}}</td>
                     </tr>
-                   
                     <tr>
-                        <th class="text-center"></th>
-                        <th class="text-center">{{$post->name}}</th>
-                        <th class="text-center">{{$post->cin}}</th>
-                        <th class="text-center">{{$post->adress}}</th>
-                        <th style="color:red;" class="text-center">{{$post->user1 ? $post->user1->name : null}}</th>
-                        <th style="color:red;" class="text-center">{{$post->user2 ? $post->user2->name : null}}</th>
-
+                        <th class="text-center">Les documents : </th>
+                        <td>
+                            <form action="{{ route('downloadRAR', ['id' => $post->id]) }}" method="get">
+                                <button type="submit" class="btn btn-sm btn-primary w-50">Télécharger</button>
+                            </form>
+                            
+                            
+                            
+                        </td>
                     </tr>
 
                 </table>
-                <div class="text-center"><a href="{{ route('tables') }}" class="btn btn-danger">Retour</a></div>
-
-        </form>
+                <br>
+                <form action="{{ route('confirm-user', ['id' => $post->id]) }}" method="post">
+                    <a href="{{ route('admin')}}" class="btn btn-sm btn-danger">< Retour</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button onclick="return confirm('Etes-vous sure ?')" type="submit" class=" btn btn-sm btn-primary">Confirmer</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <form action="{{ route('post.delete', ['id' => $post->id]) }}" method="post">
+                        <button onclick="return confirm('Etes-vous sure ?')" type="submit" class=" btn btn-sm btn-warning">Refuser</button>
+                    </form>
+                </form>
 
                                     </div>
                                 </div>

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pays', function (Blueprint $table) {
             $table->id('id_pay');
-            $table->string('name')->nullable();
+            $table->string('payer')->nullable();
             $table->string('number_v')->unique()->nullable();
             $table->string('pay_name');
             $table->unsignedBigInteger('id')->nullable();
