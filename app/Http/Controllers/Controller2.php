@@ -54,94 +54,94 @@ class Controller2 extends Controller
     public function softd($id)
     {
         if (auth()->check()) {
-            $post = DB::table('posts')
-                ->where('posts.id', '=', $id)
-                ->first();
-
-            return view('show1')->with(['post' => $post]);
+            $post = Post::findOrFail($id);
+            $post->delete();
         }
-        return view('admin');
+        return redirect('admin');
     }
-
-    public function deleted_users($id)
+    
+    public function deleted()
     {
         if (auth()->check()) {
-            $del = Post::onlyTrashed()->find($id);
-            return view('showdeleted')->with(['del' => $del]);
+            $posts = Post::onlyTrashed()->get();
+            return view('deleted')->with(['posts' => $posts]);
         }
-        
         return redirect()->back(); 
     }
 
     public function admin()
     {
-        // Count the total number of posts
-        $userConfirmed = Post::where('status', 'confirmed')->count();
-        $userUnconfirmed = Persen::where('status', 'unconfirmed')->count();
+        if (auth()->check()) {
+            // Count the total number of posts
+            $userConfirmed = Post::where('status', 'confirmed')->count();
+            $userUnconfirmed = Persen::where('status', 'unconfirmed')->count();
 
-        // Count the number of posts in the trash (soft deleted)
-        $userTrash = Post::onlyTrashed()->count();
-        
-        // Retrieve the monthly registrations data
-        $registrations = Post::selectRaw('MONTH(created_at) as month, COUNT(*) as created_count')
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get();
+            // Count the number of posts in the trash (soft deleted)
+            $userTrash = Post::onlyTrashed()->count();
+            
+            // Retrieve the monthly registrations data
+            $registrations = Post::selectRaw('MONTH(created_at) as month, COUNT(*) as created_count')
+                ->groupBy('month')
+                ->orderBy('month')
+                ->get();
 
-        // Retrieve the monthly deleted registrations data
-        $deletedRegistrations = Post::onlyTrashed()
-            ->selectRaw('MONTH(deleted_at) as month, COUNT(*) as deleted_count')
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get();
+            // Retrieve the monthly deleted registrations data
+            $deletedRegistrations = Post::onlyTrashed()
+                ->selectRaw('MONTH(deleted_at) as month, COUNT(*) as deleted_count')
+                ->groupBy('month')
+                ->orderBy('month')
+                ->get();
 
-        // Retrieve the monthly unconfirmed users data
-        $unconfirmedUsers = Persen::selectRaw('MONTH(created_at) as month, COUNT(*) as created_count')
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get();
+            // Retrieve the monthly unconfirmed users data
+            $unconfirmedUsers = Persen::selectRaw('MONTH(created_at) as month, COUNT(*) as created_count')
+                ->groupBy('month')
+                ->orderBy('month')
+                ->get();
 
-        // Initialize arrays to store labels, created data, deleted data, and unconfirmed users data
-        $labels = [];
-        $createdData = [];
-        $deletedData = [];
-        $unconfirmedUsersData = [];
+            // Initialize arrays to store labels, created data, deleted data, and unconfirmed users data
+            $labels = [];
+            $createdData = [];
+            $deletedData = [];
+            $unconfirmedUsersData = [];
 
-        // Loop through each month (from 1 to 12) to populate the data arrays
-        for ($month = 1; $month <= 12; $month++) {
-            // Get the month name based on the month number
-            $monthName = date('F', mktime(0, 0, 0, $month, 1));
-            $labels[] = $monthName;
+            // Loop through each month (from 1 to 12) to populate the data arrays
+            for ($month = 1; $month <= 12; $month++) {
+                // Get the month name based on the month number
+                $monthName = date('F', mktime(0, 0, 0, $month, 1));
+                $labels[] = $monthName;
 
-            // Find the registration data for the current month
-            $registration = $registrations->firstWhere('month', $month);
+                // Find the registration data for the current month
+                $registration = $registrations->firstWhere('month', $month);
 
-            // Find the deleted registration data for the current month
-            $deletedRegistration = $deletedRegistrations->firstWhere('month', $month);
+                // Find the deleted registration data for the current month
+                $deletedRegistration = $deletedRegistrations->firstWhere('month', $month);
 
-            // Find the unconfirmed users data for the current month
-            $unconfirmedUser = $unconfirmedUsers->firstWhere('month', $month);
+                // Find the unconfirmed users data for the current month
+                $unconfirmedUser = $unconfirmedUsers->firstWhere('month', $month);
 
-            // Store the count of created registrations for the current month, or 0 if not found
-            $createdData[] = $registration ? $registration->created_count : 0;
+                // Store the count of created registrations for the current month, or 0 if not found
+                $createdData[] = $registration ? $registration->created_count : 0;
 
-            // Store the count of deleted registrations for the current month, or 0 if not found
-            $deletedData[] = $deletedRegistration ? $deletedRegistration->deleted_count : 0;
+                // Store the count of deleted registrations for the current month, or 0 if not found
+                $deletedData[] = $deletedRegistration ? $deletedRegistration->deleted_count : 0;
 
-            // Store the count of unconfirmed users for the current month, or 0 if not found
-            $unconfirmedUsersData[] = $unconfirmedUser ? $unconfirmedUser->created_count : 0;
+                // Store the count of unconfirmed users for the current month, or 0 if not found
+                $unconfirmedUsersData[] = $unconfirmedUser ? $unconfirmedUser->created_count : 0;
+            }
+
+            // Return a view called 'admin' with the necessary data passed to it
+            return view('admin')->with([
+                'userConfirmed' => $userConfirmed,
+                'userTrash' => $userTrash,
+                'labels' => $labels,
+                'createdData' => $createdData,
+                'deletedData' => $deletedData,
+                'userUnconfirmed' => $userUnconfirmed,
+                'unconfirmedUsersData' => $unconfirmedUsersData,
+            ]);
         }
+        else return view('auth.login');
 
-        // Return a view called 'admin' with the necessary data passed to it
-        return view('admin')->with([
-            'userConfirmed' => $userConfirmed,
-            'userTrash' => $userTrash,
-            'labels' => $labels,
-            'createdData' => $createdData,
-            'deletedData' => $deletedData,
-            'userUnconfirmed' => $userUnconfirmed,
-            'unconfirmedUsersData' => $unconfirmedUsersData,
-        ]);
     }
 
     public function unconfirmed()
@@ -168,6 +168,11 @@ class Controller2 extends Controller
             ]);
         }
         return redirect()->back();
+    }
+
+    public function edit1()
+    {
+        return view('edit1');
     }
 
     public function update(Request $req, $id)
@@ -259,8 +264,7 @@ class Controller2 extends Controller
 
     public function delete($id)
     {
-        if (auth()->check() && (auth()->user()->status == 'high' || auth()->user()->status == 'Medium')) {
-             // Delete the unconfirmed user record
+            // Delete the unconfirmed user record
             DB::table('documents')
                 ->where('id', '=', $id)
                 ->delete();
@@ -276,9 +280,8 @@ class Controller2 extends Controller
             
             //Delete the notification for the specific unconfirmed user
             DB::table('notifications')->where('id', $id)->delete();
-        }
 
-        return redirect()->back();
+            return view ('admin');
     }
     
     public function perma($id)
@@ -688,5 +691,6 @@ class Controller2 extends Controller
 
         }
     }
-
+ 
+    
 }

@@ -36,21 +36,16 @@
 
 <body id="page-top">
     <div class="container text-center my-4">
-        <h1 class="m-0 font-weight-bold text-primary" >Informations of user</h1>       
+        <h1 class="m-0 font-weight-bold text-primary" >Les informations de l'engageur</h1>       
                                 <div class="card-body">
                                     <div class="table-responsive">
         <div  id="table">                            
         <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                            
-                                </div>
                                 
                                 <div class="card-body">
                                     <div class="table-responsive">
                                     
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                <table class="table">
                     <tr>
                         <th class="text-center">ID : </th>
                         <td>{{$post->id}}</td>
@@ -121,32 +116,23 @@
                         <td>{{$post->rc}}</td>
                     </tr>
                     <tr>
-                        <th class="text-center">Mode de payment : </th>
-                        <td>{{$post->pay_name}}</td>
-                    </tr>
-                    <tr>
-                        <th class="text-center">Nom de Payeur : </th>
-                        <td>{{$post->payer}}</td>
-                    </tr>
-                    <tr>
                         <th class="text-center">Les documents : </th>
                         <td>
                             <form action="{{ route('downloadRAR', ['id' => $post->id]) }}" method="get">
                                 <button type="submit" class="btn btn-sm btn-primary w-50">Télécharger</button>
                             </form>
-                            
-                            
-                            
                         </td>
                     </tr>
 
                 </table>
                 <br>
-                <form action="{{ route('softd', ['id' => $post->id]) }}" method="post">
-                    <a href="{{ route('admin')}}" class="btn btn-sm btn-danger">< Retour</a>
+                <form action="{{ route('softd', ['id' => $post->id]) }}" method="GET">
+               
+                    <a href="{{ route('admin') }}" class="btn btn-sm btn-info">&lt; Retour</a>
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <button onclick="return confirm('Etes-vous sure ?')" type="submit" class=" btn btn-sm btn-danger">Supprimer</button>
+                    <button onclick="return confirm('Etes-vous sûr ?')" type="submit" class="btn btn-sm btn-danger">Supprimer</button>
                 </form>
+                
 
                                     </div>
                                 </div>

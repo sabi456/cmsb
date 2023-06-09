@@ -71,7 +71,7 @@
     @endif
     @endif
     @if(auth()->check())
-    <li class="nav-item @yield('active_del')" >
+    <li class="nav-item @yield('active_p')" >
         <a class="nav-link " href="">
             <i class="fas fa-upload fa-2x"></i>
             &nbsp;

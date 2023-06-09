@@ -72,27 +72,25 @@ Route::get('/admin/{name?}', [Controller2::class, 'admin'])->name('admin');
 
 Route::get('/unconfirmed', [Controller2::class, 'unconfirmed'])->name('unconfirmed');
 
-Route::get('/confirmed', [Controller2::class, 'confirmed'])->name('confirmed');
+Route::get('/deleted', [Controller2::class, 'deleted'])->name('deleted');
 
 Route::any('confirm-user/{id}', [Controller2::class, 'confirmUser'])->name('confirm-user');
 
-Route::get('/post/{id?}', [Controller2::class, 'show'])->name('post.show');
+Route::any('/post/{id?}', [Controller2::class, 'show'])->name('post.show');
 
 Route::get('/post1/{id?}', [Controller2::class, 'show1'])->name('post1.show');
 
 Route::get('/edit/post/{id}', [Controller2::class, 'edit'])->name('post.edit');
 
+Route::get('/edit1', [Controller2::class, 'edit1'])->name('post.edit1');
+
 Route::put('/update/post/{id}', [Controller2::class, 'update'])->name('post.update');
 
-Route::delete('/delete/post/{id}', [Controller2::class, 'delete'])->name('post.delete');
+Route::any('/post/delete/{id}', [Controller2::class, 'delete'])->name('post.delete');
 
-Route::delete('/delete/soft_delete/{id}', [Controller2::class, 'softd'])->name('softd');
-
-Route::delete('/deleted/post2/{id}', [Controller2::class, 'perma'])->name('post.perma');
+Route::any('/delete/soft_delete/{id}', [Controller2::class, 'softd'])->name('softd');
 
 Route::resource('categories', 'CategoryController');
-
-Route::get('/deleted/post3/{id}', [Controller2::class, 'restore'])->name('post.restore');
 
 Route::delete('/posts/delete-multiple', [Controller2::class, 'deleteMultiple'])->name('post.deleteMultiple');
 
@@ -100,15 +98,9 @@ Route::get('/users/download', [Controller2::class, 'downloadUsers'])->name('user
 
 Route::get('/Confirm', [Controller2::class, 'confirmed'])->name('confirmed');
 
-Route::any('/Confirmall', [Controller2::class, 'confirmAllUsers'])->name('confirmAllUsers');
-
 Route::any('/deleteUser/{id}', [Controller2::class, 'deletenotif'])->name('deletenotif');
 
-Route::any('/deleteUsers', [Controller2::class, 'deleteall'])->name('deleteall');
-
 Route::get('/download-rar/{id}', [Controller2::class, 'downloadRAR'])->name('downloadRAR');
-
-Route::get('/trashRAR/{pdf}/{pdf2}/{name}/{image?}', [Controller2::class, 'trashRAR'])->name('trashRAR');
 
 Route::get('/users/download-all', [Controller2::class, 'downloadAll'])->name('users.downloadAll');
 
@@ -117,6 +109,7 @@ Route::get('/show_admin', [Controller2::class, 'show_admin'])->name('show_admin'
 Route::delete('/D_admin/{id}', [Controller2::class, 'delete_admin'])->name('delete_admin');
 
 Route::post('/users/{id}', [Controller2::class, 'up'])->name('up');
+// Route::get('/register', [Controller2::class, 'create'])->name('register')->middleware('auth');
 
 Route::middleware([
     'auth:sanctum',
