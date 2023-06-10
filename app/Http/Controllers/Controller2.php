@@ -170,97 +170,83 @@ class Controller2 extends Controller
         return redirect()->back();
     }
 
-    public function edit1()
-    {
-        return view('edit1');
-    }
-
-    public function update(Request $req, $id)
+    public function edit_show($id)
     {
         if (auth()->check() && (auth()->user()->status == 'High' || auth()->user()->status == 'Medium')) {
 
-            $req->validate([
-                'name' => 'min:6|max:20',
-                'cin' => 'min:4|max:8',
-                'city_b' => 'min:2|max:15',
-                'adress' => 'min:5|max:40',
-                'phone' => 'min:10|max:14',
-                'mail' => 'email|nullable',
-                'name_e' => 'min:2|max:20',
-                'cat' => 'min:4|max:20',
-                'phone_e' => 'min:2|max:15',
-                'nbr_of_em' => 'numeric|min:0|max:100',
-                'adress_e' => 'min:10|max:40',
-                'ice' => 'min:10|max:40',
-                'rc' => 'min:10|max:40',
-                'pict' => 'file|mimes:jpg,png|max:5000',
-                'cin_pict' => 'file|mimes:jpg,png,pdf|max:5000',
-                'magasin_pict' => 'file|mimes:jpg,png|max:5000',
-                'entreprise_pict' => 'file|mimes:pdf|max:5000',
-                'name' => 'min:6|max:20',
-                'number_v' => 'min:10|max:40',
-                'pict' => 'file|mimes:jpg,png,pdf|max:1024'
+            $post = Post::find($id);
+            return view('edit_show')->with([
+                'post'=>$post
             ]);
-
-            $user= auth()->user();
-            $data = Post::find($id);
-
-            if ($req->hasFile('pict') && $req->hasFile('cin_pict') && $req->hasFile('magasin_pict') && $req->hasFile('entreprise_pict')) {
-                $file1 = $req->file('pict');
-                $file2 = $req->file('cin_pict');
-                $file3 = $req->file('magasin_pict');
-                $file4 = $req->file('entreprise_pict');
-                $file5 = $req->file('payment_pict');
-    
-                if ($file1->isValid() && $file2->isValid() && $file3->isValid() && $file4->isValid()) {
-                    $pict = file_get_contents($file1->getRealPath());
-                    $cin_pict = file_get_contents($file2->getRealPath());
-                    $magasin_pict = file_get_contents($file3->getRealPath());
-                    $entreprise_pict = file_get_contents($file4->getRealPath());
-                    $payment_pict = file_get_contents($file5->getRealPath());
-
-                    $data->pict = $pict;
-                    $data->cin_pict = $cin_pict;
-                    $data->magasin_pict = $magasin_pict;
-                    $data->entreprise_pict = $entreprise_pict;
-                    $data->payment_pict = $payment_pict;
-                    try {
-                        $data->save();
-                    } catch (\Exception $e) {
-                        // Handle the exception (e.g., log the error, display an error message)
-                        return "Error: " . $e->getMessage();
-                    }
-                }
-            }
-            $data->name = $req->name;
-            $data->name_e = $req->name_e;
-            $data->payer = $req->payer;
-            $data->adress = $req->adress;
-            $data->phone = $req->phone;
-            $data->phone_e = $req->phone_e;
-            $data->mail = $req->mail;
-            $data->ice = $req->ice;
-            $data->rc = $req->rc;
-            $data->cat = $req->cat;
-            $data->nbr_of_em = $req->nbr_of_em;
-            $data->adress_e = $user->adress_e;
-
-
-            // Check if any data has changed
-            if ($data->isDirty()) {
-                $data->save();
-                return redirect('home')->with([
-                    'success' => 'Updated'
-                ]);
-            } else {
-                return redirect('home')->with([
-                    'info' => 'No changes made'
-                ]);
-            }
         }
         return redirect()->back();
-
     }
+
+
+   public function update(Request $req, $id)
+    {
+
+        $req->validate([
+            'name' => 'required|min:6|max:20',
+            'cin' => 'required|min:4|max:8',
+            'city_b' => 'required|min:2|max:15',
+            'adress' => 'required|min:5|max:40',
+            'phone' => 'required|min:10|max:14',
+            'mail' => 'required|email',
+            'name_e' => 'required|min:2|max:20',
+            'cat' => 'required|min:4|max:20',
+            'phone_e' => 'required|min:2|max:15',
+            'nbr_of_em' => 'required|numeric|min:0|max:100',
+            'adress_e' => 'required|min:10|max:40',
+            'ice' => 'required|min:10|max:40',
+            'rc' => 'required|min:10|max:40'
+        ]);
+
+        $data = Post::find($id);
+
+        // Removed redundant check for $data existence
+
+        if ($req->hasFile('pict') && $req->hasFile('cin_pict') && $req->hasFile('magasin_pict') && $req->hasFile('entreprise_pict')) {
+            $file1 = $req->file('pict');
+            $file2 = $req->file('cin_pict');
+            $file3 = $req->file('magasin_pict');
+            $file4 = $req->file('entreprise_pict');
+
+            if ($file1->isValid() && $file2->isValid() && $file3->isValid() && $file4->isValid()) {
+                $pict = file_get_contents($file1->getRealPath());
+                $cin_pict = file_get_contents($file2->getRealPath());
+                $magasin_pict = file_get_contents($file3->getRealPath());
+                $entreprise_pict = file_get_contents($file4->getRealPath());
+
+                $data->pict = $pict;
+                $data->cin_pict = $cin_pict;
+                $data->magasin_pict = $magasin_pict;
+                $data->entreprise_pict = $entreprise_pict;
+            }
+        }
+
+        $data->name = $req->name;
+        $data->name_e = $req->name_e;
+        $data->adress = $req->adress;
+        $data->phone = $req->phone;
+        $data->phone_e = $req->phone_e;
+        $data->mail = $req->mail;
+        $data->cat = $req->cat;
+        $data->cin = $req->cin;
+        $data->date_b = $req->date_b;
+        $data->city_b = $req->city_b;
+        $data->nbr_of_em = $req->nbr_of_em;
+        $data->adress_e = $req->adress_e;
+        $data->ice = $req->ice;
+        $data->rc = $req->rc;
+
+        $data->save();
+
+        return redirect()->route('post1.show', ['id' => $id]);
+    }
+
+
+
 
     public function delete($id)
     {
@@ -308,13 +294,33 @@ class Controller2 extends Controller
             $post= Post::withTrashed()->where('id',$id)->first();
             $post->restore();
             $message = 'User "' . $post->name . '" Restored';
-            return redirect('tables ')->with([
+            return redirect('Confirm ')->with([
                 'restored'=>$message
             ]);
         }
         return redirect()->back();
     }
-
+    public function restoreall()
+    {
+        $posts = Post::onlyTrashed()->get();
+    
+        if (auth()->check() && (auth()->user()->status == 'High' || auth()->user()->status == 'Medium')) {
+            if ($posts->isEmpty()) {
+                return redirect()->back()->with([
+                    'restoreall' => 'No users found in trash.'
+                ]);
+            }
+    
+            $posts->restore();
+    
+            return redirect('Confirm')->with([
+                'restoreall' => 'All Users have been restored.'
+            ]);
+        }
+    
+        return redirect()->back();
+    }
+    
     public function deleteMultiple(Request $request)
     {
         if (auth()->check() && (auth()->user()->status == 'High' || auth()->user()->status == 'Medium'  )) {
@@ -529,7 +535,7 @@ class Controller2 extends Controller
                 $zip->addFile(public_path('uploads/'.$entreprise_pict), $entreprise_pict);
                 $zip->addFile(public_path('uploads/'.$payment_pict), $payment_pict);
     
-                // Close the ZIP archive
+                // Close the ZIP archive    
                 $zip->close();
     
                 // Serve the ZIP archive for download

@@ -230,30 +230,52 @@
 
         <div class="table-responsive">
             <table id="example" class="display nowrap" style="width:100%">
-            
+        
                 <thead>
                     <tr>
                         <th class="text-center">ID</th>
                         <th class="text-center">Nom Complet</th>
                         <th class="text-center">Phone</th>
                         <th class="text-center">E-mail</th>
-                        <th class="text-center">Voir</th>
+                        <th class="text-center">Restore</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($posts as $t)  
-                            <td class="text-center">{{$t->id}}</td>
-                            <td class="text-center">{{$t->name}}</td>
-                            <td class="text-center">{{$t->phone}}</td>
-                            <td class="text-center">{{$t->mail}}</td>
-                            <td class="text-center"><a href="{{ route('post.show', $t->id) }}" class="btn btn-primary" style="text-align:center;">Voir</a></td>
-                        </tr>
+                    <tr>
+                        <td class="text-center">{{$t->id}}</td>
+                        <td class="text-center">{{$t->name}}</td>
+                        <td class="text-center">{{$t->phone}}</td>
+                        <td class="text-center">{{$t->mail}}</td>
+                        <td class="text-center">
+                            <form id="restore{{$t->id}}" action="{{ route('post.restore', $t->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('PUT')
+                                <button onclick="event.preventDefault(); if (confirm('Are You Sure?')) document.getElementById('restore{{$t->id}}').submit();" class="btn btn-success" type="submit">Restore</button>
+                            </form>
+                        </td>
+                    </tr>
                     @endforeach
                 </tbody>
+        
+            </table>
+            
+        </div>
+        
             </table>
         </div>
+    <<div class="text-center">
+        @if($posts->isEmpty())
+            <p>No users found in trash.</p>
+        @else
+            <form id="restoreAllForm" action="{{ route('post.restoreall') }}" method="post" style="display: inline;">
+                @csrf
+                @method('PUT')
+                <button onclick="event.preventDefault(); if (confirm('Are You Sure?')) document.getElementById('restoreAllForm').submit();" class="btn btn-warning" type="submit">Restore All Users</button>
+            </form>
+        @endif
+    </div>
     
-                
     </div>
 </div>
 </div>

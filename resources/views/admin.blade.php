@@ -164,7 +164,7 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            Users Registered</div>
+                                            Confirmés</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $userConfirmed }}</div>
                                         </div>
                                         <a href="{{ route('unconfirmed') }}">
@@ -183,7 +183,7 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Trash Users</div>
+                                                Supprimés</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $userTrash }}</div>
                                         </div>
                                         <div class="col-auto">
@@ -200,7 +200,7 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Unconfirmed Users
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Non confirmés
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
@@ -257,7 +257,7 @@
                         <div  id="bar">
                                 <div 
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary" >Earnings Overview</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary" >Aperçu des personnes</h6>
                                     
                                
                                 </div>
@@ -302,21 +302,21 @@ $(document).ready(function() {
             labels: labels,
             datasets: [
                 {
-                    label: 'Users Registered',
+                    label: 'Confirmés',
                     data: createdData,
                     backgroundColor: 'rgba(75, 192, 192, 0.2)', // Green color
                     borderColor: 'rgba(75, 192, 192, 1)', // Green color
                     borderWidth: 1,
                 },
                 {
-                    label: 'Trash Users',
+                    label: 'Supprimés',
                     data: deletedData,
                     backgroundColor: 'rgba(255, 99, 132, 0.2)', // Red color
                     borderColor: 'rgba(255, 99, 132, 1)', // Red color
                     borderWidth: 1,
                 },
                 {
-                    label: 'Unconfirmed Users',
+                    label: 'Non confirmés',
                     data: unconfirmedUsersData,
                     backgroundColor: 'rgba(153, 102, 255, 0.2)', // Purple color
                     borderColor: 'rgba(153, 102, 255, 1)', // Purple color
@@ -369,7 +369,7 @@ $(document).ready(function() {
     new Chart(document.getElementById("doughnut-chart"), {
         type: 'doughnut',
         data: {
-            labels: ['Users registered', 'Trash Users', 'Unconfirmed Users'],
+            labels: ['Confirmés', 'Supprimés', 'Non confirmés'],
             datasets: [{
                 label: "User Data",
                 backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(153, 102, 255, 0.2)'],

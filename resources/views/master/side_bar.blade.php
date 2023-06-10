@@ -62,7 +62,7 @@
     @if(auth()->check())
     @if(auth()->user()->status == 'High')
     <li class="nav-item @yield('active_del')" >
-        <a class="nav-link " href="{{route ('show_admin')}}">
+        <a class="nav-link " href="{{route ('deleted')}}">
             <i class="fas fa-trash fa-2x"></i>
             &nbsp;
             <span style="font-size:20px;">Supprimés</span>
