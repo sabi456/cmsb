@@ -34,7 +34,9 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "App\\Http\\Controllers\\Auth\\": "app/Http/Controllers/Auth/"
+            "App\\Http\\Controllers\\Auth\\": "app/Http/Controllers/Auth/",
+            "App\\Mail\\": "app/Mail/"
+
 
         }
     },

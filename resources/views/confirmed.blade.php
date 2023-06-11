@@ -247,7 +247,11 @@
             <td class="text-center">{{$t->name}}</td>
             <td class="text-center">{{$t->phone}}</td>
             <td class="text-center">{{$t->mail}}</td>
-            <td class="text-center"><a href="{{ route('downloadRAR', ['pict' => $t->pict, 'cin_pict' => $t->cin_pict, 'magasin_pict' => $t->magasin_pict, 'entreprise_pict' => $t->entreprise_pict, 'name'=> $t->name]) }}" download>Download ZIP</a>
+            <td class="text-center">
+            <form action="{{ route('post1.show', ['id' => $t->id]) }}" method="GET">
+        <button class="btn btn-primary" type="submit">Voir</button>
+        </form>
+</td>
 
 </td>
         </tr>

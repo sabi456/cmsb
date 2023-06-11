@@ -71,7 +71,6 @@
             @foreach($data as $item)
             <div class="item px-2">
                 <div class="fh5co_latest_trading_img_position_relative">
-                    <div class="fh5co_latest_trading_img"><img src="{{ asset('./akhbar/' . $item['item']->image) }}" alt="" class="fh5co_suceefh5co_height_position_absolute" />
 </div>
                     <div class="fh5co_latest_trading_img_position_absolute"></div>
                     <div class="fh5co_latest_trading_img_position_absolute_1 arabic-input">
