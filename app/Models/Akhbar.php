@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Akhbar extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'title',
+        'detail',
+        'datePosted',
+        'image',
+    ];
+    
+    public function getRouteKeyName()
+    {
+        return 'id';
+    }
 }

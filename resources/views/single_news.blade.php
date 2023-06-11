@@ -37,14 +37,15 @@
 </head>
 <body class="single">
 @include('master.navbar')
-<div class="arabic-input" id="fh5co-title-box" style="background-image: url(data:image/jpeg;base64,{{ base64_encode($akhbar->image) }}); background-position: 50% 90.5px;" data-stellar-background-ratio="0.5">
+<div class="" id="fh5co-title-box" style="background-image: url('/akhbar/{{ $akhbar->image }}'); background-position: 50% 90.5px;" data-stellar-background-ratio="0.5">
+
     <div class="overlay"></div>
     <div class="page-title">
         <span style="color: rgb(252, 252, 252)"><b>{{ $date_ar }}</b></span>
         <h2>{{ $akhbar->title }}</h2>
     </div>
 </div>
-<div id="fh5co-single-content" class="container-fluid w-75 paddding arabic-input">
+<div id="fh5co-single-content" class="container-fluid w-75 paddding">
     <div class="container paddding">
         <div class="row mx-0">
             <div class="col-md-12 animate-box my-4" style="text-align: justify;" data-animate-effect="fadeInLeft">

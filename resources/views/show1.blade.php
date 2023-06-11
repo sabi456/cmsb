@@ -116,22 +116,27 @@
                         <td>{{$post->rc}}</td>
                     </tr>
                     <tr>
-                        <th class="text-center">Les documents : </th>
+                        <th class="text-center">Les a : </th>
                         <td>
-                            <form action="{{ route('downloadRAR', ['id' => $post->id]) }}" method="get">
-                                <button type="submit" class="btn btn-sm btn-primary w-50">Télécharger</button>
-                            </form>
-                        </td>
+<a href="{{ route('downloadRAR', ['cin_pict' => $post->cin_pict, 'magasin_pict' => $post->magasin_pict, 'entreprise_pict' => $post->entreprise_pict, 'payment_pict' => $post->payment_pict,'name' => $post->name]) }}" download>Download RAR</a>
+</td>
+
                     </tr>
 
                 </table>
                 <br>
+                <div class="d-flex justify-content-center">
+
                 <form action="{{ route('softd', ['id' => $post->id]) }}" method="GET">
                
                     <a href="{{ route('admin') }}" class="btn btn-sm btn-info">&lt; Retour</a>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <button onclick="return confirm('Etes-vous sûr ?')" type="submit" class="btn btn-sm btn-danger">Supprimer</button>
                 </form>
+                <form action="{{ route('edit_show',['id' =>$post->id])}}" method="GET">
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <button  type="submit" style="width:90px;"class="btn btn-sm btn-warning">Edit</button>
+                </form></div>
                 
 
                                     </div>

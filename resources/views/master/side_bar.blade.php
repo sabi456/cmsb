@@ -62,7 +62,7 @@
     @if(auth()->check())
     @if(auth()->user()->status == 'High')
     <li class="nav-item @yield('active_del')" >
-        <a class="nav-link " href="{{route ('show_admin')}}">
+        <a class="nav-link " href="{{route ('deleted')}}">
             <i class="fas fa-trash fa-2x"></i>
             &nbsp;
             <span style="font-size:20px;">Supprimés</span>
@@ -72,13 +72,21 @@
     @endif
     @if(auth()->check())
     <li class="nav-item @yield('active_p')" >
-        <a class="nav-link " href="">
+        <a class="nav-link " href="{{ route('show3') }}">
             <i class="fas fa-upload fa-2x"></i>
             &nbsp;
             <span style="font-size:20px;">Poster</span>
         </a>
     </li>
     @endif
-
+    @if(auth()->check())
+    <li class="nav-item @yield('active_m')" >
+        <a class="nav-link " href="{{ route('page_akhbar') }}">
+            <i class="fas fa-upload fa-2x"></i>
+            &nbsp;
+            <span style="font-size:20px;">Evenements</span>
+        </a>
+    </li>
+    @endif
 </ul>
 <!-- End of Sidebar -->

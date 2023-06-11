@@ -241,15 +241,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($posts as $t)  
-                            <td class="text-center">{{$t->id}}</td>
-                            <td class="text-center">{{$t->name}}</td>
-                            <td class="text-center">{{$t->phone}}</td>
-                            <td class="text-center">{{$t->mail}}</td>
-                            <td class="text-center"><a href="{{ route('post1.show', $t->id) }}" class="btn btn-primary" style="text-align:center;">Voir</a></td>
-                        </tr>
-                    @endforeach
-                </tbody>
+    @foreach($posts as $t)  
+        <tr>
+            <td class="text-center">{{$t->id}}</td>
+            <td class="text-center">{{$t->name}}</td>
+            <td class="text-center">{{$t->phone}}</td>
+            <td class="text-center">{{$t->mail}}</td>
+            <td class="text-center"><a href="{{ route('downloadRAR', ['pict' => $t->pict, 'cin_pict' => $t->cin_pict, 'magasin_pict' => $t->magasin_pict, 'entreprise_pict' => $t->entreprise_pict, 'name'=> $t->name]) }}" download>Download ZIP</a>
+
+</td>
+        </tr>
+    @endforeach
+</tbody>
+
             </table>
         </div>
     
@@ -351,7 +355,7 @@ $(document).ready(function() {
                 }
             }
         ],
-        lengthMenu: [1, 5,10, 15, 20, 25, 50, 100, 200, 300, 1000]
+        lengthMenu: [5,10, 15, 20, 25, 50, 100, 200, 300, 1000]
 
     });
 });

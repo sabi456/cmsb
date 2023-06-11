@@ -2,6 +2,7 @@
 use App\Http\Controllers\Controller_1;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller2;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,7 +55,7 @@ Route::post('/post_1', [Controller_1::class, 'post_1'])->name('post_1');
 
 Route::post('/post_2', [Controller_1::class, 'post_2'])->name('post_2');
 
-Route::post('/post_3', [Controller_1::class, 'post_3'])->name('post_3');
+Route::post('/post_3', [Controller2::class, 'post_3'])->name('post_3');
 
 Route::post('/post_4', [Controller_1::class, 'post_4'])->name('post_4');
 
@@ -83,6 +84,16 @@ Route::get('/post1/{id?}', [Controller2::class, 'show1'])->name('post1.show');
 Route::get('/edit/post/{id}', [Controller2::class, 'edit'])->name('post.edit');
 
 Route::get('/edit1', [Controller2::class, 'edit1'])->name('post.edit1');
+Route::put('/deleted/post3/{id}', [Controller2::class, 'restore'])->name('post.restore');
+Route::put('/deleted/posts/restore-all', [Controller2::class, 'restoreall'])->name('post.restoreall');
+
+Route::get('/edit_show/{id}', [Controller2::class, 'edit_show'])->name('edit_show');
+Route::get('/edit_akhbar/{id}', [Controller2::class, 'edit_akhbar'])->name('edit_akhbar');
+Route::get('/page_akhbar', [Controller2::class, 'page_akhbar'])->name('page_akhbar');
+Route::any('/add_akhbar', [Controller2::class, 'add_akhbar'])->name('add_akhbar');
+Route::put('/update_akhbar/{id}', [Controller2::class, 'update_akhbar'])->name('update_akhbar');
+Route::any('/delete_akhbar/{id}', [Controller2::class, 'delete_akhbar'])->name('delete_akhbar');
+
 
 Route::put('/update/post/{id}', [Controller2::class, 'update'])->name('post.update');
 
@@ -95,12 +106,13 @@ Route::resource('categories', 'CategoryController');
 Route::delete('/posts/delete-multiple', [Controller2::class, 'deleteMultiple'])->name('post.deleteMultiple');
 
 Route::get('/users/download', [Controller2::class, 'downloadUsers'])->name('users.download');
+Route::get('/show3', [Controller2::class, 'show3'])->name('show3');
 
 Route::get('/Confirm', [Controller2::class, 'confirmed'])->name('confirmed');
 
 Route::any('/deleteUser/{id}', [Controller2::class, 'deletenotif'])->name('deletenotif');
 
-Route::get('/download-rar/{id}', [Controller2::class, 'downloadRAR'])->name('downloadRAR');
+Route::get('/downloadRAR/{pict}/{cin_pict}/{magasin_pict}/{entreprise_pict}/{name}', [Controller2::class, 'downloadRAR'])->name('downloadRAR');
 
 Route::get('/users/download-all', [Controller2::class, 'downloadAll'])->name('users.downloadAll');
 
@@ -119,4 +131,19 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+});
+
+Route::get('/register', [RegisteredUserController::class, 'create'])
+    ->middleware('guest')
+    ->name('register');
+
+Route::post('/register', [RegisteredUserController::class, 'store'])
+    ->middleware('guest');
+
+// Updated registration routes with middleware
+Route::group(['middleware' => 'restrict.registration'], function () {
+    Route::get('/register', [RegisteredUserController::class, 'create'])
+        ->name('register');
+        
+    Route::post('/register', [RegisteredUserController::class, 'store']);
 });
