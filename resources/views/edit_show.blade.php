@@ -42,7 +42,7 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <form action="{{ route('post.update', $post->id)}}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('update_akhbar', $post->id)}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                             <tr>

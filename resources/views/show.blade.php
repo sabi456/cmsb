@@ -130,9 +130,7 @@
                     <tr>
                         <th class="text-center">Les documents : </th>
                         <td>
-                            <form action="{{ route('downloadRAR', ['id' => $post->id]) }}" method="get">
-                                <button type="submit" class="btn btn-sm btn-primary w-50">Télécharger</button>
-                            </form>
+                    
                         </td>
                     </tr>
 

@@ -1,24 +1,27 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use ZipArchive;
+
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Akhbar;
+use App\Models\Persen;
+use App\Models\Document;
 use App\Exports\UsersExport;
 use Illuminate\Http\Request;
 use App\Models\unconfirmed_users;
 use App\Http\Requests\PostRequest;
-use App\Models\Persen;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\NewUserNotification;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Response;
 
 class Controller2 extends Controller
 {
@@ -423,14 +426,12 @@ class Controller2 extends Controller
     public function confirmed()
     {
         $posts = Post::all();
-        if (auth()->check() && (auth()->user()->status == 'High' || auth()->user()->status == 'Medium'  )) {
             return view('confirmed')->with([
                 'posts' => $posts,
             ]);
         }
         
-        return redirect()->back();
-    }
+   
 
     // public function confirmAllUsers()
     // {
@@ -501,56 +502,153 @@ class Controller2 extends Controller
     //         'success' => 'deleted',
     //     ]);
     // }
+    public function post_3(Request $req){
 
-    public function downloadRAR($id)
-    {
-        $data = DB::table('persens')
-            ->join('documents', 'persens.id', '=', 'documents.id')
-            ->select('persens.*', 'documents.*')
-            ->where('persens.id', '=', $id)
-            ->first();
-    
-        if (!$data) {
-            return "Error: Data not found.";
+        $req->validate(
+            [
+                'pict' => 'file|mimes:jpg,png|max:5000',
+                'cin_pict' => 'file|mimes:jpg,png,pdf|max:5000',
+                'magasin_pict' => 'file|mimes:jpg,png|max:5000',
+                'entreprise_pict' => 'file|mimes:pdf,jpg,png|max:5000'
+            ],
+            [
+                'pict.mimes' => 'نقبل فقط JPG أو PNG',
+                'pict.max' => 'لقد تجاوزت 5 MB',
+                'cin_pict.mimes' => 'نقبل فقط JPG أو PNG أو PDF',
+                'cin_pict.max' => 'لقد تجاوزت 5 MB',
+                'magasin_pict.mimes' => 'نقبل فقط JPG أو PNG',
+                'magasin_pict.max' => 'لقد تجاوزت 5 MB',
+                'entreprise_pict.mimes' => 'نقبل فقط PDF',
+                'entreprise_pict.max' => 'لقد تجاوزت 5 MB'
+            ]
+        );
+        $id = Session::get('id');
+    $doc = Document::where('id', $id)->first();
+
+    if ($req->hasFile('pict') && $req->hasFile('cin_pict') && $req->hasFile('magasin_pict') && $req->hasFile('entreprise_pict')) {
+        $file1 = $req->file('pict');
+        $file2 = $req->file('cin_pict');
+        $file3 = $req->file('magasin_pict');
+        $file4 = $req->file('entreprise_pict');
+
+        if ($file1->isValid() && $file2->isValid() && $file3->isValid() && $file4->isValid()) {
+            $pict = file_get_contents($file1->getRealPath());
+            $cin_pict = file_get_contents($file2->getRealPath());
+            $magasin_pict = file_get_contents($file3->getRealPath());
+            $entreprise_pict = file_get_contents($file4->getRealPath());
+
+            try {
+                if (!$doc) {
+                    $doc = new Document();
+                    $doc->id = $id;
+                }
+
+                $doc->pict = $pict;
+                $doc->cin_pict = $cin_pict;
+                $doc->magasin_pict = $magasin_pict;
+                $doc->entreprise_pict = $entreprise_pict;
+                $doc->payment_pict = null;
+                $doc->save();
+
+                // Move uploaded files to appropriate directories
+                $image_name1 = time() . '_' . $file1->getClientOriginalName();
+                $file1->move(public_path('uploads'), $image_name1);
+
+                $image_name2 = time() . '_' . $file2->getClientOriginalName();
+                $file2->move(public_path('pdfs'), $image_name2);
+
+                $image_name3 = time() . '_' . $file3->getClientOriginalName();
+                $file3->move(public_path('pdfs2'), $image_name3);
+
+                $image_name4 = time() . '_' . $file4->getClientOriginalName();
+                $file4->move(public_path('pdfs3'), $image_name4);
+
+                // Delete old files if they exist
+                if ($doc->pict) {
+                    $old_image_path1 = public_path('uploads') . '/' . $doc->pict;
+                    if (file_exists($old_image_path1)) {
+                        unlink($old_image_path1);
+                    }
+                }
+
+                if ($doc->cin_pict) {
+                    $old_image_path2 = public_path('pdfs') . '/' . $doc->cin_pict;
+                    if (file_exists($old_image_path2)) {
+                        unlink($old_image_path2);
+                    }
+                }
+
+                if ($doc->magasin_pict) {
+                    $old_image_path3 = public_path('pdfs2') . '/' . $doc->magasin_pict;
+                    if (file_exists($old_image_path3)) {
+                        unlink($old_image_path3);
+                    }
+                }
+
+                if ($doc->entreprise_pict) {
+                    $old_image_path4 = public_path('pdfs3') . '/' . $doc->entreprise_pict;
+                    if (file_exists($old_image_path4)) {
+                        unlink($old_image_path4);
+                    }
+                }
+
+                // Update the filenames in the database
+                $doc->pict = $image_name1;
+                $doc->cin_pict = $image_name2;
+                $doc->magasin_pict = $image_name3;
+                $doc->entreprise_pict = $image_name4;
+                $doc->save();
+            } catch (\Exception $e) {
+                // Handle the exception (e.g., log the error, display an error message)
+                return "Error: " . $e->getMessage();
+            }
+
+            Session::put('id', $id);
+
+            return redirect()->route('log4_mo');
         }
-    
-        $name = $data->name;
-        $pict = $data->pict;
-        $cin_pict = $data->cin_pict;
-        $magasin_pict = $data->magasin_pict;
-        $entreprise_pict = $data->entreprise_pict;
-        $payment_pict = $data->payment_pict;
-    
-        $archiveName = 'Table Users.rar';
+    }
+
+    return "No file selected or invalid file.";
+}
+        public function download($filename)
+        {
+            $file = Document::where('cin_pict', $filename)->first();
+        
+            if ($file) {
+                $extension = pathinfo($file->cin_pict, PATHINFO_EXTENSION);
+                $filenameWithExtension = 'downloaded_file.' . $extension;
+        
+                return response()->streamDownload(function () use ($file) {
+                    echo $file->cin_pict;
+                }, $filenameWithExtension);
+            }
+        
+            abort(404);
+        }
+    public function downloadRAR($pict, $cin_pict, $magasin_pict, $entreprise_pict,$name)
+    {
+        $archiveName = 'Confirmed_'.$name.'.rar';
         $archivePath = storage_path('app/'.$archiveName);
     
         // Create a new ZIP archive
         $zip = new ZipArchive;
-        if ($zip->open($archivePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
-            if (file_exists(public_path('uploads/'.$pict))) {
-                // Add the files to the ZIP archive
+        if ($zip->open($archivePath, ZipArchive::CREATE) === true) {
+            // Add the PDF files to the ZIP archive
+       
                 $zip->addFile(public_path('uploads/'.$pict), $pict);
-                $zip->addFile(public_path('uploads/'.$cin_pict), $cin_pict);
-                $zip->addFile(public_path('uploads/'.$magasin_pict), $magasin_pict);
-                $zip->addFile(public_path('uploads/'.$entreprise_pict), $entreprise_pict);
-                $zip->addFile(public_path('uploads/'.$payment_pict), $payment_pict);
-    
-                // Close the ZIP archive    
-                $zip->close();
-    
-                // Serve the ZIP archive for download
-                if (file_exists($archivePath)) {
-                    return Response::download($archivePath, $archiveName);
-                } else {
-                    return "Error: The ZIP archive was created, but it is not available for download.";
-                }
-            } else {
-                return "Error: File not found.";
-            }
-        } else {
-            return "Error: Failed to create the ZIP archive.";
+                $zip->addFile(public_path('pdfs/'.$cin_pict), $cin_pict);
+                $zip->addFile(public_path('pdfs2/'.$magasin_pict), $magasin_pict);
+                $zip->addFile(public_path('pdfs3/'.$entreprise_pict), $entreprise_pict);
+          
+            // Close the ZIP archive
+            $zip->close();
         }
+    
+        // Serve the ZIP archive for download
+        return response()->download($archivePath);
     }
+    
 
     public function trashRAR($name, $pict, $cin_pict, $magasin_pict, $entreprise_pict, $paymeny_pict)
     {
@@ -697,6 +795,107 @@ class Controller2 extends Controller
 
         }
     }
- 
+    public function posts()
+    {
+        if (auth()->check() && (auth()->user()->status == 'High' || auth()->user()->status == 'Medium' )) {
+            return view('posts');
+        }
+        return redirect()->back();
+    }
+    public function show3()
+    {
+        if (auth()->check()) {
+            $akhbar = Akhbar::all();
+            return view('posts')->with(['akhbar' => $akhbar]);
+        }
+        
+        return redirect()->back();
+    }
     
+    public function edit_akhbar($id)
+    {
+        if (auth()->check() && (auth()->user()->status == 'High' || auth()->user()->status == 'Medium')) {
+
+            $post = Akhbar::find($id);
+            return view('edit_akhbar')->with([
+                'post'=>$post
+            ]);
+        }
+        return redirect()->back();
+    }
+    public function update_akhbar(Request $req, $id)
+    {
+        if (auth()->check() && (auth()->user()->status == 'High' || auth()->user()->status == 'Medium')) {
+            $data = Akhbar::find($id);
+            
+            $data->title = $req->title;
+            $data->detail = $req->detail;
+            $data->datePosted = $req->datePosted;
+            if ($req->hasFile('image')) {
+                // Upload the new image if provided
+                $file = $req->file('image');
+                $image_name = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('akhbar'), $image_name);
+                
+                // Delete the old image if it exists
+                if ($data->image) {
+                    $old_image_path = public_path('akhbar') . '/' . $data->image;
+                    if (file_exists($old_image_path)) {
+                        unlink($old_image_path);
+                    }
+                }
+        
+                $data->image = $image_name;
+            }$data->save();
+        }
+        return redirect('show3');
+    }
+public function add_akhbar(Request $req)
+{
+    if (auth()->check() && (auth()->user()->status == 'High' || auth()->user()->status == 'Medium')) {
+        $req->validate([
+            'image' => 'nullable',
+            
+        ]);
+        $Akhbar = new Akhbar();
+        $Akhbar->title = $req->title;
+        $Akhbar->detail = $req->detail;
+        $Akhbar->datePosted = $req->datePosted;
+        $Akhbar->image = $req->image;
+        if ($req->hasFile('image')) {
+            // Upload the new image if provided
+            $file = $req->file('image');
+            $image_name = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('akhbar'), $image_name);
+            
+            // Delete the old image if it exists
+            if ($Akhbar->image) {
+                $old_image_path = public_path('akhbar') . '/' . $Akhbar->image;
+                if (file_exists($old_image_path)) {
+                    unlink($old_image_path);
+                }
+            }
+    
+            $Akhbar->image = $image_name;
+        }
+        $Akhbar->save();
+    }
+    return redirect('show3');
+}
+
+public function page_akhbar()
+{
+    if (auth()->check() && (auth()->user()->status == 'High' || auth()->user()->status == 'Medium' )) {
+        return view('add_akhbar');
+    }
+    return redirect()->back();
+} 
+public function delete_akhbar($id)
+{
+    if (auth()->check()) {
+        $post = Akhbar::findOrFail($id);
+        $post->delete();
+    }
+    return redirect('show3');
+}
 }
