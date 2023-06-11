@@ -57,7 +57,7 @@ Route::post('/post_2', [Controller_1::class, 'post_2'])->name('post_2');
 
 Route::post('/post_3', [Controller2::class, 'post_3'])->name('post_3');
 
-Route::post('/post_4', [Controller_1::class, 'post_4'])->name('post_4');
+Route::post('/post_4', [Controller2::class, 'post_4'])->name('post_4');
 
 Route::get('/news', [Controller_1::class, 'news'])->name('news');
 
@@ -78,6 +78,7 @@ Route::get('/deleted', [Controller2::class, 'deleted'])->name('deleted');
 Route::any('confirm-user/{id}', [Controller2::class, 'confirmUser'])->name('confirm-user');
 
 Route::any('/post/{id?}', [Controller2::class, 'show'])->name('post.show');
+Route::any('/send-email', [Controller2::class, 'sendEmail'])->name('send.email');
 
 Route::get('/post1/{id?}', [Controller2::class, 'show1'])->name('post1.show');
 
@@ -120,7 +121,8 @@ Route::get('/Confirm', [Controller2::class, 'confirmed'])->name('confirmed');
 
 Route::any('/deleteUser/{id}', [Controller2::class, 'deletenotif'])->name('deletenotif');
 
-Route::get('/downloadRAR/{pict}/{cin_pict}/{magasin_pict}/{entreprise_pict}/{name}', [Controller2::class, 'downloadRAR'])->name('downloadRAR');
+Route::get('/downloadRAR/{pict}/{cin_pict}/{magasin_pict}/{entreprise_pict}/{payment_pict}/{name}', [Controller2::class, 'downloadRAR'])->name('downloadRAR');
+Route::get('/download_unconfirmed/{pict}/{cin_pict}/{magasin_pict}/{entreprise_pict}/{payment_pict}/{name}', [Controller2::class, 'download_unconfirmed'])->name('download_unconfirmed');
 
 Route::get('/users/download-all', [Controller2::class, 'downloadAll'])->name('users.downloadAll');
 

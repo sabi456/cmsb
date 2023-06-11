@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 use ZipArchive;
 
+use App\Models\Pay;
 use App\Models\Post;
 use App\Models\User;
+use App\Mail\ContactFormMail;
 use App\Models\Akhbar;
 use App\Models\Persen;
 use App\Models\Document;
@@ -14,6 +16,7 @@ use App\Models\unconfirmed_users;
 use App\Http\Requests\PostRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -266,11 +269,21 @@ class Controller2 extends Controller
             DB::table('persens')
                 ->where('id', '=', $id)
                 ->delete();
-            
+              // Delete the images from multiple folders
+    $folders = ['uploads', 'pdfs', 'pdfs2', 'pdfs3', 'pdfs4'];
+    foreach ($folders as $folder) {
+        $files = glob(public_path($folder) . '/' . $id . '.*'); // Get all files with the given ID as the filename
+        
+        foreach ($files as $file) {
+            if (file_exists($file)) {
+                unlink($file);
+            }
+        }
+    }
             //Delete the notification for the specific unconfirmed user
             DB::table('notifications')->where('id', $id)->delete();
 
-            return view ('admin');
+            return redirect ('admin');
     }
     
     public function perma($id)
@@ -562,6 +575,7 @@ class Controller2 extends Controller
 
                 $image_name4 = time() . '_' . $file4->getClientOriginalName();
                 $file4->move(public_path('pdfs3'), $image_name4);
+                
 
                 // Delete old files if they exist
                 if ($doc->pict) {
@@ -611,45 +625,152 @@ class Controller2 extends Controller
 
     return "No file selected or invalid file.";
 }
-        public function download($filename)
-        {
-            $file = Document::where('cin_pict', $filename)->first();
-        
-            if ($file) {
-                $extension = pathinfo($file->cin_pict, PATHINFO_EXTENSION);
-                $filenameWithExtension = 'downloaded_file.' . $extension;
-        
-                return response()->streamDownload(function () use ($file) {
-                    echo $file->cin_pict;
-                }, $filenameWithExtension);
-            }
-        
-            abort(404);
-        }
-    public function downloadRAR($pict, $cin_pict, $magasin_pict, $entreprise_pict,$name)
-    {
-        $archiveName = 'Confirmed_'.$name.'.rar';
-        $archivePath = storage_path('app/'.$archiveName);
-    
-        // Create a new ZIP archive
-        $zip = new ZipArchive;
-        if ($zip->open($archivePath, ZipArchive::CREATE) === true) {
-            // Add the PDF files to the ZIP archive
-       
-                $zip->addFile(public_path('uploads/'.$pict), $pict);
-                $zip->addFile(public_path('pdfs/'.$cin_pict), $cin_pict);
-                $zip->addFile(public_path('pdfs2/'.$magasin_pict), $magasin_pict);
-                $zip->addFile(public_path('pdfs3/'.$entreprise_pict), $entreprise_pict);
-          
-            // Close the ZIP archive
-            $zip->close();
-        }
-    
-        // Serve the ZIP archive for download
-        return response()->download($archivePath);
-    }
-    
 
+public function post_4(Request $req)
+{
+    $req->validate(
+        [
+            'name' => 'min:6|max:20',
+            'number_v' => 'min:10|max:40',
+            'pict' => 'file|mimes:jpg,png,pdf|max:1024'
+        ],
+        [
+            'pict.mimes' => 'نقبل فقط JPG أو PNG أو PDF',
+            'pict.max' => 'لقد تجاوزت 1 MB',
+            'name.min' => 'الإسم قصير جدّا',
+            'name.max' => 'الإسم طويل جدّا',
+            'number_v.min' => 'رقم الدفع قصير جدّا',
+            'number_v.max' => 'رقم الدفع طويل جدّا'
+        ]
+    );
+    $user = auth()->user();
+    $id = Session::get('id');
+    $pay = Pay::where('id', $id)->first();
+
+    if (!$pay) {
+        $pay1 = new Pay();
+        $pay1->payer = $req->name;
+        $pay1->number_v = $req->number_v;
+        $pay1->pay_name = $req->pay_name;
+        $pay1->id = $id;
+        try {
+            $pay1->save();
+        } catch (\Exception $e) {
+            // Handle the exception (e.g., log the error, display an error message)
+            return "Error: " . $e->getMessage();
+        }
+    } else {
+        $pay->payer = $req->name;
+        $pay->number_v = $req->number_v;
+        $pay->pay_name = $req->pay_name;
+        try {
+            $pay->save();
+        } catch (\Exception $e) {
+            // Handle the exception (e.g., log the error, display an error message)
+            return "Error: " . $e->getMessage();
+        }
+    }
+    $doc = Document::where('id', $id)->first();
+    if ($req->hasFile('pict')) {
+        $file = $req->file('pict');
+
+        if ($file->isValid()) {
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $file->move(public_path('pdfs4'), $filename);
+
+            // Delete the old file if it exists
+            if ($doc->payment_pict) {
+                $old_file_path = public_path('pdfs4') . '/' . $doc->payment_pict;
+                if (file_exists($old_file_path)) {
+                    unlink($old_file_path);
+                }
+            }
+
+            $doc->payment_pict = $filename;
+            try {
+                $doc->save();
+            } catch (\Exception $e) {
+                // Handle the exception (e.g., log the error, display an error message)
+                return "Error: " . $e->getMessage();
+            }
+        }
+    }
+
+    $data = Document::join('persens', 'persens.id', '=', 'documents.id')
+        ->where('persens.id', '=', $id)
+        ->first();
+
+    if ($data) {
+        $id = $data->id;
+        $name = $data->name;
+        $picture = $data->pict;
+
+        Notification::send($user, new NewUserNotification($id, $name, $picture));
+
+    } else {
+        echo "error notif !!";
+    }
+
+    return redirect()->route('cong');
+}
+function downloadRAR($pict, $cin_pict, $magasin_pict, $entreprise_pict, $payment_pict, $name)
+{
+    $archiveName = 'Confirmed_' . $name . '.rar';
+    $archivePath = storage_path('app/' . $archiveName);
+
+    // Create a new ZIP archive
+    $zip = new ZipArchive;
+    if ($zip->open($archivePath, ZipArchive::CREATE) === true) {
+        // Add the PDF files to the ZIP archive
+
+        $zip->addFile(public_path('uploads/' . $pict), $pict);
+        $zip->addFile(public_path('pdfs/' . $cin_pict), $cin_pict);
+        $zip->addFile(public_path('pdfs2/' . $magasin_pict), $magasin_pict);
+        $zip->addFile(public_path('pdfs3/' . $entreprise_pict), $entreprise_pict);
+
+        // Check if the payment_pict file exists
+        if (file_exists(public_path('pdfs4/' . $payment_pict))) {
+            $zip->addFile(public_path('pdfs4/' . $payment_pict), $payment_pict);
+        }
+
+        // Close the ZIP archive
+        $zip->close();
+    }
+
+    // Serve the ZIP archive for download
+    return response()->download($archivePath);
+}
+function download_unconfirmed($pict, $cin_pict, $magasin_pict, $entreprise_pict, $payment_pict, $name)
+{
+    $archiveName = 'Unconfirmed_' . $name . '.rar';
+    $archivePath = storage_path('app/' . $archiveName);
+
+    // Create a new ZIP archive
+    $zip = new ZipArchive;
+    if ($zip->open($archivePath, ZipArchive::CREATE) === true) {
+        // Add the PDF files to the ZIP archive
+
+        $zip->addFile(public_path('uploads/' . $pict), $pict);
+        $zip->addFile(public_path('pdfs/' . $cin_pict), $cin_pict);
+        $zip->addFile(public_path('pdfs2/' . $magasin_pict), $magasin_pict);
+        $zip->addFile(public_path('pdfs3/' . $entreprise_pict), $entreprise_pict);
+
+        // Check if the payment_pict file exists
+        if (file_exists(public_path('pdfs4/' . $payment_pict))) {
+            $zip->addFile(public_path('pdfs4/' . $payment_pict), $payment_pict);
+        }
+
+        // Close the ZIP archive
+        $zip->close();
+    }
+
+    // Serve the ZIP archive for download
+    return response()->download($archivePath);
+}
+
+    
+   
     public function trashRAR($name, $pict, $cin_pict, $magasin_pict, $entreprise_pict, $paymeny_pict)
     {
         $archiveName = 'Trash_'.$name .'.rar';
