@@ -805,7 +805,7 @@ class Controller2 extends Controller
     public function show3()
     {
         if (auth()->check()) {
-            $akhbar = Akhbar::all();
+            $akhbar = Akhbar::orderByDesc('id')->get();
             return view('posts')->with(['akhbar' => $akhbar]);
         }
         
@@ -823,12 +823,14 @@ class Controller2 extends Controller
         }
         return redirect()->back();
     }
+
     public function update_akhbar(Request $req, $id)
     {
         if (auth()->check() && (auth()->user()->status == 'High' || auth()->user()->status == 'Medium')) {
             $data = Akhbar::find($id);
             
             $data->title = $req->title;
+            $data->description = $req->description;
             $data->detail = $req->detail;
             $data->datePosted = $req->datePosted;
             if ($req->hasFile('image')) {
@@ -848,54 +850,61 @@ class Controller2 extends Controller
                 $data->image = $image_name;
             }$data->save();
         }
+
         return redirect('show3');
     }
-public function add_akhbar(Request $req)
-{
-    if (auth()->check() && (auth()->user()->status == 'High' || auth()->user()->status == 'Medium')) {
-        $req->validate([
-            'image' => 'nullable',
-            
-        ]);
-        $Akhbar = new Akhbar();
-        $Akhbar->title = $req->title;
-        $Akhbar->detail = $req->detail;
-        $Akhbar->datePosted = $req->datePosted;
-        $Akhbar->image = $req->image;
-        if ($req->hasFile('image')) {
-            // Upload the new image if provided
-            $file = $req->file('image');
-            $image_name = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('akhbar'), $image_name);
-            
-            // Delete the old image if it exists
-            if ($Akhbar->image) {
-                $old_image_path = public_path('akhbar') . '/' . $Akhbar->image;
-                if (file_exists($old_image_path)) {
-                    unlink($old_image_path);
-                }
-            }
-    
-            $Akhbar->image = $image_name;
-        }
-        $Akhbar->save();
-    }
-    return redirect('show3');
-}
 
-public function page_akhbar()
-{
-    if (auth()->check() && (auth()->user()->status == 'High' || auth()->user()->status == 'Medium' )) {
-        return view('add_akhbar');
+    public function add_akhbar(Request $req)
+    {
+        //if (auth()->check() && (auth()->user()->status == 'High' || auth()->user()->status == 'Medium')) {
+            
+            
+            $Akhbar = new Akhbar();
+            $Akhbar->title = $req->title;
+            $Akhbar->description = $req->description;
+            $Akhbar->detail = $req->detail;
+            $Akhbar->datePosted = $req->datePosted;
+            $Akhbar->image = $req->image;
+            if ($req->hasFile('image')) {
+                // Upload the new image if provided
+                $file = $req->file('image');
+                $image_name = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('akhbar'), $image_name);
+                
+                // Delete the old image if it exists
+                if ($Akhbar->image) {
+                    $old_image_path = public_path('akhbar') . '/' . $Akhbar->image;
+                    if (file_exists($old_image_path)) {
+                        unlink($old_image_path);
+                    }
+                }
+        
+                $Akhbar->image = $image_name;
+            }
+            
+            try {
+                $Akhbar->save();
+            } catch (\Exception $e) {
+                return "Error: " . $e->getMessage();
+            }
+        
+        return redirect('page_akhbar');
     }
-    return redirect()->back();
-} 
-public function delete_akhbar($id)
-{
-    if (auth()->check()) {
-        $post = Akhbar::findOrFail($id);
-        $post->delete();
+
+    public function page_akhbar()
+    {
+        if (auth()->check() && (auth()->user()->status == 'High' || auth()->user()->status == 'Medium' )) {
+            return view('add_akhbar');
+        }
+        return redirect()->back();
+    } 
+
+    public function delete_akhbar($id)
+    {
+        if (auth()->check()) {
+            $post = Akhbar::findOrFail($id);
+            $post->delete();
+        }
+        return redirect('show3');
     }
-    return redirect('show3');
-}
 }

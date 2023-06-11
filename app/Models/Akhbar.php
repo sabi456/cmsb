@@ -10,9 +10,10 @@ class Akhbar extends Model
     use HasFactory;
     protected $fillable = [
         'title',
+        'description',
         'detail',
         'datePosted',
-        'image',
+        'image'
     ];
     
     public function getRouteKeyName()

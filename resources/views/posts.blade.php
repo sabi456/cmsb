@@ -30,7 +30,7 @@
   }
 </style>
 </head>
-@section('active_p')
+@section('active_m')
     active
 @endsection
 
@@ -219,7 +219,7 @@
                         <div class="card-header py-3">
                             
                         <div class="d-flex justify-content-between">
-  <h1 class="m-0 font-weight-bold text-primary mx-auto">Engageurs confirmés</h1>
+  <h1 class="m-0 font-weight-bold text-primary mx-auto">Liste des événements</h1>
 </div>
 </div>
 
@@ -235,7 +235,7 @@
                     <tr>
                         <th class="text-center">ID</th>
                         <th class="text-center">Title</th>
-                        <th class="text-center">Détail</th>
+                        <th class="text-center">Description</th>
                         <th class="text-center">DatePosted</th>
                         <th class="text-center">Image</th>
                         <th class="text-center">Edit</th>
@@ -248,9 +248,9 @@
         <tr>
             <td class="text-center">{{$t->id}}</td>
             <td class="text-center">{{$t->title}}</td>
-            <td class="text-center">{{ \Illuminate\Support\Str::limit($t->detail, 20, '....') }}</td>
+            <td class="text-center">{{ \Illuminate\Support\Str::limit($t->description, 20, '....') }}</td>
             <td class="text-center">{{$t->datePosted}}</td>
-            <td class="text-center"><img src="{{ asset('akhbar/' . $t->image) }}" alt="" style="width:50px;height:50px;border-radius:10px;"></td>
+            <td class="text-center"><img src="{{ asset('akhbar/' . $t->image) }}" alt="" width="200"></td>
             <td class="text-center"> <form action="{{ route('edit_akhbar',['id' =>$t->id])}}" method="GET">
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <button  type="submit" style="width:90px;"class="btn btn-sm btn-warning">Edit</button>

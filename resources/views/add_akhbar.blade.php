@@ -1,7 +1,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
+    @section('active_p')
+        active
+    @endsection
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -136,41 +138,52 @@
 
 
 <body id="page-top">
-    <div class="container text-center my-4">
         <!-- Page content goes here -->
-        
+        <div id="wrapper">
+            @include('master.side_bar')
+            <div class="container text-center my-4">
             <div class="card shadow mb-4">
-                <div class="card-body">
-                    <div class="table-responsive">
+                <div class="card-header py-3">
+                    
+                <div class=" justify-content-between">
+                        <h1 class="m-0 font-weight-bold text-primary mx-auto">Ajouter un événement</h1>
+                        <form action="{{ route('add_akhbar')}}" method="POST" enctype="multipart/form-data">
+                            @csrf
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-
-                            <form action="{{ route('add_akhbar')}}" method="POST" enctype="multipart/form-data">
-                                @csrf
                        
                             <tr>
                                 <th class="text-center">Title :</th>
                                 <td>
-                                    <input type="text" class="form-control" name="title" value="">
+                                    <input type="text" required value="{{old('title')}}" class="form-control" name="title">
                                     @error('name')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </td>
                             </tr>
                             <tr>
-                                    <th class="text-center">Detail :</th>
-                                    <td>
-                                        <textarea class="form-control" name="detail"></textarea>
-                                        @error('detail')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </td>
-                                </tr>
+                                <th class="text-center">Description :</th>
+                                <td>
+                                    <textarea type="text" required class="form-control" name="description" value="{{old('description')}}"></textarea>
+                                    @error('description')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">Detail :</th>
+                                <td>
+                                    <textarea value="{{old('detail')}}" class="form-control" name="detail"></textarea>
+                                    @error('detail')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </td>
+                            </tr>
 
                             <tr>
-                                <th class="text-center">DatePosted :</th>
+                                <th class="text-center">Date limite :</th>
                                 <td>
-                                    <input type="date" class="form-control" name="datePosted" value="">
-                                    @error('date_b')
+                                    <input type="date" required  value="{{old('datePosted')}}" class="form-control" name="datePosted" >
+                                    @error('datePosted')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </td>
@@ -178,31 +191,50 @@
                             <tr>
                                 <th class="text-center">Image :</th>
                                 <td>
-                                    <input type="file" class="form-control" name="image" value="">
-                                    @error('city_b')
+                                    <input type="file" value="{{old('image')}}" class="form-control" name="image" >
+                                    @error('image')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </td>
                             </tr>
-                   
-                            
-                          
                             <tr>
                                 <td colspan="2">
                                 
-                                        <button type="submit" class="btn btn-sm btn-primary">Save</button>
-                                        <a href="{{ route('admin') }}" class="btn btn-sm btn-secondary">Cancel</a>
+                                        <button type="submit" class="btn btn-info">Sauvegarder</button>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="{{ route('show3') }}" class="btn btn-danger">Cancel</a>
                                     
                                 </td>
                             </tr>
-                      </form> 
+                       
                      </table>
-                        
+                        </form>
                     </div>
                 </div>
             </div>
-        
-    </div>
+            </div>
+        </div>
 </body>
+<script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+  <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src= href="{{ asset('js/sb-admin-2.min.js')}}" ></script>
+
+  <!-- Page level plugins -->
+  <script src="{{ asset('vendor/chart.js/Chart.min.js')}}"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
+  <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
+  <script src="{{ asset('js/demo/chart-bar-demo.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://kit.fontawesome.com/ce7b98fac5.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.5.0/js/bootstrap.bundle.min.js"></script>
 
 </html>

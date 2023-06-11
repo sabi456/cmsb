@@ -139,22 +139,25 @@
             <div class="card shadow mb-4">
                 <div class="card-body">
                     <div class="table-responsive">
+                        <h1 class="m-0 font-weight-bold text-primary mx-auto">Modifier un événement</h1>
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <form action="{{ route('update_akhbar', $post->id)}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                             <tr>
-                                
-                                <th class="text-center">ID:</th>
-                                <td>
-                                    <input type="text" class="form-control" name="id" value="{{$post->id}}" readonly>
-                                </td>
-                            </tr>
-                            <tr>
                                 <th class="text-center">Title :</th>
                                 <td>
                                     <input type="text" class="form-control" name="title" value="{{$post->title}}">
-                                    @error('name')
+                                    @error('title')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">Description :</th>
+                                <td>
+                                    <textarea type="text" class="form-control" name="description" >{{$post->description}}</textarea>
+                                    @error('description')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </td>
@@ -170,10 +173,10 @@
                                 </tr>
 
                             <tr>
-                                <th class="text-center">DatePosted :</th>
+                                <th class="text-center">Date limite :</th>
                                 <td>
                                     <input type="date" class="form-control" name="datePosted" value="{{$post->datePosted}}">
-                                    @error('date_b')
+                                    @error('datePosted')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </td>
@@ -182,14 +185,14 @@
                                 <th class="text-center">Image :</th>
                                 <td>
                                     <input type="file" class="form-control" name="image" value="{{$post->image}}">
-                                    @error('city_b')
+                                    @error('image')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </td>
                             </tr>
                            
                             <tr>
-                                <th class="text-center">Date d'inscription:</th>
+                                <th class="text-center">Date de poste :</th>
                                 <td>
                                     <input type="text" class="form-control" name="created_at" value="{{$post->created_at}}" readonly>
                                 </td>
@@ -198,10 +201,9 @@
                           
                             <tr>
                                 <td colspan="2">
-                                
-                                        <button type="submit" class="btn btn-sm btn-primary">Save</button>
-                                        <a href="{{ route('admin') }}" class="btn btn-sm btn-secondary">Cancel</a>
-                                    
+                                        <button type="submit" class="btn btn-info">Sauvegarder</button>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="{{ route('show3') }}" class="btn btn-danger">Cancel</a>
                                 </td>
                             </tr>
                       </form> 

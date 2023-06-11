@@ -72,7 +72,7 @@
     @endif
     @if(auth()->check())
     <li class="nav-item @yield('active_p')" >
-        <a class="nav-link " href="{{ route('show3') }}">
+        <a class="nav-link " href="{{ route('page_akhbar') }}">
             <i class="fas fa-upload fa-2x"></i>
             &nbsp;
             <span style="font-size:20px;">Poster</span>
@@ -81,8 +81,8 @@
     @endif
     @if(auth()->check())
     <li class="nav-item @yield('active_m')" >
-        <a class="nav-link " href="{{ route('page_akhbar') }}">
-            <i class="fas fa-upload fa-2x"></i>
+        <a class="nav-link " href="{{ route('show3') }}">
+            <i class="fas fa-list fa-2x"></i>
             &nbsp;
             <span style="font-size:20px;">Evenements</span>
         </a>
