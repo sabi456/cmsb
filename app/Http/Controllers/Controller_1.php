@@ -253,7 +253,7 @@ class Controller_1 extends Controller
             $id = $data->id;
             $name = $data->name;
             $picture = $data->pict;
-            mb_convert_encoding($data['name'], 'UTF-8', 'UTF-8');
+
             Notification::send($user, new NewUserNotification($id, $name, $picture));
             
         }else echo "error notif !!";
