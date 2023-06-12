@@ -49,7 +49,7 @@
     <div class="container paddding">
         <div class="row mx-0">
             <div class="col-md-12 animate-box my-4" style="text-align: justify;" data-animate-effect="fadeInLeft">
-                <p style="line-height: 2em; font-weight: 500; letter-spacing: 0.5px">
+                <p style="line-height: 2em; font-weight: 500; letter-spacing: 0.5px; text-align: center;">
                     {!! $akhbar->detail !!}
                 </p>
             </div>

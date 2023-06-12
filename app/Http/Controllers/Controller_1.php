@@ -173,27 +173,26 @@ class Controller_1 extends Controller
 
     
 
-    public function post_4(Request $req){
-        $req->validate(
-            [
-                'name' => 'min:6|max:20',
-                'number_v' => 'min:10|max:40',
-                'pict' => 'file|mimes:jpg,png,pdf|max:1024'
-            ],
-            [
-                'pict.mimes' => 'نقبل فقط JPG أو PNG أو PDF',
-                'pict.max' => 'لقد تجاوزت 1 MB',
-                'name.min' => 'الإسم قصير جدّا',
-                'name.max' => 'الإسم طويل جدّا',
-                'number_v.min' => 'رقم الدفع قصير جدّا',
-                'number_v.max' => 'رقم الدفع طويل جدّا'
-            ]
-        );
+    public function post_4(Request $req)
+    {
+        $req->validate([
+            'name' => 'min:6|max:20',
+            'number_v' => 'min:10|max:40',
+            'pict' => 'file|mimes:jpg,png,pdf|max:1024'
+        ], [
+            'pict.mimes' => 'نقبل فقط JPG أو PNG أو PDF',
+            'pict.max' => 'لقد تجاوزت 1 MB',
+            'name.min' => 'الإسم قصير جدّا',
+            'name.max' => 'الإسم طويل جدّا',
+            'number_v.min' => 'رقم الدفع قصير جدّا',
+            'number_v.max' => 'رقم الدفع طويل جدّا'
+        ]);
+
         $user = auth()->user();
         $id = Session::get('id');
         $pay = Pay::where('id', $id)->first();
 
-        if(!$pay){
+        if (!$pay) {
             $pay1 = new Pay();
             $pay1->payer = $req->name;
             $pay1->number_v = $req->number_v;
@@ -205,7 +204,7 @@ class Controller_1 extends Controller
                 // Handle the exception (e.g., log the error, display an error message)
                 return "Error: " . $e->getMessage();
             }
-        }else{
+        } else {
             $pay->payer = $req->name;
             $pay->number_v = $req->number_v;
             $pay->pay_name = $req->pay_name;
@@ -216,51 +215,53 @@ class Controller_1 extends Controller
                 return "Error: " . $e->getMessage();
             }
         }
+
         $doc = Document::where('id', $id)->first();
+
         if ($req->hasFile('pict')) {
             $file = $req->file('pict');
 
             if ($file->isValid()) {
-                $pict = file_get_contents($file->getRealPath());
-                $doc->payment_pict = $pict;
+                $extension = $file->getClientOriginalExtension();
+                $filename = time() . '.' . $extension;
+                $file->move(public_path('pdfs4'), $filename);
+
+                // Delete the old file if it exists
+                if ($doc->payment_pict) {
+                    $old_file_path = public_path('pdfs4') . '/' . $doc->payment_pict;
+                    if (file_exists($old_file_path)) {
+                        unlink($old_file_path);
+                    }
+                }
+
+                $doc->payment_pict = $filename;
                 try {
                     $doc->save();
-
-                    $image_name = time() . '_' . $file->getClientOriginalName();
-                    $file->move(public_path('uploads'), $image_name);
-                    
-                    // Delete the old image if it exists
-                    if ($doc->payment_pict) {
-                        $old_image_path = public_path('uploads') . '/' . $doc->payment_pict;
-                        if (file_exists($old_image_path)) {
-                            unlink($old_image_path);
-                        }
-                    }
-                    $doc->payment_pict = $image_name;
-                    
                 } catch (\Exception $e) {
                     // Handle the exception (e.g., log the error, display an error message)
                     return "Error: " . $e->getMessage();
                 }
+            } else {
+                echo "error notif !!";
             }
         }
 
         $data = Document::join('persens', 'persens.id', '=', 'documents.id')
             ->where('persens.id', '=', $id)
             ->first();
-    
+
         if ($data) {
             $id = $data->id;
             $name = $data->name;
             $picture = $data->pict;
 
             Notification::send($user, new NewUserNotification($id, $name, $picture));
-            
-        }else echo "error notif !!";
+        } else {
+            echo "error notif !!";
+        }
 
         return redirect()->route('cong');
     }
-
 
     public function condition(){
         return view('condition');

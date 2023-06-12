@@ -149,7 +149,6 @@ class Controller2 extends Controller
 
     public function unconfirmed()
     {
-        if (auth()->check()) {
             //softDeletedUserCount = Post::onlyTrashed()->count();
             $posts = Persen::all();
             
@@ -157,8 +156,6 @@ class Controller2 extends Controller
             return view('unconfirmed')->with([
                 'posts' => $posts,
             ]);
-        }
-        return redirect()->back();
     }
 
     public function edit($id)

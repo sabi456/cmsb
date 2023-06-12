@@ -77,7 +77,7 @@ Route::get('/deleted', [Controller2::class, 'deleted'])->name('deleted');
 
 Route::any('confirm-user/{id}', [Controller2::class, 'confirmUser'])->name('confirm-user');
 
-Route::any('/post/{id?}', [Controller2::class, 'show'])->name('post.show');
+Route::any('/post/{id}', [Controller2::class, 'show'])->name('post.show');
 
 Route::get('/post1/{id?}', [Controller2::class, 'show1'])->name('post1.show');
 
@@ -119,7 +119,6 @@ Route::get('/Confirm', [Controller2::class, 'confirmed'])->name('confirmed');
 
 Route::any('/deleteUser/{id}', [Controller2::class, 'deletenotif'])->name('deletenotif');
 
-Route::get('/downloadRAR/{pict}/{cin_pict}/{magasin_pict}/{entreprise_pict}/{name}', [Controller2::class, 'downloadRAR'])->name('downloadRAR');
 
 Route::get('/users/download-all', [Controller2::class, 'downloadAll'])->name('users.downloadAll');
 
