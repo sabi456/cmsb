@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -115,13 +114,7 @@
                         <th class="text-center">RC : </th>
                         <td>{{$post->rc}}</td>
                     </tr>
-                    <tr>
-                        <th class="text-center">Les a : </th>
-                        <td>
-<a href="{{ route('downloadRAR', ['cin_pict' => $post->cin_pict, 'magasin_pict' => $post->magasin_pict, 'entreprise_pict' => $post->entreprise_pict, 'payment_pict' => $post->payment_pict,'name' => $post->name]) }}" download>Download RAR</a>
-</td>
-
-                    </tr>
+                   
 
                 </table>
                 <br>

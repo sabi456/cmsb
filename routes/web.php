@@ -84,16 +84,22 @@ Route::get('/post1/{id?}', [Controller2::class, 'show1'])->name('post1.show');
 Route::get('/edit/post/{id}', [Controller2::class, 'edit'])->name('post.edit');
 
 Route::get('/edit1', [Controller2::class, 'edit1'])->name('post.edit1');
+
 Route::put('/deleted/post3/{id}', [Controller2::class, 'restore'])->name('post.restore');
+
 Route::put('/deleted/posts/restore-all', [Controller2::class, 'restoreall'])->name('post.restoreall');
 
 Route::get('/edit_show/{id}', [Controller2::class, 'edit_show'])->name('edit_show');
-Route::get('/edit_akhbar/{id}', [Controller2::class, 'edit_akhbar'])->name('edit_akhbar');
-Route::get('/page_akhbar', [Controller2::class, 'page_akhbar'])->name('page_akhbar');
-Route::any('/add_akhbar', [Controller2::class, 'add_akhbar'])->name('add_akhbar');
-Route::put('/update_akhbar/{id}', [Controller2::class, 'update_akhbar'])->name('update_akhbar');
-Route::any('/delete_akhbar/{id}', [Controller2::class, 'delete_akhbar'])->name('delete_akhbar');
 
+Route::get('/edit_akhbar/{id}', [Controller2::class, 'edit_akhbar'])->name('edit_akhbar');
+
+Route::get('/page_akhbar', [Controller2::class, 'page_akhbar'])->name('page_akhbar');
+
+Route::any('/add_akhbar', [Controller2::class, 'add_akhbar'])->name('add_akhbar');
+
+Route::put('/update_akhbar/{id}', [Controller2::class, 'update_akhbar'])->name('update_akhbar');
+
+Route::any('/delete_akhbar/{id}', [Controller2::class, 'delete_akhbar'])->name('delete_akhbar');
 
 Route::put('/update/post/{id}', [Controller2::class, 'update'])->name('post.update');
 
@@ -106,6 +112,7 @@ Route::resource('categories', 'CategoryController');
 Route::delete('/posts/delete-multiple', [Controller2::class, 'deleteMultiple'])->name('post.deleteMultiple');
 
 Route::get('/users/download', [Controller2::class, 'downloadUsers'])->name('users.download');
+Route::get('/download_unconfirmed/{pict}/{cin_pict}/{magasin_pict}/{entreprise_pict}/{payment_pict}/{name}', [Controller2::class, 'download_unconfirmed'])->name('download_unconfirmed');
 Route::get('/show3', [Controller2::class, 'show3'])->name('show3');
 
 Route::get('/Confirm', [Controller2::class, 'confirmed'])->name('confirmed');

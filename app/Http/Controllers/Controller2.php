@@ -270,7 +270,7 @@ class Controller2 extends Controller
             //Delete the notification for the specific unconfirmed user
             DB::table('notifications')->where('id', $id)->delete();
 
-            return view ('admin');
+            return redirect('admin');
     }
     
     public function perma($id)
@@ -626,28 +626,33 @@ class Controller2 extends Controller
         
             abort(404);
         }
-    public function downloadRAR($pict, $cin_pict, $magasin_pict, $entreprise_pict,$name)
-    {
-        $archiveName = 'Confirmed_'.$name.'.rar';
-        $archivePath = storage_path('app/'.$archiveName);
-    
-        // Create a new ZIP archive
-        $zip = new ZipArchive;
-        if ($zip->open($archivePath, ZipArchive::CREATE) === true) {
-            // Add the PDF files to the ZIP archive
-       
-                $zip->addFile(public_path('uploads/'.$pict), $pict);
-                $zip->addFile(public_path('pdfs/'.$cin_pict), $cin_pict);
-                $zip->addFile(public_path('pdfs2/'.$magasin_pict), $magasin_pict);
-                $zip->addFile(public_path('pdfs3/'.$entreprise_pict), $entreprise_pict);
-          
-            // Close the ZIP archive
-            $zip->close();
+        function downloadRAR($pict, $cin_pict, $magasin_pict, $entreprise_pict, $payment_pict, $name)
+        {
+            $archiveName = 'Confirmed_' . $name . '.rar';
+            $archivePath = storage_path('app/' . $archiveName);
+        
+            // Create a new ZIP archive
+            $zip = new ZipArchive;
+            if ($zip->open($archivePath, ZipArchive::CREATE) === true) {
+                // Add the PDF files to the ZIP archive
+        
+                $zip->addFile(public_path('uploads/' . $pict), $pict);
+                $zip->addFile(public_path('pdfs/' . $cin_pict), $cin_pict);
+                $zip->addFile(public_path('pdfs2/' . $magasin_pict), $magasin_pict);
+                $zip->addFile(public_path('pdfs3/' . $entreprise_pict), $entreprise_pict);
+        
+                // Check if the payment_pict file exists
+                if (file_exists(public_path('pdfs4/' . $payment_pict))) {
+                    $zip->addFile(public_path('pdfs4/' . $payment_pict), $payment_pict);
+                }
+        
+                // Close the ZIP archive
+                $zip->close();
+            }
+        
+            // Serve the ZIP archive for download
+            return response()->download($archivePath);
         }
-    
-        // Serve the ZIP archive for download
-        return response()->download($archivePath);
-    }
     
 
     public function trashRAR($name, $pict, $cin_pict, $magasin_pict, $entreprise_pict, $paymeny_pict)
@@ -859,6 +864,7 @@ public function add_akhbar(Request $req)
         ]);
         $Akhbar = new Akhbar();
         $Akhbar->title = $req->title;
+        $Akhbar->description = $req->description;
         $Akhbar->detail = $req->detail;
         $Akhbar->datePosted = $req->datePosted;
         $Akhbar->image = $req->image;
@@ -897,5 +903,32 @@ public function delete_akhbar($id)
         $post->delete();
     }
     return redirect('show3');
+}
+function download_unconfirmed($pict, $cin_pict, $magasin_pict, $entreprise_pict, $payment_pict, $name)
+{
+    $archiveName = 'Unconfirmed_' . $name . '.rar';
+    $archivePath = storage_path('app/' . $archiveName);
+
+    // Create a new ZIP archive
+    $zip = new ZipArchive;
+    if ($zip->open($archivePath, ZipArchive::CREATE) === true) {
+        // Add the PDF files to the ZIP archive
+
+        $zip->addFile(public_path('uploads/' . $pict), $pict);
+        $zip->addFile(public_path('pdfs/' . $cin_pict), $cin_pict);
+        $zip->addFile(public_path('pdfs2/' . $magasin_pict), $magasin_pict);
+        $zip->addFile(public_path('pdfs3/' . $entreprise_pict), $entreprise_pict);
+
+        // Check if the payment_pict file exists
+        if (file_exists(public_path('pdfs4/' . $payment_pict))) {
+            $zip->addFile(public_path('pdfs4/' . $payment_pict), $payment_pict);
+        }
+
+        // Close the ZIP archive
+        $zip->close();
+    }
+
+    // Serve the ZIP archive for download
+    return response()->download($archivePath);
 }
 }

@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('akhbars', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('detail');
+            $table->text('description');
+            $table->mediumText('detail');
             $table->date('datePosted');
             $table->binary('image');
             $table->timestamps();

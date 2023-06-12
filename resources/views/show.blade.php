@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -130,7 +129,8 @@
                     <tr>
                         <th class="text-center">Les documents : </th>
                         <td>
-                    
+                        <a href="{{ route('download_unconfirmed', ['pict' => $post->pict, 'cin_pict' => $post->cin_pict, 'magasin_pict' => $post->magasin_pict, 'entreprise_pict' => $post->entreprise_pict, 'payment_pict' => $post->payment_pict, 'name' => $post->name]) }}" class="btn btn-primary" style="width:150px;height:40px;" download>Télécharger</a>
+
                         </td>
                     </tr>
 

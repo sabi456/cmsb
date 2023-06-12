@@ -219,7 +219,7 @@
                         <div class="card-header py-3">
                             
                         <div class="d-flex justify-content-between">
-  <h1 class="m-0 font-weight-bold text-primary mx-auto">Engageurs non confirmés</h1>
+  <h1 class="m-0 font-weight-bold text-primary mx-auto">Engageurs supprimés</h1>
 </div>
 </div>
 

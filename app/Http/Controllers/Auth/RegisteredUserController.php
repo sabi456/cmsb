@@ -40,6 +40,7 @@ class RegisteredUserController extends Controller
         Auth::login($user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'status' => $request->status,
             'password' => bcrypt($request->password),
         ]));
 
