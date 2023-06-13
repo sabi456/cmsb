@@ -114,6 +114,26 @@
                         <th class="text-center">RC : </th>
                         <td>{{$post->rc}}</td>
                     </tr>
+                    <tr>
+                        <th class="text-center">Image : </th>
+                        <td><a href="{{ asset('uploads/' . $post->pict) }}" download>Télécharger l'image</a></td>
+                    </tr>
+                    <tr>
+                        <th class="text-center">Cin : </th>
+                        <td><a href="{{ asset('pdfs/' . $post->cin_pict) }}" download>Télécharger le cin</a></td>
+                    </tr>
+                    <tr>
+                        <th class="text-center">Magasin : </th>
+                        <td><a href="{{ asset('pdfs2/' . $post->magasin_pict) }}" download>Télécharger l'image de magasin</a></td>
+                    </tr>
+                    <tr>
+                        <th class="text-center">Entreprise : </th>
+                        <td><a href="{{ asset('pdfs3/' . $post->entreprise_pict) }}" download>Télécharger le fichier de l'entreprise</a></td>
+                    </tr>
+                    <tr>
+                        <th class="text-center">Paiment : </th>
+                        <td><a href="{{ asset('pdfs4/' . $post->payment_pict) }}" download>Télécharger le fichier du paiment</a></td>
+                    </tr>
                    
 
                 </table>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use ZipArchive;
 
+use App\Models\Pay;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Akhbar;
@@ -499,115 +500,113 @@ class Controller2 extends Controller
     //         'success' => 'deleted',
     //     ]);
     // }
-    public function post_3(Request $req){
-
-        $req->validate(
-            [
-                'pict' => 'file|mimes:jpg,png|max:5000',
-                'cin_pict' => 'file|mimes:jpg,png,pdf|max:5000',
-                'magasin_pict' => 'file|mimes:jpg,png|max:5000',
-                'entreprise_pict' => 'file|mimes:pdf,jpg,png|max:5000'
-            ],
-            [
-                'pict.mimes' => 'نقبل فقط JPG أو PNG',
-                'pict.max' => 'لقد تجاوزت 5 MB',
-                'cin_pict.mimes' => 'نقبل فقط JPG أو PNG أو PDF',
-                'cin_pict.max' => 'لقد تجاوزت 5 MB',
-                'magasin_pict.mimes' => 'نقبل فقط JPG أو PNG',
-                'magasin_pict.max' => 'لقد تجاوزت 5 MB',
-                'entreprise_pict.mimes' => 'نقبل فقط PDF',
-                'entreprise_pict.max' => 'لقد تجاوزت 5 MB'
-            ]
-        );
+    public function post_3(Request $req)
+    {
+        $req->validate([
+            'pict' => 'file|mimes:jpg,png|max:5000',
+            'cin_pict' => 'file|mimes:jpg,png,pdf|max:5000',
+            'magasin_pict' => 'file|mimes:jpg,png|max:5000',
+            'entreprise_pict' => 'file|mimes:pdf,jpg,png|max:5000',
+        ], [
+            'pict.mimes' => 'نقبل فقط JPG أو PNG',
+            'pict.max' => 'لقد تجاوزت 5 MB',
+            'cin_pict.mimes' => 'نقبل فقط JPG أو PNG أو PDF',
+            'cin_pict.max' => 'لقد تجاوزت 5 MB',
+            'magasin_pict.mimes' => 'نقبل فقط JPG أو PNG',
+            'magasin_pict.max' => 'لقد تجاوزت 5 MB',
+            'entreprise_pict.mimes' => 'نقبل فقط PDF',
+            'entreprise_pict.max' => 'لقد تجاوزت 5 MB',
+        ]);
+    
         $id = Session::get('id');
-    $doc = Document::where('id', $id)->first();
-
-    if ($req->hasFile('pict') && $req->hasFile('cin_pict') && $req->hasFile('magasin_pict') && $req->hasFile('entreprise_pict')) {
-        $file1 = $req->file('pict');
-        $file2 = $req->file('cin_pict');
-        $file3 = $req->file('magasin_pict');
-        $file4 = $req->file('entreprise_pict');
-
-        if ($file1->isValid() && $file2->isValid() && $file3->isValid() && $file4->isValid()) {
-            $pict = file_get_contents($file1->getRealPath());
-            $cin_pict = file_get_contents($file2->getRealPath());
-            $magasin_pict = file_get_contents($file3->getRealPath());
-            $entreprise_pict = file_get_contents($file4->getRealPath());
-
-            try {
-                if (!$doc) {
-                    $doc = new Document();
-                    $doc->id = $id;
-                }
-
-                $doc->pict = $pict;
-                $doc->cin_pict = $cin_pict;
-                $doc->magasin_pict = $magasin_pict;
-                $doc->entreprise_pict = $entreprise_pict;
-                $doc->payment_pict = null;
-                $doc->save();
-
-                // Move uploaded files to appropriate directories
-                $image_name1 = time() . '_' . $file1->getClientOriginalName();
-                $file1->move(public_path('uploads'), $image_name1);
-
-                $image_name2 = time() . '_' . $file2->getClientOriginalName();
-                $file2->move(public_path('pdfs'), $image_name2);
-
-                $image_name3 = time() . '_' . $file3->getClientOriginalName();
-                $file3->move(public_path('pdfs2'), $image_name3);
-
-                $image_name4 = time() . '_' . $file4->getClientOriginalName();
-                $file4->move(public_path('pdfs3'), $image_name4);
-
-                // Delete old files if they exist
-                if ($doc->pict) {
-                    $old_image_path1 = public_path('uploads') . '/' . $doc->pict;
-                    if (file_exists($old_image_path1)) {
-                        unlink($old_image_path1);
+        $doc = Document::where('id', $id)->first();
+    
+        if (
+            $req->hasFile('pict') &&
+            $req->hasFile('cin_pict') &&
+            $req->hasFile('magasin_pict') &&
+            $req->hasFile('entreprise_pict')
+        ) {
+            $file1 = $req->file('pict');
+            $file2 = $req->file('cin_pict');
+            $file3 = $req->file('magasin_pict');
+            $file4 = $req->file('entreprise_pict');
+    
+            if (
+                $file1->isValid() &&
+                $file2->isValid() &&
+                $file3->isValid() &&
+                $file4->isValid()
+            ) {
+                try {
+                    if (!$doc) {
+                        $doc = new Document();
+                        $doc->id = $id;
                     }
-                }
-
-                if ($doc->cin_pict) {
-                    $old_image_path2 = public_path('pdfs') . '/' . $doc->cin_pict;
-                    if (file_exists($old_image_path2)) {
-                        unlink($old_image_path2);
+    
+                    // Move uploaded files to storage directories
+                    $image_name1 = time() . '_' . $file1->getClientOriginalName();
+                    $file1->move(public_path('uploads'), $image_name1);
+    
+                    $image_name2 = time() . '_' . $file2->getClientOriginalName();
+                    $file2->move(public_path('pdfs'), $image_name2);
+    
+                    $image_name3 = time() . '_' . $file3->getClientOriginalName();
+                    $file3->move(public_path('pdfs2'), $image_name3);
+    
+                    $image_name4 = time() . '_' . $file4->getClientOriginalName();
+                    $file4->move(public_path('pdfs3'), $image_name4);
+    
+                    // Delete old files if they exist
+                    if ($doc->pict) {
+                        $old_image_path1 = public_path('uploads') . '/' . $doc->pict;
+                        if (file_exists($old_image_path1)) {
+                            unlink($old_image_path1);
+                        }
                     }
-                }
-
-                if ($doc->magasin_pict) {
-                    $old_image_path3 = public_path('pdfs2') . '/' . $doc->magasin_pict;
-                    if (file_exists($old_image_path3)) {
-                        unlink($old_image_path3);
+    
+                    if ($doc->cin_pict) {
+                        $old_image_path2 = public_path('pdfs') . '/' . $doc->cin_pict;
+                        if (file_exists($old_image_path2)) {
+                            unlink($old_image_path2);
+                        }
                     }
-                }
-
-                if ($doc->entreprise_pict) {
-                    $old_image_path4 = public_path('pdfs3') . '/' . $doc->entreprise_pict;
-                    if (file_exists($old_image_path4)) {
-                        unlink($old_image_path4);
+    
+                    if ($doc->magasin_pict) {
+                        $old_image_path3 = public_path('pdfs2') . '/' . $doc->magasin_pict;
+                        if (file_exists($old_image_path3)) {
+                            unlink($old_image_path3);
+                        }
                     }
+    
+                    if ($doc->entreprise_pict) {
+                        $old_image_path4 = public_path('pdfs3') . '/' . $doc->entreprise_pict;
+                        if (file_exists($old_image_path4)) {
+                            unlink($old_image_path4);
+                        }
+                    }
+    
+                    // Update the filenames in the database
+                    $doc->pict = $image_name1;
+                    $doc->cin_pict = $image_name2;
+                    $doc->magasin_pict = $image_name3;
+                    $doc->entreprise_pict = $image_name4;
+                    $doc->payment_pict = null;
+                    $doc->save();
+                } catch (\Exception $e) {
+                    // Handle the exception (e.g., log the error, display an error message)
+                    return "Error: " . $e->getMessage();
                 }
-
-                // Update the filenames in the database
-                $doc->pict = $image_name1;
-                $doc->cin_pict = $image_name2;
-                $doc->magasin_pict = $image_name3;
-                $doc->entreprise_pict = $image_name4;
-                $doc->save();
-            } catch (\Exception $e) {
-                // Handle the exception (e.g., log the error, display an error message)
-                return "Error: " . $e->getMessage();
+    
+                Session::put('id', $id);
+    
+                return redirect()->route('log4_mo');
             }
-
-            Session::put('id', $id);
-
-            return redirect()->route('log4_mo');
         }
+    
+        return "No file selected or invalid file.";
     }
-
-    return "No file selected or invalid file.";
-}
+    
         public function download($filename)
         {
             $file = Document::where('cin_pict', $filename)->first();
@@ -623,56 +622,96 @@ class Controller2 extends Controller
         
             abort(404);
         }
-        function downloadRAR($pict, $cin_pict, $magasin_pict, $entreprise_pict, $payment_pict, $name)
+
+     
+    
+        public function post_4(Request $req)
         {
-            $archiveName = 'Confirmed_' . $name . '.rar';
-            $archivePath = storage_path('app/' . $archiveName);
+            $req->validate(
+                [
+                    'name' => 'min:6|max:20',
+                    'number_v' => 'min:10|max:40',
+                    'pict' => 'file|mimes:jpg,png,pdf|max:1024'
+                ],
+                [
+                    'pict.mimes' => 'نقبل فقط JPG أو PNG أو PDF',
+                    'pict.max' => 'لقد تجاوزت 1 MB',
+                    'name.min' => 'الإسم قصير جدّا',
+                    'name.max' => 'الإسم طويل جدّا',
+                    'number_v.min' => 'رقم الدفع قصير جدّا',
+                    'number_v.max' => 'رقم الدفع طويل جدّا'
+                ]
+            );
+            $user = auth()->user();
+            $id = Session::get('id');
+            $pay = Pay::where('id', $id)->first();
         
-            // Create a new ZIP archive
-            $zip = new ZipArchive;
-            if ($zip->open($archivePath, ZipArchive::CREATE) === true) {
-                // Add the PDF files to the ZIP archive
-        
-                $zip->addFile(public_path('uploads/' . $pict), $pict);
-                $zip->addFile(public_path('pdfs/' . $cin_pict), $cin_pict);
-                $zip->addFile(public_path('pdfs2/' . $magasin_pict), $magasin_pict);
-                $zip->addFile(public_path('pdfs3/' . $entreprise_pict), $entreprise_pict);
-        
-                // Check if the payment_pict file exists
-                if (file_exists(public_path('pdfs4/' . $payment_pict))) {
-                    $zip->addFile(public_path('pdfs4/' . $payment_pict), $payment_pict);
+            if (!$pay) {
+                $pay1 = new Pay();
+                $pay1->payer = $req->name;
+                $pay1->number_v = $req->number_v;
+                $pay1->pay_name = $req->pay_name;
+                $pay1->id = $id;
+                try {
+                    $pay1->save();
+                } catch (\Exception $e) {
+                    // Handle the exception (e.g., log the error, display an error message)
+                    return "Error: " . $e->getMessage();
                 }
+            } else {
+                $pay->payer = $req->name;
+                $pay->number_v = $req->number_v;
+                $pay->pay_name = $req->pay_name;
+                try {
+                    $pay->save();
+                } catch (\Exception $e) {
+                    // Handle the exception (e.g., log the error, display an error message)
+                    return "Error: " . $e->getMessage();
+                }
+            }
+            $doc = Document::where('id', $id)->first();
+            if ($req->hasFile('pict')) {
+                $file = $req->file('pict');
         
-                // Close the ZIP archive
-                $zip->close();
+                if ($file->isValid()) {
+                    $image_name = time() . '_' . $file->getClientOriginalName();
+                    $file->move(public_path('pdfs4'), $image_name);
+        
+                    // Delete the old image if it exists
+                    if ($doc->payment_pict) {
+                        $old_image_path = public_path('pdfs4') . '/' . $doc->payment_pict;
+                        if (file_exists($old_image_path)) {
+                            unlink($old_image_path);
+                        }
+                    }
+        
+                    $doc->payment_pict = $image_name;
+        
+                    try {
+                        $doc->save();
+                    } catch (\Exception $e) {
+                        // Handle the exception (e.g., log the error, display an error message)
+                        return "Error: " . $e->getMessage();
+                    }
+                }
             }
         
-            // Serve the ZIP archive for download
-            return response()->download($archivePath);
+            $data = Document::join('persens', 'persens.id', '=', 'documents.id')
+                ->where('persens.id', '=', $id)
+                ->first();
+        
+            if ($data) {
+                $id = $data->id;
+                $name = $data->name;
+        
+                Notification::send($user, new NewUserNotification($id, $name));
+            } else {
+                echo "error notif !!";
+            }
+        
+            return redirect()->route('cong');
         }
-    
-
-    public function trashRAR($name, $pict, $cin_pict, $magasin_pict, $entreprise_pict, $paymeny_pict)
-    {
-        $archiveName = 'Trash_'.$name .'.rar';
-        $archivePath = storage_path('app/'.$archiveName);
-
-        // Create a new ZIP archive
-        $zip = new ZipArchive;
-        if ($zip->open($archivePath, ZipArchive::CREATE) === true) {
-            // Add the PDF files to the ZIP archive
-            $zip->addFile(public_path('pict/'.$pict), $pict);
-            $zip->addFile(public_path('cin_pict/'.$cin_pict), $cin_pict);
-            $zip->addFile(public_path('magasin_pict/'.$magasin_pict), $magasin_pict);
-            $zip->addFile(public_path('entreprise_pict/'.$entreprise_pict), $entreprise_pict);
-            $zip->addFile(public_path('paymeny_pict/'.$paymeny_pict), $paymeny_pict);
-            // Close the ZIP archive
-            $zip->close();
-        }
-        // Serve the ZIP archive for download
-        return response()->download($archivePath);
-    }
-
+        
     public function downloadAll()
     {
         $users = DB::table('persens')
@@ -806,7 +845,7 @@ class Controller2 extends Controller
     }
     public function show3()
     {
-        if (auth()->check()) {
+        if (auth()->check() && (auth()->user()->status=='High' || auth()->user()->status=='Medium')) {
             $akhbar = Akhbar::all();
             return view('posts')->with(['akhbar' => $akhbar]);
         }
@@ -820,6 +859,18 @@ class Controller2 extends Controller
 
             $post = Akhbar::find($id);
             return view('edit_akhbar')->with([
+                'post'=>$post
+            ]);
+        }
+        return redirect()->back();
+    }
+
+    public function show_akhbar($id)
+    {
+        if (auth()->check() && (auth()->user()->status == 'High' || auth()->user()->status == 'Medium')) {
+
+            $post = Akhbar::find($id);
+            return view('show_akhbar')->with([
                 'post'=>$post
             ]);
         }
@@ -901,6 +952,40 @@ public function delete_akhbar($id)
     }
     return redirect('show3');
 }
+
+function downloadRAR($id)
+{
+    $post = DB::table('persens')
+                ->join('documents', 'persens.id', '=', 'documents.id')
+                ->where('persens.id', '=', $id)
+                ->first();
+
+    $archiveName = 'Confirmed_' . $post->name . '.rar';
+    $archivePath = storage_path('app/' . $archiveName);
+
+    // Create a new ZIP archive
+    $zip = new ZipArchive;
+    if ($zip->open($archivePath, ZipArchive::CREATE) === true) {
+        // Add the PDF files to the ZIP archive
+
+        $zip->addFile(public_path('uploads/' . $post->pict), $post->pict);
+        $zip->addFile(public_path('pdfs/' . $post->cin_pict), $post->cin_pict);
+        $zip->addFile(public_path('pdfs2/' . $post->magasin_pict), $post->magasin_pict);
+        $zip->addFile(public_path('pdfs3/' . $post->entreprise_pict), $post->entreprise_pict);
+
+        // Check if the payment_pict file exists
+        if (file_exists(public_path('pdfs4/' . $post->payment_pict))) {
+            $zip->addFile(public_path('pdfs4/' . $post->payment_pict), $post->payment_pict);
+        }
+
+        // Close the ZIP archive
+        $zip->close();
+    }
+
+    // Serve the ZIP archive for download
+    return response()->download($archivePath);
+}
+
 function download_unconfirmed($pict, $cin_pict, $magasin_pict, $entreprise_pict, $payment_pict, $name)
 {
     $archiveName = 'Unconfirmed_' . $name . '.rar';

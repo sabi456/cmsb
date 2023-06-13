@@ -92,7 +92,7 @@
             </div>
             <div class="col-md-3 animate-box mx-4" data-animate-effect="fadeInRight">
                 <div>
-                    <div class="fh5co_heading fh5co_heading_border_bottom pt-3 py-2 mb-4">Most Popular</div>
+                    <div class="fh5co_heading fh5co_heading_border_bottom pt-3 py-2 mb-4">الأحداث القريبة</div>
                 </div>
                 <div class="row pb-3">
                     <div class="col-5 align-self-center">

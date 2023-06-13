@@ -92,43 +92,21 @@
             </div>
             <div class="col-md-3 animate-box mx-4" data-animate-effect="fadeInRight">
                 <div>
-                    <div class="fh5co_heading fh5co_heading_border_bottom pt-3 py-2 mb-4">Most Popular</div>
+                    <div class="fh5co_heading fh5co_heading_border_bottom pt-3 py-2 mb-4">الأحداث القريبة</div>
                 </div>
+                @foreach($data as $item)
+                <?php if ($item['statu'] == 'قريب') { ?>
                 <div class="row pb-3">
                     <div class="col-5 align-self-center">
-                        <img src="images/download (1).jpg" alt="img" class="fh5co_most_trading"/>
+                        <a href="{{route('single_news', $item['item']->id)}}"><img src="{{ asset('akhbar/' . $item['item']->image) }}" alt="img" class="fh5co_most_trading"/></a>
                     </div>
                     <div class="col-7 paddding">
-                        <div class="most_fh5co_treding_font"> Magna aliqua ut enim ad minim veniam quis nostrud.</div>
-                        <div class="most_fh5co_treding_font_123"> April 18, 2016</div>
+                        <a style="color: black" href="{{route('single_news', $item['item']->id)}}"><div class="most_fh5co_treding_font">{{ $item['item']->title }}</div></a>
+                        <div class="most_fh5co_treding_font_123">{{ $item['date_ar'] }}</div>
                     </div>
                 </div>
-                <div class="row pb-3">
-                    <div class="col-5 align-self-center">
-                        <img src="images/allef-vinicius-108153.jpg" alt="img" class="fh5co_most_trading"/>
-                    </div>
-                    <div class="col-7 paddding">
-                        <div class="most_fh5co_treding_font"> Enim ad minim veniam nostrud xercitation ullamco.</div>
-                        <div class="most_fh5co_treding_font_123"> April 18, 2016</div>
-                    </div>
-                </div>
-                <div class="row pb-3">
-                    <div class="col-5 align-self-center">
-                        <img src="images/download (2).jpg" alt="img" class="fh5co_most_trading"/>
-                    </div>
-                    <div class="col-7 paddding">
-                        <div class="most_fh5co_treding_font"> Magna aliqua ut enim ad minim veniam quis nostrud.</div>
-                        <div class="most_fh5co_treding_font_123"> April 18, 2016</div>
-                    </div>
-                </div>
-                <div class="row pb-3">
-                    <div class="col-5 align-self-center"><img src="images/seth-doyle-133175.jpg" alt="img"
-                                                              class="fh5co_most_trading"/></div>
-                    <div class="col-7 paddding">
-                        <div class="most_fh5co_treding_font"> Magna aliqua ut enim ad minim veniam quis nostrud.</div>
-                        <div class="most_fh5co_treding_font_123"> April 18, 2016</div>
-                    </div>
-                </div>
+                <?php } ?>
+                @endforeach
             </div>
         </div>
     </div>

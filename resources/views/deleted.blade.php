@@ -264,16 +264,7 @@
         
             </table>
         </div>
-    <<div class="text-center">
-        @if($posts->isEmpty())
-            <p>No users found in trash.</p>
-        @else
-            <form id="restoreAllForm" action="{{ route('post.restoreall') }}" method="post" style="display: inline;">
-                @csrf
-                @method('PUT')
-                <button onclick="event.preventDefault(); if (confirm('Are You Sure?')) document.getElementById('restoreAllForm').submit();" class="btn btn-warning" type="submit">Restore All Users</button>
-            </form>
-        @endif
+    <div class="text-center">
     </div>
     
     </div>

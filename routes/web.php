@@ -57,7 +57,7 @@ Route::post('/post_2', [Controller_1::class, 'post_2'])->name('post_2');
 
 Route::post('/post_3', [Controller2::class, 'post_3'])->name('post_3');
 
-Route::post('/post_4', [Controller_1::class, 'post_4'])->name('post_4');
+Route::post('/post_4', [Controller2::class, 'post_4'])->name('post_4');
 
 Route::get('/news', [Controller_1::class, 'news'])->name('news');
 
@@ -93,6 +93,8 @@ Route::get('/edit_show/{id}', [Controller2::class, 'edit_show'])->name('edit_sho
 
 Route::get('/edit_akhbar/{id}', [Controller2::class, 'edit_akhbar'])->name('edit_akhbar');
 
+Route::get('/show_akhbar/{id}', [Controller2::class, 'show_akhbar'])->name('show_akhbar');
+
 Route::get('/page_akhbar', [Controller2::class, 'page_akhbar'])->name('page_akhbar');
 
 Route::any('/add_akhbar', [Controller2::class, 'add_akhbar'])->name('add_akhbar');
@@ -112,8 +114,7 @@ Route::resource('categories', 'CategoryController');
 Route::delete('/posts/delete-multiple', [Controller2::class, 'deleteMultiple'])->name('post.deleteMultiple');
 
 Route::get('/users/download', [Controller2::class, 'downloadUsers'])->name('users.download');
-Route::get('/download_unconfirmed/{pict}/{cin_pict}/{magasin_pict}/{entreprise_pict}/{payment_pict}/{name}', [Controller2::class, 'download_unconfirmed'])->name('download_unconfirmed');
-Route::get('/show3', [Controller2::class, 'show3'])->name('show3');
+Route::get('/download_unconfirmed/{pict}/{cin_pict}/{magasin_pict}/{entreprise_pict}/{payment_pict}/{name}', [Controller2::class, 'download_unconfirmed'])->name('download_unconfirmed');Route::get('/show3', [Controller2::class, 'show3'])->name('show3');
 
 Route::get('/Confirm', [Controller2::class, 'confirmed'])->name('confirmed');
 

@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Response;
 class Controller_1 extends Controller
 {
     public function index(){
-        $data1 = Akhbar::orderBy("datePosted", "DESC")->take(5)->get();
+        $data1 = Akhbar::orderBy("created_at", "DESC")->take(5)->get();
         $data = [];
 
         foreach ($data1 as $item) {
@@ -173,95 +173,8 @@ class Controller_1 extends Controller
 
     
 
-    public function post_4(Request $req)
-    {
-        $req->validate([
-            'name' => 'min:6|max:20',
-            'number_v' => 'min:10|max:40',
-            'pict' => 'file|mimes:jpg,png,pdf|max:1024'
-        ], [
-            'pict.mimes' => 'نقبل فقط JPG أو PNG أو PDF',
-            'pict.max' => 'لقد تجاوزت 1 MB',
-            'name.min' => 'الإسم قصير جدّا',
-            'name.max' => 'الإسم طويل جدّا',
-            'number_v.min' => 'رقم الدفع قصير جدّا',
-            'number_v.max' => 'رقم الدفع طويل جدّا'
-        ]);
+ 
 
-        $user = auth()->user();
-        $id = Session::get('id');
-        $pay = Pay::where('id', $id)->first();
-
-        if (!$pay) {
-            $pay1 = new Pay();
-            $pay1->payer = $req->name;
-            $pay1->number_v = $req->number_v;
-            $pay1->pay_name = $req->pay_name;
-            $pay1->id = $id;
-            try {
-                $pay1->save();
-            } catch (\Exception $e) {
-                // Handle the exception (e.g., log the error, display an error message)
-                return "Error: " . $e->getMessage();
-            }
-        } else {
-            $pay->payer = $req->name;
-            $pay->number_v = $req->number_v;
-            $pay->pay_name = $req->pay_name;
-            try {
-                $pay->save();
-            } catch (\Exception $e) {
-                // Handle the exception (e.g., log the error, display an error message)
-                return "Error: " . $e->getMessage();
-            }
-        }
-
-        $doc = Document::where('id', $id)->first();
-
-        if ($req->hasFile('pict')) {
-            $file = $req->file('pict');
-
-            if ($file->isValid()) {
-                $extension = $file->getClientOriginalExtension();
-                $filename = time() . '.' . $extension;
-                $file->move(public_path('pdfs4'), $filename);
-
-                // Delete the old file if it exists
-                if ($doc->payment_pict) {
-                    $old_file_path = public_path('pdfs4') . '/' . $doc->payment_pict;
-                    if (file_exists($old_file_path)) {
-                        unlink($old_file_path);
-                    }
-                }
-
-                $doc->payment_pict = $filename;
-                try {
-                    $doc->save();
-                } catch (\Exception $e) {
-                    // Handle the exception (e.g., log the error, display an error message)
-                    return "Error: " . $e->getMessage();
-                }
-            } else {
-                echo "error notif !!";
-            }
-        }
-
-        $data = Document::join('persens', 'persens.id', '=', 'documents.id')
-            ->where('persens.id', '=', $id)
-            ->first();
-
-        if ($data) {
-            $id = $data->id;
-            $name = $data->name;
-            $picture = $data->pict;
-
-            Notification::send($user, new NewUserNotification($id, $name, $picture));
-        } else {
-            echo "error notif !!";
-        }
-
-        return redirect()->route('cong');
-    }
 
     public function condition(){
         return view('condition');
@@ -319,12 +232,37 @@ class Controller_1 extends Controller
     }
 
     public function law_g(){
-        return view('law_g');
+        $data1 = Akhbar::orderBy("datePosted", "DESC")->get();
+        $data = [];
+
+        foreach ($data1 as $item) {
+            $data[] = [
+                'item' => $item,
+                'date_ar' => $this->formatArabicDate($item->datePosted),
+                'statu' => $this->statu($item->datePosted)
+            ];
+        }
+        return view('law_g')->with([
+            'data' => $data
+        ]);
     }
 
     public function law_i(){
-        return view('law_i');
+        $data1 = Akhbar::orderBy("datePosted", "DESC")->get();
+        $data = [];
+
+        foreach ($data1 as $item) {
+            $data[] = [
+                'item' => $item,
+                'date_ar' => $this->formatArabicDate($item->datePosted),
+                'statu' => $this->statu($item->datePosted)
+            ];
+        }
+        return view('law_i')->with([
+            'data' => $data
+        ]);
     }
+
     public function single_news($id){
         $akhbar = Akhbar::find($id);
 

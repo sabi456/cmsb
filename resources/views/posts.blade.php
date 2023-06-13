@@ -238,8 +238,11 @@
                         <th class="text-center">Description</th>
                         <th class="text-center">DatePosted</th>
                         <th class="text-center">Image</th>
+                        <th class="text-center">Voir</th>
+                        @if (auth()->user()->status == 'High')
                         <th class="text-center">Edit</th>
                         <th class="text-center">Delete</th>
+                        @endif
 
                     </tr>
                 </thead>
@@ -251,15 +254,19 @@
             <td class="text-center">{{ \Illuminate\Support\Str::limit($t->description, 20, '....') }}</td>
             <td class="text-center">{{$t->datePosted}}</td>
             <td class="text-center"><img src="{{ asset('akhbar/' . $t->image) }}" alt="" width="200"></td>
+            <td><a class="btn btn-sm btn-info w-100" href="{{ route('show_akhbar',['id' =>$t->id])}}">Voir</a></td>
+            @if (auth()->user()->status == 'High')
             <td class="text-center"> <form action="{{ route('edit_akhbar',['id' =>$t->id])}}" method="GET">
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <button  type="submit" style="width:90px;"class="btn btn-sm btn-warning">Edit</button>
+                <button  type="submit" style="width:90px;" class="btn btn-sm btn-warning">Edit</button>
                 
                 </form></td>
                 <form action="{{ route('delete_akhbar', ['id'=>$t->id]) }}" method="GET" onsubmit="return confirm('Are you sure you want to delete?');">
+                   
   <td class="text-center">
     <button type="submit" style="width: 90px;" class="btn btn-sm btn-danger">Delete</button>
-  </td>
+  </td> 
+  @endif
 </form>
 
 </td>

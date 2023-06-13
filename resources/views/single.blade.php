@@ -57,19 +57,19 @@
                 <div>
                     <div class="fh5co_heading fh5co_heading_border_bottom pt-3 py-2 mb-4">الأحداث القريبة</div>
                 </div>
-                @foreach($data as $item)
-                <?php if ($item['statu'] == 'قريب') { ?>
-                <div class="row pb-3">
-                    <div class="col-5 align-self-center">
-                        <a href="{{route('single_news', $item['item']->id)}}"><img src="data:image/jpeg;base64,{{ base64_encode($item['item']->image) }}" alt="img" class="fh5co_most_trading"/></a>
-                    </div>
-                    <div class="col-7 paddding">
-                        <a style="color: black" href="{{route('single_news', $item['item']->id)}}"><div class="most_fh5co_treding_font">{{ $item['item']->title }}</div></a>
-                        <div class="most_fh5co_treding_font_123">{{ $item['date_ar'] }}</div>
-                    </div>
+            @foreach($data as $item)
+            <?php if ($item['statu'] == 'قريب') { ?>
+            <div class="row pb-3">
+                <div class="col-5 align-self-center">
+                    <a href="{{route('single_news', $item['item']->id)}}"><img src="{{ asset('akhbar/' . $item['item']->image) }}" alt="img" class="fh5co_most_trading"/></a>
                 </div>
-                <?php } ?>
-                @endforeach
+                <div class="col-7 paddding">
+                    <a style="color: black" href="{{route('single_news', $item['item']->id)}}"><div class="most_fh5co_treding_font">{{ $item['item']->title }}</div></a>
+                    <div class="most_fh5co_treding_font_123">{{ $item['date_ar'] }}</div>
+                </div>
+            </div>
+            <?php } ?>
+            @endforeach
             </div>
         </div>
     </div>

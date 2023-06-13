@@ -246,7 +246,9 @@
                             <td class="text-center">{{$t->name}}</td>
                             <td class="text-center">{{$t->phone}}</td>
                             <td class="text-center">{{$t->mail}}</td>
+                            {{-- <td class="text-center"><a href="{{ route('post.show', $t->id) }}" class="btn btn-primary" style="text-align:center;">Voir</a></td> --}}
                             <td class="text-center"><a href="{{ route('post.show', $t->id) }}" class="btn btn-primary" style="text-align:center;">Voir</a></td>
+
                         </tr>
                     @endforeach
                 </tbody>

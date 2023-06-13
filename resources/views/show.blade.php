@@ -127,12 +127,26 @@
                         <td>{{$post->payer}}</td>
                     </tr>
                     <tr>
-                        <th class="text-center">Les documents : </th>
-                        <td>
-                        <a href="{{ route('download_unconfirmed', ['pict' => $post->pict, 'cin_pict' => $post->cin_pict, 'magasin_pict' => $post->magasin_pict, 'entreprise_pict' => $post->entreprise_pict, 'payment_pict' => $post->payment_pict, 'name' => $post->name]) }}" class="btn btn-primary" style="width:150px;height:40px;" download>Télécharger</a>
-
-                        </td>
+                        <th class="text-center">Image : </th>
+                        <td><a href="{{ asset('uploads/' . $post->pict) }}" download>Télécharger l'image</a></td>
                     </tr>
+                    <tr>
+                        <th class="text-center">Cin : </th>
+                        <td><a href="{{ asset('pdfs/' . $post->cin_pict) }}" download>Télécharger le cin</a></td>
+                    </tr>
+                    <tr>
+                        <th class="text-center">Magasin : </th>
+                        <td><a href="{{ asset('pdfs2/' . $post->magasin_pict) }}" download>Télécharger l'image de magasin</a></td>
+                    </tr>
+                    <tr>
+                        <th class="text-center">Entreprise : </th>
+                        <td><a href="{{ asset('pdfs3/' . $post->entreprise_pict) }}" download>Télécharger le fichier de l'entreprise</a></td>
+                    </tr>
+                    <tr>
+                        <th class="text-center">Paiment : </th>
+                        <td><a href="{{ asset('pdfs4/' . $post->payment_pict) }}" download>Télécharger le fichier du paiment</a></td>
+                    </tr>
+                   
 
                 </table>
                 <br>

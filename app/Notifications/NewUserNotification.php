@@ -20,13 +20,6 @@ class NewUserNotification extends Notification
     public $id;
     
     /**
-     * The name of the unconfirmed user.
-     *
-     * @var string
-     */
-    public $picture;
-    
-    /**
      * The image path of the unconfirmed user.
      *
      * @var string
@@ -39,13 +32,11 @@ class NewUserNotification extends Notification
      *
      * @param int $id
      * @param string $name
-     * @param string $picture
      */
-    public function __construct(int $id, string $name, string $picture)
+    public function __construct(int $id, string $name)
     {
         $this->id = $id;
         $this->name = $name;
-        $this->picture = $picture;
     }
 
     /**
@@ -69,7 +60,6 @@ class NewUserNotification extends Notification
         return [
             'id' => $this->id,
             'name' => "Un nouvel utilisateur {$this->name} a été enregistré.",
-            'picture' => $this->picture,
         ];
     }
 }

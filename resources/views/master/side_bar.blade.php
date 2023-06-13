@@ -79,6 +79,7 @@
         </a>
     </li>
     @endif
+    @if(auth()->user()->status=='High' || auth()->user()->status=='Medium') 
     @if(auth()->check())
     <li class="nav-item @yield('active_m')" >
         <a class="nav-link " href="{{ route('show3') }}">
@@ -87,6 +88,7 @@
             <span style="font-size:20px;">Evenements</span>
         </a>
     </li>
+    @endif
     @endif
 </ul>
 <!-- End of Sidebar -->
